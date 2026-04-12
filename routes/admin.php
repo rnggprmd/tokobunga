@@ -15,7 +15,10 @@ use App\Http\Controllers\Admin\Analytics\ReportController;
 
 Route::middleware(['auth', 'admin'])->group(function () {
     // 1. Core / Dashboard
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');
+    });
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // 2. Sales Management
     Route::prefix('sales')->group(function () {
