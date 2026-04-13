@@ -8,8 +8,9 @@ use App\Http\Controllers\Admin\Sales\ShippingController;
 use App\Http\Controllers\Admin\Sales\OrderItemController;
 use App\Http\Controllers\Admin\Sales\CustomRequestController;
 use App\Http\Controllers\Admin\Catalog\ProductController;
-use App\Http\Controllers\Admin\Catalog\ProductVariantController;
+
 use App\Http\Controllers\Admin\Catalog\CategoryController;
+use App\Http\Controllers\Admin\Catalog\ReviewController;
 use App\Http\Controllers\Admin\UserManagement\UserController;
 use App\Http\Controllers\Admin\Analytics\ReportController;
 
@@ -68,13 +69,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
         Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-        // Product Variants
-        Route::get('/variants', [ProductVariantController::class, 'index'])->name('variants.index');
-        // Route::get('/variants/create', [ProductVariantController::class, 'create'])->name('variants.create');
-        Route::post('/variants', [ProductVariantController::class, 'store'])->name('variants.store');
-        // Route::get('/variants/{variant}/edit', [ProductVariantController::class, 'edit'])->name('variants.edit');
-        Route::put('/variants/{variant}', [ProductVariantController::class, 'update'])->name('variants.update');
-        Route::delete('/variants/{variant}', [ProductVariantController::class, 'destroy'])->name('variants.destroy');
+
 
         // Categories
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
@@ -82,7 +77,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
         // Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+        // Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+        // Reviews
+        Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+        Route::patch('/reviews/{review}/toggle', [ReviewController::class, 'toggleVisibility'])->name('reviews.toggle');
+        Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
     });
 
     // 4. User Management
@@ -92,4 +93,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // 5. Analytics
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
 });

@@ -97,7 +97,7 @@
         .animate-fade-in-delay-3 { animation: fadeInUp 0.5s ease 0.3s forwards; opacity: 0; }
     </style>
 </head>
-<body class="bg-admin-bg text-text-primary min-h-screen">
+<body class="bg-admin-bg text-text-primary min-h-screen overflow-x-hidden">
     <div class="flex min-h-screen relative">
         {{-- Mobile Overlay --}}
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="toggleSidebar()"></div>
@@ -143,11 +143,7 @@
                     <span class="material-symbols-outlined text-xl">local_shipping</span>
                     Pengiriman
                 </a>
-                <a href="{{ route('admin.order-items.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.order-items.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">receipt_long</span>
-                    Order Items
-                </a>
+
                 <a href="{{ route('admin.custom-requests.index') }}"
                    class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.custom-requests.*') ? 'active' : '' }}">
                     <span class="material-symbols-outlined text-xl">edit_note</span>
@@ -162,15 +158,17 @@
                     <span class="material-symbols-outlined text-xl">local_florist</span>
                     Products
                 </a>
-                <a href="{{ route('admin.variants.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.variants.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">style</span>
-                    Varian Produk
-                </a>
+
                 <a href="{{ route('admin.categories.index') }}"
                    class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                     <span class="material-symbols-outlined text-xl">category</span>
                     Categories
+                </a>
+
+                <a href="{{ route('admin.reviews.index') }}"
+                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined text-xl">rate_review</span>
+                    Ulasan Produk
                 </a>
 
                 <div class="pt-4 pb-2 px-4">
@@ -213,7 +211,7 @@
         </aside>
 
         {{-- Main Content --}}
-        <div class="flex-1 w-full lg:ml-72 min-h-screen flex flex-col">
+        <div class="flex-1 min-w-0 w-full lg:ml-72 min-h-screen flex flex-col">
             {{-- Topbar --}}
             <header class="sticky top-0 z-20 bg-admin-bg/80 backdrop-blur-xl border-b border-admin-border px-4 lg:px-8 py-4">
                 <div class="flex items-center justify-between gap-4">
@@ -256,7 +254,7 @@
             @endif
 
             {{-- Page Content --}}
-            <main class="p-8">
+            <main class="p-8 w-full overflow-x-hidden">
                 @yield('content')
             </main>
         </div>

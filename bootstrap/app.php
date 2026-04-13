@@ -22,6 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
 
+        $middleware->validateCsrfTokens(except: [
+            'api/midtrans/callback',
+        ]);
+
         $middleware->redirectTo(
             guests: '/login',
             users: function (Illuminate\Http\Request $request) {

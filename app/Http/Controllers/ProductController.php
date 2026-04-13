@@ -34,6 +34,10 @@ class ProductController extends Controller
             ->take(4)
             ->get();
 
+        $product->load(['reviews' => function($q) {
+            $q->where('is_visible', true)->latest()->with('user');
+        }]);
+
         return view('products.show', compact('product', 'categories', 'relatedProducts'));
     }
 }

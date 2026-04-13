@@ -64,12 +64,9 @@
                     </div>
                     <p class="text-sm text-on-surface-variant leading-relaxed line-clamp-2">{{ $product->deskripsi }}</p>
                     <div class="flex gap-2 pt-2">
-                        @if($product->stok > 0)
-                        <span class="bg-admin-border px-3 py-1 rounded text-[10px] text-secondary font-bold uppercase">Ready Stock</span>
-                        @else
+                        @if($product->stok <= 0)
                         <span class="bg-red-100 px-3 py-1 rounded text-[10px] text-red-500 font-bold uppercase">Out of Stock</span>
                         @endif
-                        <span class="bg-admin-border px-3 py-1 rounded text-[10px] text-secondary font-bold uppercase">{{ ucfirst($product->tipe_produk) }}</span>
                     </div>
                 </div>
             </div>

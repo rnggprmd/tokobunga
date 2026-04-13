@@ -12,12 +12,12 @@ class CustomRequest extends Model
 
     protected $fillable = [
         'user_id', 'produk_id', 'foto_referensi', 'foto_request',
-        'keterangan', 'status', 'harga_estimasi', 'customer_name',
+        'keterangan', 'status', 'customer_name',
         'customer_email', 'customer_phone', 'alamat', 'product_category'
     ];
 
     protected $casts = [
-        'harga_estimasi' => 'decimal:2',
+        'user_id' => 'integer',
     ];
 
     public function user(): BelongsTo

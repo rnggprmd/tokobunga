@@ -1,130 +1,221 @@
 @extends('layouts.front')
 
-@section('title', $product->nama_produk . ' - Mbah Bibit')
+@section('title', $product->nama_produk . ' — Mbah Bibit')
 
 @section('content')
-<div class="max-w-screen-2xl mx-auto px-6 py-12">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
-        <!-- Image Section -->
-        <div class="lg:col-span-7 space-y-4">
-            <div class="aspect-square rounded-[3rem] overflow-hidden bg-surface shadow-2xl border border-primary/10">
-                <img class="w-full h-full object-cover" 
-                     src="{{ $product->foto ? asset('storage/'.$product->foto) : 'https://ui-avatars.com/api/?name='.urlencode($product->nama_produk).'&background=FAFAE3&color=D9B2A9&size=1024' }}" 
-                     alt="{{ $product->nama_produk }}">
-            </div>
-            
-            {{-- In a real app, I'd loop through product gallery images here --}}
-            <div class="grid grid-cols-4 gap-4">
-                @for($i=0; $i<4; $i++)
-                <div class="aspect-square rounded-2xl bg-surface border border-primary/10 opacity-50 hover:opacity-100 transition-opacity cursor-pointer overflow-hidden">
-                    <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all" src="{{ $product->foto ? asset('storage/'.$product->foto) : 'https://ui-avatars.com/api/?name='.$i.'&background=FAFAE3&color=D9B2A9' }}">
+
+{{-- === TOP RULE === --}}
+<div class="w-full border-t border-secondary/20"></div>
+
+<div class="max-w-screen-xl mx-auto min-h-screen">
+    <div class="grid grid-cols-12 border-b border-secondary/20 min-h-screen">
+        
+        {{-- LEFT: Visual Section --}}
+        <div class="col-span-12 lg:col-span-7 border-b lg:border-b-0 lg:border-r border-secondary/20">
+            {{-- Main Image --}}
+            <div class="sticky top-24 p-8 md:p-16">
+                <div class="aspect-[4/5] overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 group">
+                    <img class="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105" 
+                         src="{{ $product->foto ? asset('storage/'.$product->foto) : 'https://ui-avatars.com/api/?name='.urlencode($product->nama_produk).'&background=FAFAE3&color=D9B2A9&size=1024' }}" 
+                         alt="{{ $product->nama_produk }}">
                 </div>
-                @endfor
+
+                {{-- Gallery --}}
+                @if($product->gallery && is_array($product->gallery) && count($product->gallery) > 0)
+                <div class="mt-8 grid grid-cols-4 gap-4">
+                    @foreach($product->gallery as $image)
+                    <div class="aspect-square overflow-hidden border border-secondary/10 opacity-40 hover:opacity-100 transition-opacity cursor-pointer">
+                        <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all" src="{{ asset('storage/'.$image) }}">
+                    </div>
+                    @endforeach
+                </div>
+                @endif
             </div>
         </div>
 
-        <!-- Info Section -->
-        <div class="lg:col-span-5 space-y-8">
-            <div class="space-y-4">
-                <nav class="flex gap-2 text-xs font-bold uppercase tracking-widest text-secondary/60">
-                    <a href="{{ route('home') }}" class="hover:text-primary">Mbah Bibit</a>
+        {{-- RIGHT: Information Section --}}
+        <div class="col-span-12 lg:col-span-5 flex flex-col">
+            
+            {{-- Breadcrumb & Category --}}
+            <div class="px-8 md:px-12 py-6 border-b border-secondary/20 flex items-center justify-between">
+                <div class="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">
+                    <a href="{{ route('home') }}" class="hover:text-primary transition-colors">Home</a>
                     <span>/</span>
-                    <a href="{{ route('products.index', ['category' => $product->category_id]) }}" class="hover:text-primary">{{ $product->category->nama_kategori ?? 'UMUM' }}</a>
-                </nav>
-                
-                <h1 class="font-headline text-5xl md:text-6xl text-secondary leading-tight">{{ $product->nama_produk }}</h1>
-                
-                <div class="flex items-center gap-4">
-                    <span class="font-headline text-3xl text-primary font-bold">Rp {{ number_format($product->harga, 0, ',', '.') }}</span>
-                    <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">{{ $product->tipe_produk }}</span>
+                    <a href="{{ route('products.index', ['category' => $product->category_id]) }}" class="hover:text-primary transition-colors">{{ $product->category->nama_kategori ?? 'UMUM' }}</a>
                 </div>
             </div>
 
-            <div class="p-6 bg-surface rounded-3xl border border-primary/10 space-y-6">
-                <div class="flex items-center justify-between">
-                    <div class="space-y-1">
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-secondary/60">Status Stok</p>
-                        @if($product->stok > 0)
-                        <div class="flex items-center gap-2 text-green-600 font-bold">
-                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                            {{ $product->stok }} Tersedia
-                        </div>
-                        @else
-                        <div class="flex items-center gap-2 text-red-500 font-bold font-sans">
-                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
-                            Out of Stock
-                        </div>
-                        @endif
-                    </div>
-                    <div class="h-10 w-[1px] bg-primary/20"></div>
-                    <div class="space-y-1">
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-secondary/60">Terjual</p>
-                        <p class="font-bold text-secondary">0+ Koleksi</p>
+            {{-- Headline --}}
+            <div class="px-8 md:px-12 py-12 md:py-20 border-b border-secondary/20">
+                <h1 class="font-headline text-[clamp(2.5rem,6vw,5rem)] text-secondary leading-[0.9] tracking-tight mb-8">
+                    {{ $product->nama_produk }}
+                </h1>
+                <p class="font-headline text-3xl text-primary serif-italic">
+                    Rp {{ number_format($product->harga, 0, ',', '.') }}
+                </p>
+            </div>
+
+            {{-- Actions Grid --}}
+            <div class="grid grid-cols-2 border-b border-secondary/20">
+                {{-- Status --}}
+                <div class="p-8 border-r border-secondary/20">
+                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-secondary/30 mb-2">Availability</p>
+                    @if($product->stok > 0)
+                        <p class="text-sm font-bold text-secondary flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                            {{ $product->stok }} In Archiva
+                        </p>
+                    @else
+                        <p class="text-sm font-bold text-red-400 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                            Currently Depleted
+                        </p>
+                    @endif
+                </div>
+                {{-- Shared --}}
+                <div class="p-8 flex items-center justify-between">
+                    <div>
+                        <p class="text-[9px] font-black uppercase tracking-[0.2em] text-secondary/30 mb-2">Acquisition</p>
+                        <p class="text-sm font-bold text-secondary">0+ Curated</p>
                     </div>
                 </div>
+            </div>
 
-                <form action="{{ route('cart.add', $product) }}" method="POST" class="space-y-4">
+            {{-- Form Section --}}
+            <div class="p-8 md:px-12 border-b border-secondary/20">
+                <form action="{{ route('cart.add', $product) }}" method="POST" class="space-y-6">
                     @csrf
-                    <div class="flex gap-4">
-                        <div class="w-24 flex items-center bg-background border border-primary/20 rounded-full px-2 overflow-hidden">
-                            <button type="button" class="p-2 text-secondary hover:text-primary">-</button>
-                            <input type="text" value="1" readonly class="w-full text-center bg-transparent border-none text-sm font-bold p-0">
-                            <button type="button" class="p-2 text-secondary hover:text-primary">+</button>
+                    <div class="flex items-center gap-6">
+                        {{-- Quantity --}}
+                        <div class="w-32 flex items-center border border-secondary/20 p-4 justify-between group focus-within:border-secondary transition-colors">
+                            <button type="button" onclick="const i = this.nextElementSibling; i.value = Math.max(1, parseInt(i.value)-1)" class="text-secondary/40 hover:text-primary transition-colors">–</button>
+                            <input type="text" value="1" readonly class="bg-transparent border-none p-0 w-8 text-center text-sm font-black text-secondary">
+                            <button type="button" onclick="const i = this.previousElementSibling; i.value = parseInt(i.value)+1" class="text-secondary/40 hover:text-primary transition-colors">+</button>
                         </div>
-                        <button type="submit" @disabled($product->stok <= 0) class="flex-1 bg-primary text-white py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:shadow-xl hover:shadow-primary/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                            Tambah ke Keranjang
+                        {{-- Add to Cart --}}
+                        <button type="submit" @disabled($product->stok <= 0) 
+                                class="flex-1 bg-secondary text-[#FAFAE3] py-4 uppercase tracking-[0.2em] text-[11px] font-black hover:bg-primary transition-all disabled:opacity-20 disabled:grayscale">
+                            Add to Archive
                         </button>
                     </div>
-                    <button type="button" class="w-full border border-primary/30 text-primary py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-primary/5 transition-all">
-                        Beli Sekarang
-                    </button>
+                    
+                    @auth
+                    <form action="{{ route('wishlist.toggle', $product) }}" method="POST" class="mt-4">
+                        @csrf
+                        @php $isWishlisted = \App\Models\Wishlist::where('user_id', Auth::id())->where('product_id', $product->id)->exists(); @endphp
+                        <button type="submit" class="w-full border border-secondary/15 py-4 uppercase tracking-[0.2em] text-[10px] font-black text-secondary/60 hover:text-primary hover:border-primary transition-all flex items-center justify-center gap-3">
+                            <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' {{ $isWishlisted ? '1' : '0' }}">favorite</span>
+                            {{ $isWishlisted ? 'Remove from Favorites' : 'Add to Favorites' }}
+                        </button>
+                    </form>
+                    @endauth
                 </form>
             </div>
 
-            <div class="space-y-6">
-                <div>
-                    <h3 class="font-headline text-2xl text-secondary mb-2 border-b border-primary/10 pb-2">Deskripsi Specimen</h3>
-                    <p class="text-on-surface-variant leading-relaxed text-sm">
+            {{-- Description --}}
+            <div class="px-8 md:px-12 py-12 flex-1 space-y-8">
+                <div class="space-y-4">
+                    <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30">Specimen Description</p>
+                    <div class="text-secondary/70 leading-[2] text-[14px] font-sans prose prose-sm">
                         {{ $product->deskripsi }}
-                    </p>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="flex items-center gap-3 p-4 bg-surface rounded-2xl border border-primary/5">
-                        <span class="material-symbols-outlined text-primary">local_shipping</span>
-                        <div class="text-[10px]">
-                            <p class="font-bold text-secondary uppercase">Pengiriman Cepat</p>
-                            <p class="text-secondary/60">Solo & Sekitarnya 1-2 Jam</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3 p-4 bg-surface rounded-2xl border border-primary/5">
-                        <span class="material-symbols-outlined text-primary">verified</span>
-                        <div class="text-[10px]">
-                            <p class="font-bold text-secondary uppercase">Dijamin Segar</p>
-                            <p class="text-secondary/60">Pilihan Terbaik Mbah Bibit</p>
-                        </div>
                     </div>
                 </div>
+
+                <div class="grid grid-cols-2 gap-8 pt-8 border-t border-secondary/10">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-secondary">
+                            <span class="material-symbols-outlined text-sm">local_shipping</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest leading-none">Swift Delivery</span>
+                        </div>
+                        <p class="text-[11px] text-secondary/50 leading-relaxed">Solo & Surrounding areas within 1-2 hours acquisition.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-secondary">
+                            <span class="material-symbols-outlined text-sm">verified</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest leading-none">Freshness Assured</span>
+                        </div>
+                        <p class="text-[11px] text-secondary/50 leading-relaxed">Hand-selected botanical specimens by Mbah Bibit.</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Studio Signature --}}
+            <div class="border-t border-secondary/20 px-8 md:px-12 py-6">
+                <p class="text-[9px] text-secondary/40 uppercase tracking-[0.4em] text-center">Mbah Bibit Botanical Archiv · Est. 1978</p>
             </div>
         </div>
     </div>
 
-    <!-- Related Products -->
+    {{-- === COMMUNITY REVIEWS === --}}
+    <section class="border-b border-secondary/20">
+        <div class="px-8 md:px-12 py-6 border-b border-secondary/20 flex items-center justify-between bg-secondary/[0.02]">
+            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Community Archiv Items</p>
+            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">{{ $product->reviews->count() }} Testimonials</p>
+        </div>
+
+        @if($product->reviews->count() > 0)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            @foreach($product->reviews as $review)
+            <div class="p-8 md:p-12 border-r border-b lg:border-b-0 last:border-r-0 border-secondary/15 flex flex-col justify-between space-y-8">
+                <div class="space-y-6">
+                    {{-- Rating --}}
+                    <div class="flex gap-1">
+                        @for($i = 1; $i <= 5; $i++)
+                        <span class="material-symbols-outlined text-[12px] {{ $i <= $review->rating ? 'text-primary' : 'text-secondary/10' }}" style="font-variation-settings: 'FILL' 1">
+                            star
+                        </span>
+                        @endfor
+                    </div>
+                    {{-- Comment --}}
+                    <blockquote class="font-headline text-xl text-secondary leading-relaxed italic">
+                        "{{ $review->comment }}"
+                    </blockquote>
+                </div>
+
+                {{-- Author --}}
+                <div class="flex items-center gap-4 pt-6 border-t border-secondary/10">
+                    <div class="w-8 h-8 rounded-full bg-secondary/5 border border-secondary/10 flex items-center justify-center text-[10px] font-black text-secondary">
+                        {{ substr($review->user->name, 0, 1) }}
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-secondary">{{ $review->user->name }}</p>
+                        <p class="text-[8px] text-secondary/40 uppercase tracking-widest">{{ $review->created_at->translatedFormat('d M Y') }}</p>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="py-24 text-center">
+            <p class="font-headline text-2xl text-secondary/20 italic">Belum ada testimoni untuk spesimen ini.</p>
+        </div>
+        @endif
+    </section>
+
+    {{-- === RELATED PRODUCTS === --}}
     @if($relatedProducts->count() > 0)
-    <section class="mt-24 space-y-12">
-        <h2 class="font-headline text-4xl text-on-surface border-b border-primary/20 pb-4">Koleksi Terkait</h2>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <section class="border-b border-secondary/20">
+        <div class="px-8 md:px-12 py-6 border-b border-secondary/20 flex items-center justify-between">
+            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Related Items</p>
+            <a href="{{ route('products.index') }}" class="text-[9px] font-black uppercase tracking-widest text-primary border-b border-primary pb-px">View Collection —</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             @foreach($relatedProducts as $related)
-            <div class="group bg-surface rounded-3xl overflow-hidden border border-primary/10">
-                <a href="{{ route('products.show', $related) }}" class="block aspect-[4/5] overflow-hidden">
-                    <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+            <div class="group border-r border-secondary/20 last:border-r-0 hover:bg-secondary/5 transition-colors duration-500">
+                <a href="{{ route('products.show', $related) }}" class="block aspect-[3/4] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 relative">
+                    <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
                          src="{{ $related->foto ? asset('storage/'.$related->foto) : 'https://ui-avatars.com/api/?name='.urlencode($related->nama_produk).'&background=FAFAE3&color=D9B2A9&size=512' }}">
                 </a>
-                <div class="p-6">
-                    <p class="text-[8px] font-black uppercase tracking-widest text-primary mb-1">{{ $related->category->nama_kategori }}</p>
-                    <h4 class="font-headline text-lg group-hover:text-primary transition-colors">
-                        <a href="{{ route('products.show', $related) }}">{{ $related->nama_produk }}</a>
-                    </h4>
+                <div class="p-8 space-y-4">
+                    <div>
+                        <p class="text-[8px] font-black uppercase tracking-[0.2em] text-primary mb-1">{{ $related->category->nama_kategori }}</p>
+                        <h4 class="font-headline text-xl text-secondary group-hover:text-primary transition-colors">
+                            <a href="{{ route('products.show', $related) }}">{{ $related->nama_produk }}</a>
+                        </h4>
+                    </div>
+                    <p class="font-headline text-base text-secondary/80 font-bold pt-2 border-t border-secondary/10">
+                        Rp {{ number_format($related->harga, 0, ',', '.') }}
+                    </p>
                 </div>
             </div>
             @endforeach
@@ -132,4 +223,7 @@
     </section>
     @endif
 </div>
+
+<div class="w-full border-t border-secondary/20 mt-8"></div>
+
 @endsection

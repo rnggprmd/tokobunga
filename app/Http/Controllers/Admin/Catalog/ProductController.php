@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'variants']);
+        $query = Product::with(['category']);
 
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
@@ -39,11 +39,11 @@ class ProductController extends Controller
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
-            'tipe_produk' => 'required|in:ready,custom',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $data = $request->only(['nama_produk', 'category_id', 'deskripsi', 'harga', 'stok', 'tipe_produk']);
+        $data = $request->only(['nama_produk', 'category_id', 'deskripsi', 'harga', 'stok']);
+        $data['tipe_produk'] = 'ready';
 
         if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('products', 'public');
@@ -68,11 +68,11 @@ class ProductController extends Controller
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
-            'tipe_produk' => 'required|in:ready,custom',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $data = $request->only(['nama_produk', 'category_id', 'deskripsi', 'harga', 'stok', 'tipe_produk']);
+        $data = $request->only(['nama_produk', 'category_id', 'deskripsi', 'harga', 'stok']);
+        $data['tipe_produk'] = 'ready'; // Default into ready if still in DB
 
         if ($request->hasFile('foto')) {
             // Delete old photo

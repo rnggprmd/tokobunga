@@ -36,14 +36,7 @@
                 <div class="flex justify-between"><span class="text-text-muted">Telepon</span><span>{{ $order->customer_phone ?? '-' }}</span></div>
                 <div><span class="text-text-muted block mb-1">Alamat</span><span class="text-text-secondary">{{ $order->alamat_pengiriman ?? '-' }}</span></div>
                 
-                @if($order->ucapan)
-                <div class="pt-2 border-t border-admin-border border-dashed mt-2">
-                    <span class="text-xs font-bold text-accent-rose block mb-1">Pesan Kartu Ucapan:</span>
-                    <div class="bg-accent-rose/5 p-3 rounded-xl border border-accent-rose/10 italic text-text-secondary">
-                        "{{ $order->ucapan }}"
-                    </div>
-                </div>
-                @endif
+                {{-- Ucapan Display Removed --}}
             </div>
         </div>
 
@@ -89,6 +82,9 @@
                     <div class="flex justify-between"><span class="text-text-muted">Kurir</span><span>{{ $order->pengiriman->kurir ?? '-' }}</span></div>
                     <div class="flex justify-between"><span class="text-text-muted">Resi</span><span class="font-mono">{{ $order->pengiriman->no_resi ?? '-' }}</span></div>
                     <div class="flex justify-between"><span class="text-text-muted">Status</span><span>{{ ucfirst($order->pengiriman->status_pengiriman) }}</span></div>
+                    @if($order->pengiriman->no_hp_kurir)
+                    <div class="flex justify-between"><span class="text-text-muted">HP Kurir</span><span class="text-accent-emerald font-medium">{{ $order->pengiriman->no_hp_kurir }}</span></div>
+                    @endif
                 </div>
                 @else
                 <p class="text-xs text-text-muted italic">Belum ada data pengiriman.</p>
@@ -153,6 +149,10 @@
                         <input type="text" name="no_resi" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2 text-sm font-mono">
                     </div>
                     <div>
+                        <label class="text-xs text-text-muted mb-1 block">No. HP Kurir (Opsional)</label>
+                        <input type="text" name="no_hp_kurir" placeholder="Bisa nomor WA kurir" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2 text-sm">
+                    </div>
+                    <div>
                         <label class="text-xs text-text-muted mb-1 block">Status Pengiriman</label>
                         <select name="status_pengiriman" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2 text-sm">
                             <option value="pending">Pending</option>
@@ -180,7 +180,6 @@
             <thead>
                 <tr class="text-text-muted text-xs uppercase tracking-wider bg-admin-bg/50">
                     <th class="text-left px-6 py-3">Produk</th>
-                    <th class="text-left px-6 py-3">Varian</th>
                     <th class="text-left px-6 py-3">Jumlah</th>
                     <th class="text-left px-6 py-3">Harga Satuan</th>
                     <th class="text-left px-6 py-3">Subtotal</th>
@@ -190,7 +189,6 @@
                 @foreach($order->items as $item)
                 <tr class="hover:bg-admin-card-hover/50 transition-colors">
                     <td class="px-6 py-4">{{ $item->product->nama_produk ?? ($item->customRequest ? 'Custom: '.$item->customRequest->keterangan : '-') }}</td>
-                    <td class="px-6 py-4 text-text-muted">{{ $item->variant->size ?? '-' }}</td>
                     <td class="px-6 py-4">{{ $item->jumlah }}</td>
                     <td class="px-6 py-4">Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</td>
                     <td class="px-6 py-4 font-medium text-accent-gold">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>

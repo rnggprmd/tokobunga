@@ -4,6 +4,18 @@
 
 @section('content')
 <div class="space-y-8">
+    {{-- Header Actions --}}
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold">Analisis Performa</h2>
+            <p class="text-sm text-text-muted">Data akumulasi dari seluruh aktivitas transaksi</p>
+        </div>
+        <a href="{{ route('admin.reports.export-pdf') }}" class="px-5 py-2.5 bg-accent-rose text-admin-bg rounded-xl text-sm font-bold flex items-center gap-2 hover:opacity-90 transition-opacity shadow-lg shadow-accent-rose/20">
+            <span class="material-symbols-outlined text-lg">picture_as_pdf</span> 
+            Unduh Laporan PDF
+        </a>
+    </div>
+
     {{-- Summary Cards --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="glass-card rounded-2xl p-6 stat-card animate-fade-in">

@@ -52,11 +52,7 @@
                             class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm text-text-primary focus:border-accent-emerald outline-none"></textarea>
                     </div>
 
-                    <div>
-                        <label class="text-xs text-text-muted mb-1 block">Pesan Kartu Ucapan (Opsional)</label>
-                        <textarea name="ucapan" id="ucapan" rows="3" placeholder="Contoh: Happy Birthday! Dari: Budi"
-                            class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm text-text-primary focus:border-accent-emerald outline-none"></textarea>
-                    </div>
+                    {{-- Ucapan Removed --}}
 
                     <div>
                         <label class="text-xs text-text-muted mb-1 block">Metode Pembayaran</label>
@@ -87,7 +83,7 @@
                         <thead>
                             <tr class="text-text-muted text-[10px] uppercase tracking-[0.1em] bg-admin-bg/50">
                                 <th class="text-left px-6 py-3 w-1/2">Produk</th>
-                                <th class="text-left px-6 py-3">Varian & Jumlah</th>
+                                <th class="text-left px-6 py-3">Jumlah</th>
                                 <th class="text-right px-6 py-3">Subtotal</th>
                                 <th class="px-4 py-3"></th>
                             </tr>
@@ -158,12 +154,7 @@
                 </select>
             </td>
             <td class="px-6 py-4">
-                <div class="flex gap-2 items-center">
-                    <select name="items[${rowCount}][variant_id]" class="w-full bg-white border border-admin-border rounded-xl px-3 py-2 text-xs variant-select" disabled>
-                        <option value="">Standard</option>
-                    </select>
-                    <input type="number" name="items[${rowCount}][jumlah]" value="1" min="1" class="w-20 bg-white border border-admin-border rounded-xl px-3 py-2 text-sm text-center quantity-input" required>
-                </div>
+                <input type="number" name="items[${rowCount}][jumlah]" value="1" min="1" class="w-20 bg-white border border-admin-border rounded-xl px-3 py-2 text-sm text-center quantity-input" required>
             </td>
             <td class="px-6 py-4 text-right font-medium row-subtotal">Rp 0</td>
             <td class="px-4 py-4 text-center">
@@ -176,12 +167,10 @@
         itemsTableBody.appendChild(row);
 
         const pSelect = row.querySelector('.product-select');
-        const vSelect = row.querySelector('.variant-select');
         const qInput = row.querySelector('.quantity-input');
         const removeBtn = row.querySelector('.remove-item-btn');
 
         pSelect.addEventListener('change', () => updateRowPrice(row));
-        vSelect.addEventListener('change', () => updateRowPrice(row));
         qInput.addEventListener('input', () => updateRowPrice(row));
         removeBtn.addEventListener('click', () => {
             row.remove();
@@ -193,40 +182,18 @@
 
     function updateRowPrice(row) {
         const pSelect = row.querySelector('.product-select');
-        const vSelect = row.querySelector('.variant-select');
         const qInput = row.querySelector('.quantity-input');
         const subtotalEl = row.querySelector('.row-subtotal');
 
         const productId = pSelect.value;
         if (!productId) {
             subtotalEl.textContent = 'Rp 0';
-            vSelect.innerHTML = '<option value="">Standard</option>';
-            vSelect.disabled = true;
             calculateGrandTotal();
             return;
         }
 
         const product = productsData.find(p => p.id == productId);
         let price = parseFloat(product.harga);
-
-        // Update Variants
-        if (product.variants && product.variants.length > 0) {
-            const currentVariantId = vSelect.value;
-            vSelect.disabled = false;
-            let vOptions = '<option value="" data-adj="0">Standard</option>';
-            product.variants.forEach(v => {
-                vOptions += `<option value="${v.id}" data-adj="${v.price_adjustment}" ${currentVariantId == v.id ? 'selected' : ''}>${v.size} (+ Rp ${new Intl.NumberFormat('id-ID').format(v.price_adjustment)})</option>`;
-            });
-            vSelect.innerHTML = vOptions;
-
-            const selectedVariant = vSelect.options[vSelect.selectedIndex];
-            if (selectedVariant) {
-                price += parseFloat(selectedVariant.dataset.adj || 0);
-            }
-        } else {
-            vSelect.innerHTML = '<option value="" data-adj="0">Standard</option>';
-            vSelect.disabled = true;
-        }
 
         const subtotal = price * parseInt(qInput.value || 0);
         subtotalEl.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(subtotal);

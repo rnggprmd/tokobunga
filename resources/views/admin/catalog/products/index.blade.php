@@ -56,7 +56,6 @@
                 <div class="flex items-center justify-between pt-2 border-t border-admin-border/50">
                     <div class="flex gap-4 text-xs text-text-muted">
                         <span>Stok: <strong class="text-text-primary">{{ $product->stok }}</strong></span>
-                        <span>Varian: <strong class="text-text-primary">{{ $product->variants->count() }}</strong></span>
                     </div>
                     <div class="flex gap-1">
                         <a href="{{ route('admin.products.edit', $product) }}" class="p-1.5 hover:bg-admin-bg rounded-lg transition-colors">

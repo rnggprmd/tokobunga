@@ -17,6 +17,22 @@ class CustomRequestController extends Controller
             $query->where('status', $request->status);
         }
 
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $numericSearch = preg_replace('/[^0-9]/', '', $search);
+
+            $query->where(function ($q) use ($search, $numericSearch) {
+                $q->where('customer_name', 'like', "%{$search}%")
+                  ->orWhere('customer_email', 'like', "%{$search}%")
+                  ->orWhere('product_category', 'like', "%{$search}%")
+                  ->orWhere('keterangan', 'like', "%{$search}%");
+                
+                if (!empty($numericSearch)) {
+                    $q->orWhere('id', $numericSearch);
+                }
+            });
+        }
+
         $customRequests = $query->latest()->paginate(10);
         return view('admin.sales.custom-requests.index', compact('customRequests'));
     }

@@ -8,10 +8,27 @@ use App\Models\Pembayaran;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
     public function index()
+    {
+        $data = $this->getReportData();
+        return view('admin.analytics.reports.index', $data);
+    }
+
+    public function exportPdf()
+    {
+        $data = $this->getReportData();
+        $data['reportDate'] = now()->translatedFormat('d F Y');
+        
+        $pdf = app('dompdf.wrapper')->loadView('admin.analytics.reports.pdf', $data);
+        
+        return $pdf->download('Laporan-Mbah-Bibit-' . now()->format('Y-m-d') . '.pdf');
+    }
+
+    private function getReportData()
     {
         // Monthly revenue (last 12 months)
         $monthlyRevenue = Pembayaran::where('status_pembayaran', 'paid')
@@ -40,9 +57,9 @@ class ReportController extends Controller
         $totalOrders = Order::count();
         $avgOrderValue = $totalOrders > 0 ? $totalRevenue / $totalOrders : 0;
 
-        return view('admin.analytics.reports.index', compact(
+        return compact(
             'monthlyRevenue', 'orderByStatus', 'topProducts',
             'totalRevenue', 'totalOrders', 'avgOrderValue'
-        ));
+        );
     }
 }

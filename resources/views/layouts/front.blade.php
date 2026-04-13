@@ -99,9 +99,18 @@
             <div class="flex items-center gap-6">
                 {{-- Cart & Icons --}}
                 <div class="flex items-baseline gap-4">
-                    <a href="#" class="text-secondary hover:text-primary scale-90 duration-200 relative group">
+                    <a href="{{ route('wishlist.index') }}" class="text-secondary hover:text-primary scale-90 duration-200 relative group">
                         <span class="material-symbols-outlined">favorite</span>
-                        <span class="absolute -top-1 -right-1 w-3 h-3 bg-accent-rose text-[8px] flex items-center justify-center text-white rounded-full font-bold opacity-0 group-hover:opacity-100 transition-opacity">0</span>
+                        @auth
+                            @php
+                                $wishlistCount = \App\Models\Wishlist::where('user_id', Auth::id())->count();
+                            @endphp
+                            @if($wishlistCount > 0)
+                                <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-accent-rose text-[8px] flex items-center justify-center text-white rounded-full font-bold transition-opacity">
+                                    {{ $wishlistCount }}
+                                </span>
+                            @endif
+                        @endauth
                     </a>
 
                     <a href="{{ route('cart.index') }}" class="text-secondary hover:text-primary scale-95 duration-200 relative">
@@ -114,6 +123,9 @@
 
                 @auth
                     <div class="hidden sm:flex items-center gap-4">
+                        <a href="{{ route('profile.index') }}" class="text-secondary scale-95 duration-200 hover:text-primary">
+                            <span class="material-symbols-outlined">person</span>
+                        </a>
                         <form action="{{ route('logout') }}" method="POST" class="inline">
                             @csrf
                             <button type="submit" class="text-secondary scale-95 duration-200 hover:text-red-500">
@@ -171,6 +183,7 @@
 
                     <div class="pt-12 border-t border-primary/10">
                         @auth
+                            <a href="{{ route('profile.index') }}" class="block w-full bg-surface border border-primary/20 text-secondary mb-4 py-4 rounded-full font-bold text-center uppercase tracking-widest text-xs">Profil Akun</a>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="w-full bg-secondary text-white py-4 rounded-full font-bold uppercase tracking-widest text-xs">Logout</button>
@@ -198,8 +211,10 @@
             <div class="space-y-4">
                 <h4 class="font-label font-bold uppercase text-[10px] tracking-[0.2em]">Navigation</h4>
                 <ul class="font-sans text-sm space-y-2">
+                    <li><a class="text-[#5e604c] hover:opacity-70 transition-colors" href="{{ route('home') }}">Beranda</a></li>
                     <li><a class="text-[#5e604c] hover:opacity-70 transition-colors" href="{{ route('products.index') }}">Produk</a></li>
-                    <li><a class="text-[#5e604c] hover:opacity-70 transition-colors" href="#">Care Guides</a></li>
+                    <li><a class="text-[#5e604c] hover:opacity-70 transition-colors" href="{{ route('custom.create') }}">Custom</a></li>
+                    <li><a class="text-[#5e604c] hover:opacity-70 transition-colors" href="{{ route('orders.track') }}">Lacak Pesanan</a></li>
                 </ul>
             </div>
             <div class="space-y-4">
@@ -211,10 +226,14 @@
                 </ul>
             </div>
             <div class="space-y-4">
-                <h4 class="font-label font-bold uppercase text-[10px] tracking-[0.2em]">Newsletter</h4>
-                <div class="flex gap-2">
-                    <input class="bg-surface border-none rounded-lg px-4 py-2 text-xs focus:ring-1 focus:ring-primary w-full" placeholder="Email Anda" type="email"/>
-                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-[10px] font-bold uppercase">Join</button>
+                <h4 class="font-label font-bold uppercase text-[10px] tracking-[0.2em]">Location</h4>
+                <div class="rounded-xl overflow-hidden h-32 border border-secondary/10">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126588.35414842795!2d110.74838708688726!3d-7.560060965386047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a16627039efc1%3A0x6333bf698d276d47!2sSolo%2C%20Kota%20Surakarta%2C%20Jawa%20Tengah!5e0!3m2!1sid!2sid!4v1713000000000!5m2!1sid!2sid" 
+                        class="w-full h-full border-0" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
                 </div>
             </div>
         </div>

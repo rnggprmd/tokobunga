@@ -3,7 +3,7 @@
 @section('subtitle', 'Perbarui data produk')
 
 @section('content')
-<div class="max-w-2xl">
+<div class="max-w-5xl">
     <a href="{{ route('admin.products.index') }}" class="inline-flex items-center gap-1 text-sm text-text-muted hover:text-accent-emerald transition-colors mb-6">
         <span class="material-symbols-outlined text-lg">arrow_back</span> Kembali
     </a>
@@ -66,19 +66,7 @@
                 </div>
             </div>
 
-            <div>
-                <label class="text-sm font-medium mb-2 block">Tipe Produk</label>
-                <div class="flex gap-4">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="tipe_produk" value="ready" {{ old('tipe_produk', $product->tipe_produk) == 'ready' ? 'checked' : '' }} class="accent-accent-emerald">
-                        <span class="text-sm">Ready Stock</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="tipe_produk" value="custom" {{ old('tipe_produk', $product->tipe_produk) == 'custom' ? 'checked' : '' }} class="accent-accent-emerald">
-                        <span class="text-sm">Custom</span>
-                    </label>
-                </div>
-            </div>
+
 
             <div class="flex gap-3 pt-4">
                 <button type="submit" class="px-8 py-3 bg-accent-emerald text-admin-bg rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity">

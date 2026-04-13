@@ -1,104 +1,158 @@
 @extends('layouts.front')
 
-@section('title', 'Katalog Bunga - Mbah Bibit')
+@section('title', 'Katalog Botanikal — Mbah Bibit')
 
 @section('content')
-<div class="max-w-screen-2xl mx-auto px-6 py-12">
-    <div class="flex flex-col md:flex-row gap-12">
-        <!-- Sidebar Filters -->
-        <aside class="w-full md:w-64 space-y-8">
-            <div>
-                <h3 class="font-headline text-2xl text-secondary mb-4 border-b border-primary/20 pb-2">Kategori</h3>
-                <ul class="space-y-2">
-                    <li>
-                        <a href="{{ route('products.index') }}" class="block px-2 py-1 text-sm font-bold {{ !request('category') ? 'text-primary bg-primary/5 rounded-lg' : 'text-secondary hover:text-primary transition-colors' }}">
-                            Semua Produk
-                        </a>
-                    </li>
-                    @foreach($categories as $category)
-                    <li>
-                        <a href="{{ route('products.index', ['category' => $category->id]) }}" class="block px-2 py-1 text-sm font-bold {{ request('category') == $category->id ? 'text-primary bg-primary/5 rounded-lg' : 'text-secondary hover:text-primary transition-colors' }}">
-                            {{ $category->nama_kategori }}
-                        </a>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
 
+{{-- === TOP RULE === --}}
+<div class="w-full border-t border-secondary/20"></div>
+
+<div class="max-w-screen-xl mx-auto">
+
+    {{-- === MASTHEAD === --}}
+    <div class="grid grid-cols-12 border-b border-secondary/20">
+        {{-- Label col --}}
+        <div class="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-secondary/20 px-8 py-6 flex items-center">
             <div>
-                <h3 class="font-headline text-2xl text-secondary mb-4 border-b border-primary/20 pb-2">Pencarian</h3>
-                <form action="{{ route('products.index') }}" method="GET">
-                    <div class="relative">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari bunga..." class="w-full bg-surface border-primary/20 rounded-xl text-sm focus:ring-primary focus:border-primary">
-                        <button type="submit" class="absolute right-2 top-1.5 text-primary">
-                            <span class="material-symbols-outlined text-xl">search</span>
-                        </button>
-                    </div>
-                </form>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Mbah Bibit Studio</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Koleksi Specimen</p>
+            </div>
+        </div>
+        {{-- Headline col --}}
+        <div class="col-span-12 md:col-span-9 px-8 md:px-16 py-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <h1 class="font-headline text-[clamp(3rem,8vw,6rem)] text-secondary leading-none tracking-tight">
+                Botanical<br><span class="serif-italic text-primary">Archiv</span>
+            </h1>
+            
+            {{-- Quick Search --}}
+            <form action="{{ route('products.index') }}" method="GET" class="w-full md:w-72 group">
+                <div class="relative border-b border-secondary/20 focus-within:border-secondary transition-colors">
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                           class="w-full bg-transparent border-none p-0 pb-2 text-sm text-secondary placeholder:text-secondary/20 focus:ring-0 focus:outline-none font-bold uppercase tracking-widest"
+                           placeholder="CARI SPESIMEN ···">
+                    <button type="submit" class="absolute right-0 bottom-2 text-secondary/40 group-hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-sm">search</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- === BODY AREA === --}}
+    <div class="grid grid-cols-12">
+
+        {{-- LEFT: Filters --}}
+        <aside class="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-secondary/20">
+            <div class="px-8 py-12 sticky top-24 space-y-12">
+                
+                {{-- Categories Index --}}
+                <div class="space-y-6">
+                    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30">Indeks Kategori</p>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="{{ route('products.index') }}" 
+                               class="group flex items-center justify-between text-[11px] font-black uppercase tracking-widest {{ !request('category') ? 'text-primary' : 'text-secondary/50 hover:text-secondary transition-colors' }}">
+                                <span>SEMUA PRODUK</span>
+                                <span class="w-1.5 h-1.5 rounded-full {{ !request('category') ? 'bg-primary' : 'bg-transparent group-hover:bg-secondary/20' }}"></span>
+                            </a>
+                        </li>
+                        @foreach($categories as $category)
+                        <li>
+                            <a href="{{ route('products.index', ['category' => $category->id]) }}" 
+                               class="group flex items-center justify-between text-[11px] font-black uppercase tracking-widest {{ request('category') == $category->id ? 'text-primary' : 'text-secondary/50 hover:text-secondary transition-colors' }}">
+                                <span>{{ $category->nama_kategori }}</span>
+                                <span class="w-1.5 h-1.5 rounded-full {{ request('category') == $category->id ? 'bg-primary' : 'bg-transparent group-hover:bg-secondary/20' }}"></span>
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                {{-- Status Info --}}
+                <div class="pt-12 border-t border-secondary/10 space-y-4">
+                    <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/20">Kurasi Saat Ini</p>
+                    <p class="text-xs text-secondary/60 leading-relaxed italic">
+                        Setiap spesimen dipilih secara manual berdasarkan kualitas kelopak dan kesegaran stok harian.
+                    </p>
+                </div>
             </div>
         </aside>
 
-        <!-- Product Grid -->
-        <div class="flex-1 space-y-8">
-            <header class="flex justify-between items-center bg-surface p-6 rounded-3xl border border-primary/10">
-                <div>
-                    <h1 class="font-headline text-3xl text-secondary">Katalog Specimen</h1>
-                    <p class="text-xs text-secondary/60 uppercase tracking-[0.2em] mt-1">Menampilkan {{ $products->count() }} produk dari total {{ $products->total() }}</p>
-                </div>
-                <div class="flex gap-2">
-                    {{-- Pagination info or sort could go here --}}
-                </div>
-            </header>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {{-- RIGHT: Product Grid --}}
+        <div class="col-span-12 md:col-span-9">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse($products as $product)
-                <div class="group bg-surface rounded-3xl overflow-hidden border border-primary/10 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
-                    <a href="{{ route('products.show', $product) }}" class="block aspect-[4/5] overflow-hidden relative">
-                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                <div class="group border-b border-r border-secondary/20 hover:bg-secondary/5 transition-colors duration-500">
+                    {{-- Image Area --}}
+                    <a href="{{ route('products.show', $product) }}" class="block aspect-[3/4] overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-700">
+                        <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
                              src="{{ $product->foto ? asset('storage/'.$product->foto) : 'https://ui-avatars.com/api/?name='.urlencode($product->nama_produk).'&background=FAFAE3&color=D9B2A9&size=512' }}" 
                              alt="{{ $product->nama_produk }}">
-                        <div class="absolute top-4 right-4 bg-background px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase text-primary border border-primary/20 shadow-sm">
-                            {{ $product->category->nama_kategori ?? 'UMUM' }}
+                        
+                        {{-- Quick Info Overlay --}}
+                        <div class="absolute inset-0 bg-secondary/80 opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
+                        
+                        @if($product->stok <= 0)
+                        <div class="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm px-6 text-center">
+                            <span class="text-[10px] font-black uppercase tracking-[0.4em] text-secondary border border-secondary px-4 py-2">HABISt</span>
                         </div>
+                        @endif
                     </a>
-                    <div class="p-6 space-y-4">
-                        <div class="space-y-1">
-                            <h3 class="font-headline text-xl text-secondary group-hover:text-primary transition-colors">
-                                <a href="{{ route('products.show', $product) }}">{{ $product->nama_produk }}</a>
-                            </h3>
-                            <p class="text-primary font-headline text-lg font-bold">Rp {{ number_format($product->harga, 0, ',', '.') }}</p>
+
+                    {{-- Content Area --}}
+                    <div class="p-8 space-y-6">
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-start gap-4">
+                                <h3 class="font-headline text-2xl text-secondary leading-tight">
+                                    <a href="{{ route('products.show', $product) }}">{{ $product->nama_produk }}</a>
+                                </h3>
+                                @auth
+                                <form action="{{ route('wishlist.toggle', $product) }}" method="POST">
+                                    @csrf
+                                    @php $isWishlisted = \App\Models\Wishlist::where('user_id', Auth::id())->where('product_id', $product->id)->exists(); @endphp
+                                    <button type="submit" class="text-secondary/30 hover:text-primary transition-colors">
+                                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' {{ $isWishlisted ? '1' : '0' }}">favorite</span>
+                                    </button>
+                                </form>
+                                @endauth
+                            </div>
+                            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                                {{ $product->category->nama_kategori ?? 'UNSORTED' }}
+                            </p>
                         </div>
-                        
-                        <p class="text-xs text-on-surface-variant leading-relaxed line-clamp-2">{{ $product->deskripsi }}</p>
-                        
-                        <div class="pt-2 flex items-center justify-between gap-4">
-                            <form action="{{ route('cart.add', $product) }}" method="POST" class="flex-1">
+
+                        <div class="flex items-baseline justify-between border-t border-secondary/10 pt-4">
+                            <p class="font-headline text-lg text-secondary/80 font-bold">
+                                Rp {{ number_format($product->harga, 0, ',', '.') }}
+                            </p>
+                            <form action="{{ route('cart.add', $product) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="w-full bg-primary text-white py-2 rounded-full font-bold text-[10px] uppercase tracking-widest hover:opacity-90 transition-all flex items-center justify-center gap-2">
-                                    <span class="material-symbols-outlined text-sm">shopping_bag</span>
-                                    Tambah
+                                <button type="submit" @disabled($product->stok <= 0) 
+                                        class="text-[9px] font-black uppercase tracking-widest text-secondary hover:text-primary disabled:opacity-20 transition-colors">
+                                    BELI +
                                 </button>
                             </form>
-                            <a href="#" class="p-2 border border-primary/20 rounded-full text-secondary hover:text-accent-rose hover:border-accent-rose transition-all">
-                                <span class="material-symbols-outlined text-lg">favorite</span>
-                            </a>
                         </div>
                     </div>
                 </div>
                 @empty
-                <div class="col-span-full py-40 text-center space-y-4">
-                    <span class="material-symbols-outlined text-6xl text-outline opacity-20">search_off</span>
-                    <p class="text-secondary italic text-lg">Maaf, kami tidak menemukan produk yang sesuai pencarian Anda.</p>
-                    <a href="{{ route('products.index') }}" class="inline-block text-primary font-bold hover:underline">Lihat Semua Produk</a>
+                <div class="col-span-full py-40 border-b border-secondary/20 text-center space-y-6">
+                    <p class="font-headline text-3xl text-secondary opacity-20 italic">No Specimen Found</p>
+                    <a href="{{ route('products.index') }}" class="inline-block text-[10px] font-black uppercase tracking-[0.3em] text-primary border-b border-primary pb-1">Reset Search</a>
                 </div>
                 @endforelse
             </div>
 
-            <!-- Pagination -->
-            <div class="pt-12">
-                {{ $products->links() }}
+            {{-- Pagination --}}
+            <div class="border-b border-secondary/20">
+                <div class="p-8 md:p-16 flex justify-center">
+                    {{ $products->links('vendor.pagination.simple-editorial') }}
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="w-full border-t border-secondary/20 mt-8"></div>
+
 @endsection

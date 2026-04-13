@@ -19,11 +19,11 @@
                     <option value="customer" {{ request('role') == 'customer' ? 'selected' : '' }}>Customer</option>
                 </select>
             </div>
-            <button class="px-6 py-2.5 bg-accent-emerald/10 text-accent-emerald rounded-xl text-sm font-medium hover:bg-accent-emerald/20 transition-colors">
+            <button type="submit" class="px-6 py-2.5 bg-accent-emerald/10 text-accent-emerald rounded-xl text-sm font-medium hover:bg-accent-emerald/20 transition-colors">
                 <span class="material-symbols-outlined text-lg align-middle mr-1">filter_list</span> Filter
             </button>
             @if(request()->hasAny(['search','role']))
-                <a href="{{ route('admin.users.index') }}" class="px-4 py-2.5 text-text-muted text-sm">Reset</a>
+                <a href="{{ route('admin.users.index') }}" class="px-4 py-2.5 text-text-muted text-sm hover:text-text-primary transition-colors">Reset</a>
             @endif
         </form>
     </div>

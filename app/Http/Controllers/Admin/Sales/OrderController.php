@@ -22,10 +22,20 @@ class OrderController extends Controller
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
+
         if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('customer_name', 'like', "%{$request->search}%")
-                  ->orWhere('id', $request->search);
+            $search = $request->search;
+            // Handle common ID prefixes like # or ORD-
+            $numericSearch = preg_replace('/[^0-9]/', '', $search);
+
+            $query->where(function ($q) use ($search, $numericSearch) {
+                $q->where('customer_name', 'like', "%{$search}%")
+                  ->orWhere('customer_email', 'like', "%{$search}%")
+                  ->orWhere('customer_phone', 'like', "%{$search}%");
+                
+                if (!empty($numericSearch)) {
+                    $q->orWhere('id', $numericSearch);
+                }
             });
         }
 
@@ -48,10 +58,8 @@ class OrderController extends Controller
             'customer_email' => 'nullable|email|max:255',
             'customer_phone' => 'nullable|string|max:20',
             'alamat_pengiriman' => 'nullable|string',
-            'ucapan' => 'nullable|string|max:1000',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
-            'items.*.variant_id' => 'nullable|exists:product_variants,id',
             'items.*.jumlah' => 'required|integer|min:1',
             'metode_pembayaran' => 'nullable|string',
         ]);
@@ -64,17 +72,13 @@ class OrderController extends Controller
                 $product = Product::findOrFail($item['product_id']);
                 $harga_satuan = $product->harga;
                 
-                if (!empty($item['variant_id'])) {
-                    $variant = ProductVariant::findOrFail($item['variant_id']);
-                    $harga_satuan += $variant->price_adjustment;
-                }
+
 
                 $subtotal = $harga_satuan * $item['jumlah'];
                 $total_harga += $subtotal;
 
                 $orderItemsData[] = [
                     'product_id' => $item['product_id'],
-                    'variant_id' => $item['variant_id'] ?? null,
                     'jumlah' => $item['jumlah'],
                     'harga_satuan' => $harga_satuan,
                     'subtotal' => $subtotal,
@@ -82,7 +86,7 @@ class OrderController extends Controller
                 ];
             }
 
-            $orderData = $request->only(['user_id', 'customer_name', 'customer_email', 'customer_phone', 'alamat_pengiriman', 'ucapan', 'metode_pembayaran']);
+            $orderData = $request->only(['user_id', 'customer_name', 'customer_email', 'customer_phone', 'alamat_pengiriman', 'metode_pembayaran']);
             $orderData['total_harga'] = $total_harga;
             $orderData['status'] = 'pending';
 
@@ -106,7 +110,7 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        $order->load(['user', 'items.product', 'items.variant', 'pembayaran', 'pengiriman']);
+        $order->load(['user', 'items.product', 'pembayaran', 'pengiriman']);
         return view('admin.sales.orders.show', compact('order'));
     }
 
@@ -133,6 +137,11 @@ class OrderController extends Controller
     {
         $request->validate(['status' => 'required|in:pending,paid,success,failed,expired,cancelled,challenge,shipped,completed']);
         $order->update(['status' => $request->status]);
+        
+        if ($request->status === 'paid') {
+            $order->reduceStock();
+        }
+
         return back()->with('success', 'Status order berhasil diperbarui.');
     }
 
@@ -151,6 +160,7 @@ class OrderController extends Controller
         if ($request->status_pembayaran === 'paid') {
             $data['tanggal_bayar'] = now();
             $order->update(['status' => 'paid']);
+            $order->reduceStock();
         }
 
         if ($request->hasFile('bukti_bayar')) {
@@ -167,11 +177,12 @@ class OrderController extends Controller
         $request->validate([
             'kurir' => 'required|string',
             'no_resi' => 'nullable|string',
+            'no_hp_kurir' => 'nullable|string|max:20',
             'status_pengiriman' => 'required|in:pending,dikirim,sampai,dibatalkan',
             'tanggal_kirim' => 'nullable|date',
         ]);
 
-        $data = $request->only(['kurir', 'no_resi', 'status_pengiriman', 'tanggal_kirim']);
+        $data = $request->only(['kurir', 'no_resi', 'no_hp_kurir', 'status_pengiriman', 'tanggal_kirim']);
         $data['order_id'] = $order->id;
         $data['nama_penerima'] = $order->customer_name;
         $data['alamat_pengiriman'] = $order->alamat_pengiriman;

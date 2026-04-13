@@ -11,8 +11,8 @@ class OrderItem extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'order_id', 'product_id', 'custom_request_id', 'jumlah',
-        'harga_satuan', 'subtotal', 'harga', 'variant_id'
+        'order_id', 'product_id', 'custom_request_id', 'variant_id', 'jumlah',
+        'harga_satuan', 'subtotal', 'harga'
     ];
 
     protected $casts = [
@@ -29,11 +29,6 @@ class OrderItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
-    }
-
-    public function variant(): BelongsTo
-    {
-        return $this->belongsTo(ProductVariant::class);
     }
 
     public function customRequest(): BelongsTo

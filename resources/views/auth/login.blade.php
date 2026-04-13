@@ -3,11 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login — Mbah Bibit</title>
+    <title>Masuk — Mbah Bibit</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -15,94 +14,99 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        'brand-bg': '#f3f4f6',
-                        'accent-emerald': '#34d399',
-                        'accent-emerald-dark': '#059669',
+                        "background": "#FAFAE3",
+                        "primary": "#D9B2A9",
+                        "secondary": "#A5A68F",
+                        "on-background": "#1b1d0f",
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader", "serif"],
+                        "body": ["Manrope", "sans-serif"],
                     }
                 }
             }
         }
     </script>
     <style>
+        body { font-family: 'Manrope', sans-serif; }
+        .serif-italic { font-family: 'Newsreader', serif; font-style: italic; }
         .glass-panel {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            background: rgba(250, 250, 227, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(165, 166, 143, 0.2);
         }
     </style>
 </head>
-<body class="font-sans antialiased bg-brand-bg text-gray-800 min-h-screen flex flex-col justify-center relative overflow-hidden">
-    <!-- Background Decor -->
-    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-accent-emerald/20 rounded-full blur-3xl mix-blend-multiply"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-200/30 rounded-full blur-3xl mix-blend-multiply"></div>
+<body class="bg-background text-on-background min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+    {{-- Background Decoration --}}
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
 
-    <div class="relative w-full max-w-md mx-auto px-6">
-        <div class="text-center mb-8">
-            <div class="mx-auto w-16 h-16 bg-gradient-to-br from-accent-emerald to-accent-emerald-dark rounded-2xl flex items-center justify-center shadow-lg shadow-accent-emerald/30 mb-4 transform -rotate-3 hover:rotate-0 transition-transform">
-                <span class="material-symbols-outlined text-white text-3xl">local_florist</span>
+    <div class="w-full max-w-[1000px] grid md:grid-cols-2 bg-white/50 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-secondary/10 relative z-10 border border-secondary/10">
+        {{-- Left: Visual --}}
+        <div class="hidden md:block relative overflow-hidden bg-[#efefd9]">
+            <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&q=80&w=800" 
+                 class="w-full h-full object-cover opacity-80 grayscale hover:grayscale-0 transition-all duration-1000" alt="Botanical">
+            <div class="absolute inset-0 bg-gradient-to-t from-secondary/60 to-transparent"></div>
+            <div class="absolute bottom-12 left-12 right-12 text-white">
+                <p class="font-headline text-4xl leading-tight">Membawa <span class="serif-italic">Jiwa Alam</span> ke Dalam Rumah Anda.</p>
+                <p class="text-sm font-light mt-4 opacity-80 tracking-widest uppercase">Mbah Bibit Botanical Archiv</p>
             </div>
-            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Mbah Bibit</h1>
-            <p class="text-gray-500 mt-2 text-sm">Masuk untuk mengelola pesanan & stok toko Anda.</p>
         </div>
 
-        <div class="glass-panel rounded-2xl p-8">
-            <form method="POST" action="{{ route('login') }}" class="space-y-5">
-                @csrf
+        {{-- Right: Form --}}
+        <div class="p-8 md:p-16 flex flex-col justify-center">
+            <div class="mb-12">
+                <a href="{{ route('home') }}" class="text-2xl font-headline text-secondary uppercase tracking-[0.2em] mb-2 block">Mbah Bibit</a>
+                <h1 class="font-headline text-4xl text-on-background">Selamat Datang <span class="serif-italic">Kembali</span></h1>
+                <p class="text-secondary/60 text-sm mt-3">Silakan masuk ke akun Anda untuk melanjutkan koleksi spesimen botani.</p>
+            </div>
 
-                <!-- Session Status / Errors -->
+            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                @csrf
+                
                 @if ($errors->any())
-                    <div class="p-3 bg-red-50 text-red-600 rounded-lg text-sm border border-red-100 flex items-start gap-2">
+                    <div class="p-4 bg-red-50 text-red-500 rounded-2xl text-xs border border-red-100 flex items-start gap-3">
                         <span class="material-symbols-outlined text-base">error</span>
                         <span>{{ $errors->first() }}</span>
                     </div>
                 @endif
 
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Alamat Email</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="material-symbols-outlined text-gray-400 text-lg">mail</span>
-                        </div>
-                        <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
-                            class="block w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-accent-emerald focus:border-accent-emerald bg-gray-50 hover:bg-white transition-colors text-sm"
-                            placeholder="admin@tokobunga.com">
-                    </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-secondary/60">Alamat Email</label>
+                    <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                           class="w-full bg-background/50 border border-secondary/20 rounded-2xl px-5 py-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                           placeholder="nama@email.com">
                 </div>
 
-                <div>
-                    <div class="flex items-center justify-between mb-1">
-                        <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-[10px] font-black uppercase tracking-widest text-secondary/60">Kata Sandi</label>
+                        <a href="#" class="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">Lupa?</a>
                     </div>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="material-symbols-outlined text-gray-400 text-lg">lock</span>
-                        </div>
-                        <input id="password" type="password" name="password" required
-                            class="block w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-accent-emerald focus:border-accent-emerald bg-gray-50 hover:bg-white transition-colors text-sm"
-                            placeholder="••••••••">
-                    </div>
+                    <input type="password" name="password" required
+                           class="w-full bg-background/50 border border-secondary/20 rounded-2xl px-5 py-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                           placeholder="••••••••">
                 </div>
 
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="remember" class="w-4 h-4 text-accent-emerald border-gray-300 rounded focus:ring-accent-emerald cursor-pointer">
-                        <span class="text-sm text-gray-600 select-none">Ingat saya</span>
-                    </label>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" name="remember" id="remember" class="w-4 h-4 rounded border-secondary/20 text-primary focus:ring-primary">
+                    <label for="remember" class="text-xs text-secondary/60">Ingat perangkat ini</label>
                 </div>
 
-                <button type="submit" class="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all active:scale-[0.98]">
-                    <span>Masuk ke Sistem</span>
-                    <span class="material-symbols-outlined text-base">login</span>
-                </button>
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-secondary text-background py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] hover:bg-on-background transition-all shadow-lg shadow-secondary/20 active:scale-[0.98]">
+                        Masuk Sekarang —
+                    </button>
+                </div>
             </form>
-        </div>
 
-        <p class="text-center text-xs text-gray-400 mt-8">
-            &copy; {{ date('Y') }} Mbah Bibit Nursery. Semua Hak Cipta Dilindungi.
-        </p>
+            <div class="mt-12 pt-8 border-t border-secondary/10 text-center">
+                <p class="text-xs text-secondary/60">Belum memiliki akun? <a href="#" class="text-primary font-bold hover:underline">Daftar Koleksi</a></p>
+                <a href="{{ route('admin.login') }}" class="mt-8 inline-block text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30 hover:text-secondary transition-colors italic">Portal Staf Admin</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

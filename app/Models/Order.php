@@ -14,11 +14,13 @@ class Order extends Model
 
     protected $fillable = [
         'user_id', 'total_harga', 'status', 'metode_pembayaran',
-        'alamat_pengiriman', 'customer_name', 'customer_email', 'customer_phone', 'ucapan'
+        'alamat_pengiriman', 'customer_name', 'customer_email', 'customer_phone',
+        'is_stock_reduced'
     ];
 
     protected $casts = [
         'total_harga' => 'decimal:2',
+        'is_stock_reduced' => 'boolean',
     ];
 
     public function user(): BelongsTo
@@ -39,5 +41,31 @@ class Order extends Model
     public function pengiriman(): HasOne
     {
         return $this->hasOne(Pengiriman::class);
+    }
+
+    /**
+     * Reduce stock for all items in this order.
+     * Prevents duplicate reduction using is_stock_reduced flag.
+     */
+    public function reduceStock()
+    {
+        if ($this->is_stock_reduced) {
+            return;
+        }
+
+        \Illuminate\Support\Facades\DB::transaction(function () {
+            foreach ($this->items as $item) {
+                if ($item->product_id) {
+                    $item->product()->decrement('stok', $item->jumlah);
+                }
+                
+                // If there were variants, we would handle them here too
+                if ($item->variant_id) {
+                    \App\Models\ProductVariant::where('id', $item->variant_id)->decrement('stok', $item->jumlah);
+                }
+            }
+
+            $this->update(['is_stock_reduced' => true]);
+        });
     }
 }

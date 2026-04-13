@@ -14,7 +14,7 @@ class Pengiriman extends Model
 
     protected $fillable = [
         'order_id', 'nama_penerima', 'alamat_pengiriman', 'no_hp',
-        'kurir', 'no_resi', 'status_pengiriman', 'tanggal_kirim', 'tanggal_terima'
+        'kurir', 'no_resi', 'no_hp_kurir', 'status_pengiriman', 'tanggal_kirim', 'tanggal_terima'
     ];
 
     protected $casts = [
