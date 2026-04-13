@@ -4,6 +4,16 @@
 
 @section('content')
 <div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold">Custom Request</h2>
+            <p class="text-sm text-text-muted">Kelola permintaan kustom dari pelanggan</p>
+        </div>
+        <a href="{{ route('admin.custom-requests.create') }}" class="px-5 py-2.5 bg-accent-emerald text-admin-bg rounded-xl text-sm font-bold flex items-center gap-2 hover:opacity-90 transition-opacity">
+            <span class="material-symbols-outlined">add</span> Tambah Request
+        </a>
+    </div>
+
     <div class="glass-card rounded-2xl p-6">
         <form method="GET" class="flex flex-wrap gap-4 items-end">
             <div class="w-48">

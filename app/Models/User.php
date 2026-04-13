@@ -49,4 +49,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(CustomRequest::class);
     }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+
+    public function wishlists(): HasMany
+    {
+        return $this->hasMany(Wishlist::class);
+    }
 }

@@ -4,6 +4,16 @@
 
 @section('content')
 <div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold">Daftar Order</h2>
+            <p class="text-sm text-text-muted">Kelola semua pesanan pelanggan</p>
+        </div>
+        <a href="{{ route('admin.orders.create') }}" class="px-5 py-2.5 bg-accent-emerald text-admin-bg rounded-xl text-sm font-bold flex items-center gap-2 hover:opacity-90 transition-opacity">
+            <span class="material-symbols-outlined">add_shopping_cart</span> Tambah Order Manual
+        </a>
+    </div>
+
     {{-- Filters --}}
     <div class="glass-card rounded-2xl p-6">
         <form method="GET" class="flex flex-wrap gap-4 items-end">

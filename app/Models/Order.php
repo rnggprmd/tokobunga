@@ -6,12 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'user_id', 'total_harga', 'status', 'metode_pembayaran',
-        'alamat_pengiriman', 'customer_name', 'customer_email', 'customer_phone'
+        'alamat_pengiriman', 'customer_name', 'customer_email', 'customer_phone', 'ucapan'
     ];
 
     protected $casts = [

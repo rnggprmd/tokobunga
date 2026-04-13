@@ -24,8 +24,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('sales')->group(function () {
         // Orders
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+        Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
         Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::get('/orders/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+        Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
+        Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
         Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+        
+        // Integrated Order Actions
+        Route::post('/orders/{order}/payment', [OrderController::class, 'storePayment'])->name('orders.payment.store');
+        Route::post('/orders/{order}/shipping', [OrderController::class, 'storeShipping'])->name('orders.shipping.store');
 
         // Payments
         Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
@@ -40,6 +49,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
         // Custom Requests
         Route::get('/custom-requests', [CustomRequestController::class, 'index'])->name('custom-requests.index');
+        Route::get('/custom-requests/create', [CustomRequestController::class, 'create'])->name('custom-requests.create');
+        Route::post('/custom-requests', [CustomRequestController::class, 'store'])->name('custom-requests.store');
+        Route::get('/custom-requests/{customRequest}/edit', [CustomRequestController::class, 'edit'])->name('custom-requests.edit');
+        Route::put('/custom-requests/{customRequest}', [CustomRequestController::class, 'update'])->name('custom-requests.update');
+        Route::delete('/custom-requests/{customRequest}', [CustomRequestController::class, 'destroy'])->name('custom-requests.destroy');
         Route::patch('/custom-requests/{customRequest}/status', [CustomRequestController::class, 'updateStatus'])->name('custom-requests.updateStatus');
     });
 
