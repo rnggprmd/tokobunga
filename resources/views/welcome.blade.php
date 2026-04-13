@@ -13,10 +13,10 @@
         theme: {
           extend: {
             "colors": {
-                    "background": "#fbfbe4",
+                    "background": "#FAFAE3",
                     "tertiary": "#685a67",
                     "primary-fixed": "#ffdad2",
-                    "primary": "#765750",
+                    "primary": "#D9B2A9",
                     "surface-dim": "#dbdbc5",
                     "on-surface": "#1b1d0f",
                     "on-error-container": "#93000a",
@@ -50,7 +50,7 @@
                     "secondary-fixed": "#e4e4cb",
                     "surface-container": "#efefd9",
                     "surface-container-high": "#e9ead3",
-                    "secondary": "#5e604c",
+                    "secondary": "#A5A68F",
                     "outline-variant": "#c8c7bc",
                     "surface-variant": "#e4e4ce",
                     "on-surface-variant": "#47473f",
@@ -90,19 +90,19 @@
 <!-- TopNavBar -->
 <nav class="sticky top-0 z-50 w-full bg-[#fbfbe4]/80 backdrop-blur-md dark:bg-stone-900/80">
 <div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
-<div class="text-2xl font-serif font-bold text-[#765750] dark:text-[#c19c93] uppercase tracking-widest">
+<div class="text-2xl font-serif font-bold text-secondary dark:text-primary uppercase tracking-widest">
                 Mbah Bibit
             </div>
 <div class="hidden md:flex gap-8 items-center">
-<a class="text-[#765750] dark:text-[#c19c93] border-b border-[#765750] pb-1 font-serif italic tracking-tight transition-colors duration-300" href="#">Bunga Segar</a>
-<a class="text-[#5e604c] dark:text-[#A5A68F] font-sans font-medium hover:text-[#765750] transition-colors duration-300" href="#">Peralatan Pernikahan</a>
-<a class="text-[#5e604c] dark:text-[#A5A68F] font-sans font-medium hover:text-[#765750] transition-colors duration-300" href="#">Alat-alat Kematian</a>
+<a class="text-secondary dark:text-primary border-b border-primary pb-1 font-serif italic tracking-tight transition-colors duration-300" href="#">Bunga Segar</a>
+<a class="text-secondary/80 dark:text-secondary font-sans font-medium hover:text-primary transition-colors duration-300" href="#">Peralatan Pernikahan</a>
+<a class="text-secondary/80 dark:text-secondary font-sans font-medium hover:text-primary transition-colors duration-300" href="#">Alat-alat Kematian</a>
 </div>
 <div class="flex items-center gap-6">
 <div class="relative hidden sm:block">
 <input class="bg-surface-variant border-none rounded-full px-6 py-2 text-sm focus:ring-1 focus:ring-primary w-64 transition-all duration-300" placeholder="Cari Koleksi..." type="text"/>
 </div>
-<button class="text-[#765750] scale-95 duration-200">
+<button class="text-secondary scale-95 duration-200">
 <span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
 </button>
 </div>
@@ -113,16 +113,16 @@
 <header class="relative grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
 <div class="md:col-span-7 space-y-6">
 <span class="font-label text-sm uppercase tracking-[0.3em] text-secondary">Vol. 24 Botanical Archive</span>
-<h1 class="font-headline text-7xl md:text-8xl text-primary leading-tight">
+<h1 class="font-headline text-7xl md:text-8xl text-secondary leading-tight">
                     Curating <br/>
-<span class="serif-italic">Heritage</span> <br/>
+<span class="serif-italic text-primary">Heritage</span> <br/>
                     through Nature.
                 </h1>
 <p class="text-lg text-on-surface-variant max-w-lg leading-relaxed">
                     A timeless sanctuary of flora and ritual essentials. From the celebratory blooms of union to the silent dignity of farewell, we preserve the soul of Javanese botanical traditions.
                 </p>
 <div class="pt-4 flex gap-4">
-<button class="bg-primary text-on-primary px-8 py-4 rounded-full font-label font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all flex items-center gap-2">
+<button class="bg-primary text-white px-8 py-4 rounded-full font-label font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
                         Jelajahi Katalog <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
 </button>
 </div>
@@ -132,7 +132,7 @@
 <img class="w-full h-full object-cover" data-alt="Vintage botanical illustration style photo of a lush bouquet featuring white lilies and deep green ferns against a parchment background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdJ1WTVQG8JjZilHrp3H_Ye1W0tHQ01I0QNLXojfAWeqb1VWVsdjJRRxvrmdJroaxmTi11Qb9gw931KJDpPYlrmXqwbLhbRUgbcDM1KENNF7Eoz4_wVerFllvUaQl3WTUBkTZG_-6LpMAfKIsM7vBOjcTPEf0V8jVAHVIMKtqDGP_m8DwR43t1GzCWnA9eT89aDAk_ZtTsNec4s2rySqguUUVUQEzan2U4yMLPrUzrWhEgcw6cfU1_IdDCLFKOu_l6YmIk38Y1YzA"/>
 </div>
 <div class="absolute -bottom-8 -left-8 bg-surface-container-highest p-6 rounded-2xl shadow-xl max-w-[200px] -rotate-3">
-<p class="serif-italic text-primary text-xl">Specimen 01: Bunga Sedap Malam</p>
+<p class="serif-italic text-secondary text-xl">Specimen 01: Bunga Sedap Malam</p>
 <p class="text-xs text-secondary mt-2">Polianthes tuberosa. The fragrance of evening ceremonies.</p>
 </div>
 </div>
@@ -158,7 +158,7 @@
 <div class="space-y-2">
 <div class="flex justify-between items-baseline">
 <h3 class="font-headline text-2xl group-hover:text-primary transition-colors">Roncean Melati Pengantin</h3>
-<span class="font-headline text-xl text-primary">Rp 450.000</span>
+<span class="font-headline text-xl text-primary font-bold">Rp 450.000</span>
 </div>
 <p class="text-sm text-on-surface-variant leading-relaxed">Specimen #JW-09: Traditional hand-woven jasmine garlands for the bride, crafted with fresh buds picked at dawn.</p>
 <div class="flex gap-2 pt-2">
@@ -176,7 +176,7 @@
 <div class="space-y-2">
 <div class="flex justify-between items-baseline">
 <h3 class="font-headline text-2xl group-hover:text-primary transition-colors">Karangan Bunga Duka Cita</h3>
-<span class="font-headline text-xl text-primary">Rp 850.000</span>
+<span class="font-headline text-xl text-primary font-bold">Rp 850.000</span>
 </div>
 <p class="text-sm text-on-surface-variant leading-relaxed">Specimen #FL-22: A dignified tribute of pure lilies and white roses, designed to offer silent solace in moments of grief.</p>
 <div class="flex gap-2 pt-2">
@@ -193,7 +193,7 @@
 <div class="space-y-2">
 <div class="flex justify-between items-baseline">
 <h3 class="font-headline text-2xl group-hover:text-primary transition-colors">Anggrek Bulan Ungu</h3>
-<span class="font-headline text-xl text-primary">Rp 1.200.000</span>
+<span class="font-headline text-xl text-primary font-bold">Rp 1.200.000</span>
 </div>
 <p class="text-sm text-on-surface-variant leading-relaxed">Specimen #OR-04: Rare deep-purple moon orchid, ethically sourced from the highlands. High endurance and vibrant pigment.</p>
 <div class="flex gap-2 pt-2">
@@ -212,12 +212,12 @@
 <div class="relative grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 <div class="space-y-8">
 <div class="space-y-4">
-<h2 class="font-headline text-5xl text-primary">Peralatan Perawatan Botanical</h2>
+<h2 class="font-headline text-5xl text-secondary">Peralatan Perawatan Botanical</h2>
 <p class="text-secondary font-label leading-relaxed">Tools for the serious collector. Each piece is crafted for precision, durability, and a tactile connection to the Earth.</p>
 </div>
 <ul class="space-y-6">
 <li class="flex gap-4 items-start">
-<span class="material-symbols-outlined text-primary" data-icon="architecture">architecture</span>
+<span class="material-symbols-outlined text-primary font-bold" data-icon="architecture">architecture</span>
 <div>
 <h4 class="font-bold text-on-surface">Precision Pruning Scissors</h4>
 <p class="text-sm text-on-surface-variant">Forged steel for clean, botanical-grade cuts that preserve stem health.</p>
@@ -238,7 +238,7 @@
 </div>
 </li>
 </ul>
-<button class="border border-primary text-primary px-8 py-3 rounded-full font-label font-bold text-sm tracking-widest uppercase hover:bg-primary hover:text-on-primary transition-all">
+<button class="border border-primary text-primary px-8 py-3 rounded-full font-label font-bold text-sm tracking-widest uppercase hover:bg-primary hover:text-white transition-all">
                         Eksplor Peralatan
                     </button>
 </div>
@@ -303,11 +303,11 @@
 </section>
 </main>
 <!-- Footer -->
-<footer class="bg-[#fbfbe4] dark:bg-stone-950 text-[#765750] dark:text-[#c19c93] py-12 px-12 border-t border-[#5e604c]/10 mt-24">
+<footer class="bg-[#FAFAE3] dark:bg-stone-950 text-secondary dark:text-primary py-12 px-12 border-t border-secondary/10 mt-24">
 <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-screen-2xl mx-auto">
 <div class="space-y-4">
 <div class="text-lg font-serif font-semibold">Toko Bunga Mbah Bibit</div>
-<p class="font-sans text-sm tracking-wide text-[#5e604c]">Preserving the ritual essence of nature since 1978. Every specimen tells a story of heritage and respect.</p>
+<p class="font-sans text-sm tracking-wide text-secondary/80">Preserving the ritual essence of nature since 1978. Every specimen tells a story of heritage and respect.</p>
 </div>
 <div class="space-y-4">
 <h4 class="font-label font-bold uppercase text-[10px] tracking-[0.2em]">Navigation</h4>
@@ -343,7 +343,7 @@
 </div>
 </footer>
 <!-- Floating Contact FAB (Suppressed on most pages, but kept here for landing context) -->
-<button class="fixed bottom-8 right-8 bg-primary text-on-primary p-4 rounded-full shadow-2xl hover:scale-105 transition-transform z-40">
+<button class="fixed bottom-8 right-8 bg-primary text-white p-4 rounded-full shadow-2xl hover:scale-105 transition-transform z-40 shadow-primary/40">
 <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
 </button>
 </body></html>
