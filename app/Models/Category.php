@@ -10,7 +10,7 @@ class Category extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['nama_kategori', 'deskripsi'];
+    protected $fillable = ['nama_kategori', 'deskripsi', 'foto'];
 
     public function products(): HasMany
     {
