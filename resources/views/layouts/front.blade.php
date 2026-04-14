@@ -220,7 +220,7 @@
             <div class="space-y-4">
                 <h4 class="font-label font-bold uppercase text-[10px] tracking-[0.2em]">Contact</h4>
                 <ul class="font-sans text-sm space-y-2">
-                    <li class="text-[#5e604c]">Solo, Jawa Tengah</li>
+                    <li class="text-[#5e604c]">Madiun, Jawa Timur</li>
                     <li class="text-[#5e604c]">toko@mbahbibit.com</li>
                     <li class="text-[#5e604c]">+62 812 3456 7890</li>
                 </ul>
@@ -238,7 +238,7 @@
             </div>
         </div>
         <div class="max-w-screen-2xl mx-auto mt-12 pt-8 border-t border-[#5e604c]/5 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="font-sans text-xs tracking-wide text-[#5e604c] opacity-60">© 2026 Toko Bunga Mbah Bibit. Curating Heritage through Nature.</p>
+            <p class="font-sans text-xs tracking-wide text-[#5e604c] opacity-60">© 2026 Toko Bunga Mbah Bibit.</p>
             <div class="flex gap-6">
                 <a class="material-symbols-outlined text-lg" href="#">share</a>
                 <a class="material-symbols-outlined text-lg" href="#">photo_camera</a>

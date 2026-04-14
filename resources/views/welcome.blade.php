@@ -7,7 +7,6 @@
     <!-- Hero: The Catalog Entry -->
     <header class="relative grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
         <div class="md:col-span-7 space-y-6">
-            <span class="font-label text-sm uppercase tracking-[0.3em] text-secondary">Vol. 24 Botanical Archive</span>
             <h1 class="font-headline text-7xl md:text-8xl text-secondary leading-tight">
                 Curating <br/>
                 <span class="serif-italic text-primary">Heritage</span> <br/>

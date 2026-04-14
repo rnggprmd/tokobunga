@@ -82,8 +82,8 @@
             </div>
 
             {{-- Form Section --}}
-            <div class="p-8 md:px-12 border-b border-secondary/20">
-                <form action="{{ route('cart.add', $product) }}" method="POST" class="space-y-6">
+            <div class="p-8 md:px-12 border-b border-secondary/20 space-y-6">
+                <form action="{{ route('cart.add', $product) }}" method="POST">
                     @csrf
                     <div class="flex items-center gap-6">
                         {{-- Quantity --}}
@@ -98,18 +98,18 @@
                             Add to Archive
                         </button>
                     </div>
-                    
-                    @auth
-                    <form action="{{ route('wishlist.toggle', $product) }}" method="POST" class="mt-4">
-                        @csrf
-                        @php $isWishlisted = \App\Models\Wishlist::where('user_id', Auth::id())->where('product_id', $product->id)->exists(); @endphp
-                        <button type="submit" class="w-full border border-secondary/15 py-4 uppercase tracking-[0.2em] text-[10px] font-black text-secondary/60 hover:text-primary hover:border-primary transition-all flex items-center justify-center gap-3">
-                            <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' {{ $isWishlisted ? '1' : '0' }}">favorite</span>
-                            {{ $isWishlisted ? 'Remove from Favorites' : 'Add to Favorites' }}
-                        </button>
-                    </form>
-                    @endauth
                 </form>
+
+                @auth
+                <form action="{{ route('wishlist.toggle', $product) }}" method="POST">
+                    @csrf
+                    @php $isWishlisted = \App\Models\Wishlist::where('user_id', Auth::id())->where('product_id', $product->id)->exists(); @endphp
+                    <button type="submit" class="w-full border border-secondary/15 py-4 uppercase tracking-[0.2em] text-[10px] font-black text-secondary/60 hover:text-primary hover:border-primary transition-all flex items-center justify-center gap-3">
+                        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' {{ $isWishlisted ? '1' : '0' }}">favorite</span>
+                        {{ $isWishlisted ? 'Remove from Favorites' : 'Add to Favorites' }}
+                    </button>
+                </form>
+                @endauth
             </div>
 
             {{-- Description --}}
