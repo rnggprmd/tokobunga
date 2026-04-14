@@ -13,9 +13,7 @@ class CustomRequestController extends Controller
     {
         $query = CustomRequest::with(['user', 'product']);
 
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
+
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -74,6 +72,13 @@ class CustomRequestController extends Controller
 
     public function update(Request $request, CustomRequest $customRequest)
     {
+        $request->validate([
+            'customer_name' => 'required|string|max:255',
+            'customer_phone' => 'nullable|string|max:20',
+            'product_category' => 'nullable|string|max:255',
+            'keterangan' => 'required|string',
+        ]);
+
         $customRequest->update($request->all());
         return redirect()->route('admin.custom-requests.index')->with('success', 'Custom Request berhasil diperbarui.');
     }

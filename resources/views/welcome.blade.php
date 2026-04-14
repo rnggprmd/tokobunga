@@ -8,12 +8,12 @@
     <header class="relative grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
         <div class="md:col-span-7 space-y-6">
             <h1 class="font-headline text-7xl md:text-8xl text-secondary leading-tight">
-                Curating <br/>
-                <span class="serif-italic text-primary">Heritage</span> <br/>
-                through Nature.
+                Dari Tradisi <br/>
+                <span class="serif-italic text-primary">Kami Merangkai</span> <br/>
+                Makna.
             </h1>
             <p class="text-lg text-on-surface-variant max-w-lg leading-relaxed">
-                A timeless sanctuary of flora and ritual essentials. From the celebratory blooms of union to the silent dignity of farewell, we preserve the soul of Javanese botanical traditions.
+                Toko Bunga Mbah Bibit menghadirkan bunga dan perlengkapan untuk pernikahan dan perpisahan, sebagai bentuk penghormatan dalam setiap perjalanan hidup.
             </p>
             <div class="pt-4 flex gap-4">
                 <a href="{{ route('products.index') }}" class="bg-primary text-white px-8 py-4 rounded-full font-label font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
@@ -23,11 +23,11 @@
         </div>
         <div class="md:col-span-5 relative">
             <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700 bg-[#e4e4ce]">
-                <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdJ1WTVQG8JjZilHrp3H_Ye1W0tHQ01I0QNLXojfAWeqb1VWVsdjJRRxvrmdJroaxmTi11Qb9gw931KJDpPYlrmXqwbLhbRUgbcDM1KENNF7Eoz4_wVerFllvUaQl3WTUBkTZG_-6LpMAfKIsM7vBOjcTPEf0V8jVAHVIMKtqDGP_m8DwR43t1GzCWnA9eT89aDAk_ZtTsNec4s2rySqguUUVUQEzan2U4yMLPrUzrWhEgcw6cfU1_IdDCLFKOu_l6YmIk38Y1YzA"/>
+                <img class="w-full h-full object-cover" src="{{ asset('images/sambung tuwuh.jpeg') }}" alt="Dekorasi Tuwuhan Adat Jawa"/>
             </div>
-            <div class="absolute -bottom-8 -left-8 bg-[#e4e4ce] p-6 rounded-2xl shadow-xl max-w-[200px] -rotate-3">
-                <p class="serif-italic text-secondary text-xl">Specimen 01: Bunga Sedap Malam</p>
-                <p class="text-xs text-secondary mt-2">Polianthes tuberosa. The fragrance of evening ceremonies.</p>
+            <div class="absolute -bottom-8 -left-8 bg-[#e4e4ce] p-6 rounded-2xl shadow-xl max-w-[220px] -rotate-3">
+                <p class="serif-italic text-secondary text-xl">Pernikahan Adat: Tuwuhan</p>
+                <p class="text-xs text-secondary mt-2">Simbol kesejahteraan dan harapan. Menjaga tradisi dalam setiap prosesi.</p>
             </div>
         </div>
     </header>
@@ -37,7 +37,7 @@
         <div class="flex justify-between items-end border-b border-outline-variant pb-6">
             <div class="space-y-2">
                 <h2 class="font-headline text-4xl text-on-surface">Koleksi Terbaru</h2>
-                <p class="text-secondary font-label">Tangkapan Musim Semi &amp; Perangkat Upacara</p>
+                <p class="text-secondary font-label">Bunga, Alat Pernikahan &amp; Alat Kematian</p>
             </div>
             <a class="text-primary font-label font-bold flex items-center gap-1 hover:underline" href="{{ route('products.index') }}">
                 Lihat Semua <span class="material-symbols-outlined">north_east</span>
@@ -81,32 +81,32 @@
     <!-- Botanical Tools -->
     <section class="bg-[#f5f5de] rounded-[3rem] p-12 lg:p-24 relative overflow-hidden">
         <div class="absolute top-0 right-0 opacity-10 pointer-events-none">
-            <span class="material-symbols-outlined text-[30rem]">eco</span>
+            <span class="material-symbols-outlined text-[30rem]">local_florist</span>
         </div>
         <div class="relative grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div class="space-y-8">
                 <div class="space-y-4">
-                    <h2 class="font-headline text-5xl text-secondary">Peralatan Perawatan Botanical</h2>
-                    <p class="text-secondary font-label leading-relaxed">Tools for the serious collector. Each piece is crafted for precision, durability, and a tactile connection to the Earth.</p>
+                    <h2 class="font-headline text-5xl text-secondary">Koleksi Bunga Pilihan</h2>
+                    <p class="text-secondary font-label leading-relaxed">Keindahan mahakarya alam untuk setiap momen Anda. Dirawat sepenuh hati dan dipetik di saat yang paling sempurna untuk mempertahankan warna dan keharumannya.</p>
                 </div>
                 <ul class="space-y-6">
                     <li class="flex gap-4 items-start">
-                        <span class="material-symbols-outlined text-primary font-bold">architecture</span>
+                        <span class="material-symbols-outlined text-primary font-bold">spa</span>
                         <div>
-                            <h4 class="font-bold text-on-surface">Precision Pruning Scissors</h4>
-                            <p class="text-sm text-on-surface-variant">Forged steel for clean, botanical-grade cuts that preserve stem health.</p>
+                            <h4 class="font-bold text-on-surface">Kesegaran Terjamin</h4>
+                            <p class="text-sm text-on-surface-variant">Bunga dirawat secara khusus untuk memastikan keharuman dan rupa yang prima sampai ke tangan Anda.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
-                        <span class="material-symbols-outlined text-primary">humidity_percentage</span>
+                        <span class="material-symbols-outlined text-primary">psychiatry</span>
                         <div>
-                            <h4 class="font-bold text-on-surface">Copper Mist Atomizer</h4>
-                            <p class="text-sm text-on-surface-variant">Ultrafine hydration for delicate orchid species and ferns.</p>
+                            <h4 class="font-bold text-on-surface">Beragam Varian Spesies</h4>
+                            <p class="text-sm text-on-surface-variant">Dari mawar klasik hingga anggrek lokal eksotis, tersedia untuk kebutuhan perayaan maupun prosesi kultural.</p>
                         </div>
                     </li>
                 </ul>
-                <a href="#" class="inline-block border border-primary text-primary px-8 py-3 rounded-full font-label font-bold text-sm tracking-widest uppercase hover:bg-primary hover:text-white transition-all">
-                    Eksplor Peralatan
+                <a href="{{ route('products.index', ['category' => $categories->first()->id ?? 1]) }}" class="inline-block border border-primary text-primary px-8 py-3 rounded-full font-label font-bold text-sm tracking-widest uppercase hover:bg-primary hover:text-white transition-all">
+                    Eksplor Bunga
                 </a>
             </div>
             <div class="grid grid-cols-2 gap-4">
@@ -133,12 +133,11 @@
                     ];
                     $span = $spans[$index] ?? 'md:col-span-1';
                     $placeholders = [
-                        'Bunga Segar' => 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&q=80&w=800',
-                        'Pernikahan' => 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800',
-                        'Kematian' => 'https://images.unsplash.com/photo-1516663243144-8463a51052fe?auto=format&fit=crop&q=80&w=800',
-                        'Alat' => 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&q=80&w=800',
+                        0 => asset('images/bunga.jpeg'),
+                        1 => asset('images/penjor.jpeg'),
+                        2 => asset('images/kain kafan.jpeg'),
                     ];
-                    $defaultImg = $placeholders[$category->nama_kategori] ?? 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=800';
+                    $defaultImg = $placeholders[$index] ?? asset('images/bunga.jpeg');
                 @endphp
                 <div class="{{ $span }} group relative rounded-3xl overflow-hidden bg-[#efefd9] min-h-[250px]">
                     <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 

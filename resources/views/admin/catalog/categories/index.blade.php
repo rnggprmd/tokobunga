@@ -31,10 +31,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($categories as $cat)
         <div class="glass-card rounded-2xl p-6 stat-card">
-            <div class="flex items-start justify-between mb-4">
-                <div class="w-12 h-12 bg-accent-gold/10 rounded-xl flex items-center justify-center">
-                    <span class="material-symbols-outlined text-accent-gold text-2xl">category</span>
-                </div>
+            <div class="flex items-start justify-end mb-4">
                 <div class="flex gap-1">
                     <button onclick="document.getElementById('cat-modal-{{ $cat->id }}').classList.toggle('hidden')" class="p-1.5 hover:bg-admin-bg rounded-lg transition-colors">
                         <span class="material-symbols-outlined text-lg text-text-muted hover:text-accent-gold">edit</span>

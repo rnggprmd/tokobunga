@@ -16,6 +16,7 @@ Route::get('/product/{product}', [ProductController::class, 'show'])->name('prod
 Route::get('/custom-service', [HomeController::class, 'customOrder'])->name('custom.create');
 Route::post('/custom-service', [HomeController::class, 'storeCustomOrder'])->name('custom.store');
 Route::get('/track-order', [HomeController::class, 'trackOrder'])->name('orders.track');
+Route::get('/track-order/{order_id}/location', [HomeController::class, 'getCourierLocation'])->name('orders.kurir-location');
 
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

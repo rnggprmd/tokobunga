@@ -17,25 +17,25 @@ class ProductReviewController extends Controller
             'comment' => 'required|string|max:500',
         ]);
 
-        // Check if user has a completed order with this product
-        $hasPurchased = Order::where('user_id', Auth::id())
+        // Check the number of completed orders with this product
+        $purchaseCount = Order::where('user_id', Auth::id())
             ->where('status', 'completed')
             ->whereHas('items', function ($query) use ($request) {
                 $query->where('product_id', $request->product_id);
             })
-            ->exists();
+            ->count();
 
-        if (!$hasPurchased) {
+        if ($purchaseCount === 0) {
             return back()->with('error', 'Anda hanya dapat memberikan ulasan untuk produk yang telah Anda beli dan selesaikan.');
         }
 
-        // Check if already reviewed
-        $alreadyReviewed = ProductReview::where('user_id', Auth::id())
+        // Check the number of reviews already given
+        $reviewCount = ProductReview::where('user_id', Auth::id())
             ->where('product_id', $request->product_id)
-            ->exists();
+            ->count();
 
-        if ($alreadyReviewed) {
-            return back()->with('error', 'Anda sudah memberikan ulasan untuk produk ini.');
+        if ($reviewCount >= $purchaseCount) {
+            return back()->with('error', 'Kuota ulasan habis! Semua pesanan Anda yang telah selesai untuk produk ini sudah Anda berikan ulasan.');
         }
 
         ProductReview::create([

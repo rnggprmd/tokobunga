@@ -146,11 +146,17 @@
                             {{ $order->pengiriman ? ucfirst($order->pengiriman->status_pengiriman) : 'Menyiapkan' }}
                         </p>
                     </div>
-                    <div class="p-6 border-b border-secondary/15">
-                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-secondary/30 mb-2">Kurir</p>
+                    <div class="px-6 py-8 border-b border-secondary/15">
+                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-secondary/30 mb-2">Petugas Kurir</p>
                         <p class="font-headline text-xl text-secondary">
-                            {{ $order->pengiriman->kurir ?? '—' }}
+                            {{ $order->pengiriman->assignedKurir->name ?? ($order->pengiriman->kurir ?? '—') }}
                         </p>
+                        @php
+                            $kurirPhone = $order->pengiriman->assignedKurir->no_hp ?? ($order->pengiriman->no_hp_kurir ?? null);
+                        @endphp
+                        @if($kurirPhone)
+                            <p class="text-[11px] text-primary font-bold mt-1">{{ $kurirPhone }}</p>
+                        @endif
                     </div>
                     <div class="p-6 border-b border-l border-secondary/15">
                         <p class="text-[9px] font-black uppercase tracking-[0.25em] text-secondary/30 mb-2">No. Resi</p>
@@ -171,6 +177,107 @@
                         </p>
                     </div>
                 </div>
+
+                {{-- === LIVE TRACKING MAP === --}}
+                @if($order->pengiriman && $order->pengiriman->assignedKurir && $order->pengiriman->status_pengiriman === 'dikirim')
+                <div class="mt-12 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30">Live Tracking Kurir</p>
+                        <div id="tracking-status-container" class="flex items-center gap-2 transition-opacity duration-300">
+                            <span class="flex h-2 w-2 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            <span id="tracking-status-text" class="text-[9px] font-black uppercase tracking-widest text-emerald-600">Pelacakan Aktif</span>
+                        </div>
+                    </div>
+                    <div id="map" class="w-full h-[350px] border border-secondary/15 relative z-0">
+                        {{-- Placeholder loading --}}
+                        <div id="map-loader" class="absolute inset-0 bg-secondary/[0.02] flex items-center justify-center z-[1000]">
+                            <p class="text-[10px] font-black uppercase tracking-widest text-secondary/20 animate-pulse">Memuat Peta Botani...</p>
+                        </div>
+                    </div>
+                    <p id="last-update-text" class="text-[9px] text-secondary/40 text-right uppercase tracking-[0.2em]">—</p>
+                </div>
+
+                @push('scripts')
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const mapElement = document.getElementById('map');
+                        if (!mapElement) return;
+
+                        // Solo coordinates as fallback
+                        let courierLat = -7.5666;
+                        let courierLng = 110.8167;
+                        
+                        // Initialize Map
+                        const map = L.map('map', {
+                            scrollWheelZoom: false,
+                            zoomControl: false
+                        }).setView([courierLat, courierLng], 15);
+
+                        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+                        // Leaflet Grayscale Filter (Custom Style)
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '© OpenStreetMap contributors'
+                        }).addTo(map);
+
+                        // Custom Marker Icon
+                        const kurirIcon = L.icon({
+                            iconUrl: 'https://cdn-icons-png.flaticon.com/512/3063/3063822.png',
+                            iconSize: [40, 40],
+                            iconAnchor: [20, 40],
+                            popupAnchor: [0, -40]
+                        });
+
+                        let marker = L.marker([courierLat, courierLng], { icon: kurirIcon }).addTo(map)
+                                      .bindPopup('<p class="text-[10px] font-bold uppercase tracking-widest text-secondary">Posisi Kurir</p>')
+                                      .openPopup();
+
+                        // Polling Location
+                        const orderId = "{{ $order->id }}";
+                        const customerEmail = "{{ request('email') }}";
+                        const statusContainer = document.getElementById('tracking-status-container');
+                        const statusText = document.getElementById('tracking-status-text');
+                        const lastUpdateText = document.getElementById('last-update-text');
+                        const loader = document.getElementById('map-loader');
+
+                        function updateLocation() {
+                            fetch(`{{ route('orders.kurir-location', $order->id) }}?email=${customerEmail}`)
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (loader) loader.classList.add('hidden');
+                                    
+                                    if (data.latitude && data.longitude) {
+                                        const newPos = [data.latitude, data.longitude];
+                                        marker.setLatLng(newPos);
+                                        map.panTo(newPos);
+                                        
+                                        statusContainer.classList.remove('opacity-30');
+                                        statusText.textContent = 'Pelacakan Aktif';
+                                        lastUpdateText.textContent = `Pembaruan Terakhir: ${data.last_update}`;
+                                    } else {
+                                        statusContainer.classList.add('opacity-30');
+                                        statusText.textContent = 'Kurir Belum Mengaktifkan GPS';
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error('Tracking Error:', err);
+                                    statusContainer.classList.add('opacity-30');
+                                    statusText.textContent = 'Kendala Koneksi';
+                                });
+                        }
+
+                        // Initial call and then every 20 seconds
+                        updateLocation();
+                        setInterval(updateLocation, 20000);
+                    });
+                </script>
+                @endpush
+                @endif
             </div>
             @endif
 

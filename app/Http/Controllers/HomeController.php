@@ -31,7 +31,7 @@ class HomeController extends Controller
         if ($request->filled('order_id') && $request->filled('email')) {
             $id = preg_replace('/[^0-9]/', '', $request->order_id);
             
-            $order = \App\Models\Order::with(['pembayaran', 'pengiriman'])
+            $order = \App\Models\Order::with(['pembayaran', 'pengiriman.assignedKurir'])
                         ->where('id', $id)
                         ->where('customer_email', $request->email)
                         ->first();
@@ -62,5 +62,26 @@ class HomeController extends Controller
         ]);
 
         return back()->with('success', 'Permintaan kustom Anda telah terkirim! Tim kami akan segera menghubungi Anda via WhatsApp.');
+    }
+
+    public function getCourierLocation(Request $request, $order_id)
+    {
+        $id = preg_replace('/[^0-9]/', '', $order_id);
+        $order = \App\Models\Order::with('pengiriman.assignedKurir')
+                    ->where('id', $id)
+                    ->where('customer_email', $request->email)
+                    ->first();
+
+        if ($order && $order->pengiriman && $order->pengiriman->assignedKurir) {
+            $kurir = $order->pengiriman->assignedKurir;
+            return response()->json([
+                'latitude' => $kurir->latitude,
+                'longitude' => $kurir->longitude,
+                'status' => $order->pengiriman->status_pengiriman,
+                'last_update' => $kurir->updated_at->diffForHumans()
+            ]);
+        }
+
+        return response()->json(['error' => 'Data tidak ditemukan'], 404);
     }
 }

@@ -36,7 +36,8 @@ class ShippingController extends Controller
         }
 
         $pengiriman = $query->latest()->paginate(10);
-        return view('admin.sales.shipping.index', compact('pengiriman'));
+        $kurirs = \App\Models\User::where('role', 'kurir')->get();
+        return view('admin.sales.shipping.index', compact('pengiriman', 'kurirs'));
     }
 
     public function updateStatus(Request $request, Pengiriman $pengiriman)
@@ -44,16 +45,19 @@ class ShippingController extends Controller
         $request->validate([
             'status_pengiriman' => 'required|in:pending,dikirim,sampai,dibatalkan',
             'kurir' => 'nullable|string',
+            'kurir_id' => 'nullable|exists:users,id',
             'no_resi' => 'nullable|string',
             'tanggal_kirim' => 'nullable|date',
             'tanggal_terima' => 'nullable|date',
         ]);
 
-        $data = $request->only(['status_pengiriman', 'kurir', 'no_resi', 'tanggal_kirim', 'tanggal_terima']);
+        $data = $request->only(['status_pengiriman', 'kurir', 'kurir_id', 'no_resi', 'tanggal_kirim', 'tanggal_terima']);
 
         // Auto-fill dates if not provided
         if ($data['status_pengiriman'] === 'dikirim' && empty($data['tanggal_kirim'])) {
             $data['tanggal_kirim'] = now()->toDateString();
+            // Sync Order Status
+            $pengiriman->order->update(['status' => 'shipped']);
         }
 
         if ($data['status_pengiriman'] === 'sampai') {

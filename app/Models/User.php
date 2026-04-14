@@ -15,7 +15,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'alamat', 'no_hp',
+        'name', 'email', 'password', 'role', 'alamat', 'latitude', 'longitude', 'no_hp',
     ];
 
     protected $hidden = [
@@ -38,6 +38,11 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function isKurir(): bool
+    {
+        return $this->role === 'kurir';
     }
 
     public function orders(): HasMany

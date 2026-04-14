@@ -62,6 +62,11 @@
                         </td>
                         <td class="px-6 py-4 text-text-muted text-xs whitespace-nowrap">{{ $p->tanggal_kirim ?? '-' }}</td>
                         <td class="px-6 py-4">
+                            <div class="text-[10px] font-bold text-text-muted uppercase tracking-widest leading-tight">
+                                {{ $p->assignedKurir->name ?? 'Belum Ditugaskan' }}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
                             <button onclick="document.getElementById('ship-modal-{{ $p->id }}').classList.toggle('hidden')" class="p-1.5 hover:bg-admin-bg rounded-lg transition-colors">
                                 <span class="material-symbols-outlined text-lg text-text-muted hover:text-accent-gold">edit</span>
                             </button>
@@ -80,49 +85,63 @@
         @endif
     </div>
 
+@push('modals')
     @foreach($pengiriman as $p)
-    <div id="ship-modal-{{ $p->id }}" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center" onclick="if(event.target===this)this.classList.add('hidden')">
-        <div class="bg-admin-card border border-admin-border rounded-2xl p-6 w-[450px]">
-            <h4 class="font-semibold mb-4 text-text-primary">Update Pengiriman #{{ $p->id }}</h4>
+    <div id="ship-modal-{{ $p->id }}" class="hidden fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 backdrop-blur-sm" onclick="if(event.target===this)this.classList.add('hidden')">
+        <div class="bg-white rounded-3xl p-8 w-full max-w-lg shadow-2xl relative animate-fade-in text-left">
+            <h4 class="text-xl font-bold text-text-primary mb-6">Update Pengiriman #{{ $p->id }}</h4>
             <form method="POST" action="{{ route('admin.shipping.updateStatus', $p) }}">
                 @csrf @method('PATCH')
-                <div class="space-y-3">
+                <div class="space-y-4">
                     <div>
-                        <label class="text-xs text-text-muted">Status</label>
-                        <select name="status_pengiriman" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm text-text-primary focus:border-accent-emerald outline-none">
+                        <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">Tugaskan Kurir (User)</label>
+                        <select name="kurir_id" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none">
+                            <option value="">-- Pilih User Kurir --</option>
+                            @foreach($kurirs as $k)
+                                <option value="{{ $k->id }}" {{ $p->kurir_id == $k->id ? 'selected' : '' }}>{{ $k->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">Status Pengiriman</label>
+                        <select name="status_pengiriman" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none">
                             @foreach(['pending','dikirim','sampai','dibatalkan'] as $s)
                                 <option value="{{ $s }}" {{ $p->status_pengiriman == $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
+
+                    <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="text-xs text-text-muted">Kurir</label>
-                            <input type="text" name="kurir" value="{{ $p->kurir }}" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm text-text-primary focus:border-accent-emerald outline-none">
+                            <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">Layanan (Kurir)</label>
+                            <input type="text" name="kurir" value="{{ $p->kurir }}" placeholder="e.g. JNE, Sicepat" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none font-medium">
                         </div>
                         <div>
-                            <label class="text-xs text-text-muted">No Resi</label>
-                            <input type="text" name="no_resi" value="{{ $p->no_resi }}" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm text-text-primary focus:border-accent-emerald outline-none">
+                            <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">No Resi</label>
+                            <input type="text" name="no_resi" value="{{ $p->no_resi }}" placeholder="Masukkan resi" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none font-medium">
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
+
+                    <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="text-xs text-text-muted">Tgl Kirim</label>
-                            <input type="date" name="tanggal_kirim" value="{{ $p->tanggal_kirim }}" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm text-text-primary focus:border-accent-emerald outline-none">
+                            <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">Tgl Kirim</label>
+                            <input type="date" name="tanggal_kirim" value="{{ $p->tanggal_kirim }}" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none">
                         </div>
                         <div>
-                            <label class="text-xs text-text-muted">Tgl Terima</label>
-                            <input type="date" name="tanggal_terima" value="{{ $p->tanggal_terima }}" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm text-text-primary focus:border-accent-emerald outline-none">
+                            <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">Tgl Terima</label>
+                            <input type="date" name="tanggal_terima" value="{{ $p->tanggal_terima }}" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none">
                         </div>
                     </div>
                 </div>
-                <div class="flex gap-2 mt-4">
-                    <button type="submit" class="flex-1 bg-accent-emerald text-admin-bg py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity">Simpan</button>
-                    <button type="button" onclick="this.closest('[id^=ship-modal]').classList.add('hidden')" class="flex-1 bg-admin-bg border border-admin-border py-2.5 rounded-xl text-sm text-text-primary hover:bg-admin-card-hover transition-colors">Batal</button>
+                <div class="flex gap-3 mt-8">
+                    <button type="submit" class="flex-1 bg-accent-emerald text-white py-4 rounded-xl text-sm font-bold shadow-lg shadow-accent-emerald/20 hover:opacity-90 transition-all">Simpan Perubahan</button>
+                    <button type="button" onclick="this.closest('[id^=ship-modal]').classList.add('hidden')" class="px-6 py-4 bg-admin-bg border border-admin-border rounded-xl text-sm font-medium hover:bg-admin-card-hover transition-colors">Batal</button>
                 </div>
             </form>
         </div>
     </div>
     @endforeach
+@endpush
 </div>
 @endsection

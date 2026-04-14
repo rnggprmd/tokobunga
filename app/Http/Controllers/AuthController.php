@@ -36,10 +36,12 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            // Always redirect admin to admin panel instead of intended because
-            // intended could be a public dashboard if we had one.
             if ($request->user()->isAdmin()) {
                 return redirect()->route('admin.dashboard');
+            }
+
+            if ($request->user()->isKurir()) {
+                return redirect()->route('kurir.dashboard');
             }
 
             return redirect()->intended('/');

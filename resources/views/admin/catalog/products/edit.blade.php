@@ -78,3 +78,26 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        const file = event.target.files[0];
+        const preview = document.getElementById('image-preview');
+        const placeholder = document.getElementById('preview-placeholder');
+
+        reader.onload = function() {
+            if (preview) {
+                preview.src = reader.result;
+                preview.classList.remove('hidden');
+                if (placeholder) placeholder.classList.add('hidden');
+            }
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+@endpush

@@ -4,13 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin Panel — Mbah Bibit</title>
+    <title>Panel Kurir — Mbah Bibit</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 
     <script>
         tailwind.config = {
@@ -50,7 +49,6 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #FAFAE3; }
         ::-webkit-scrollbar-thumb { background: #A5A68F; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #8E8F7A; }
 
         .sidebar-link {
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -69,32 +67,19 @@
         }
         .sidebar-link.active .material-symbols-outlined {
             color: #FAFAE3 !important;
-        }
-        .sidebar-link.active .material-symbols-outlined {
             font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             border: 1px solid #D9D9C3;
             box-shadow: 0 4px 20px rgba(165, 166, 143, 0.1);
         }
-
-        .stat-card { transition: all 0.3s ease; }
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        }
-
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in { animation: fadeInUp 0.5s ease forwards; }
-        .animate-fade-in-delay-1 { animation: fadeInUp 0.5s ease 0.1s forwards; opacity: 0; }
-        .animate-fade-in-delay-2 { animation: fadeInUp 0.5s ease 0.2s forwards; opacity: 0; }
-        .animate-fade-in-delay-3 { animation: fadeInUp 0.5s ease 0.3s forwards; opacity: 0; }
     </style>
 </head>
 <body class="bg-admin-bg text-text-primary min-h-screen overflow-x-hidden">
@@ -106,81 +91,31 @@
         <aside class="w-72 bg-admin-surface border-r border-admin-border flex flex-col fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar">
             {{-- Logo --}}
             <div class="px-6 py-8 border-b border-admin-border/30">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center justify-center">
+                <a href="{{ route('kurir.dashboard') }}" class="flex items-center justify-center">
                     <img src="{{ asset('images/logo.png') }}" alt="Mbah Bibit Logo" class="h-20 w-auto object-contain filter brightness-0 invert opacity-90">
                 </a>
             </div>
 
             {{-- Navigation --}}
             <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-                <a href="{{ route('admin.dashboard') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('kurir.dashboard') }}"
+                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('kurir.dashboard') ? 'active' : '' }}">
                     <span class="material-symbols-outlined text-xl">dashboard</span>
                     Dashboard
                 </a>
 
                 <div class="pt-4 pb-2 px-4">
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-semibold">Manajemen Operasional</p>
+                    <p class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-semibold">Pengiriman</p>
                 </div>
-                <a href="{{ route('admin.orders.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">shopping_cart</span>
-                    Order / Pesanan
-                </a>
-                <a href="{{ route('admin.payments.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">payments</span>
-                    Pembayaran
-                </a>
-                <a href="{{ route('admin.shipping.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.shipping.*') ? 'active' : '' }}">
+                <a href="{{ route('kurir.pengiriman.index') }}"
+                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('kurir.pengiriman.index') ? 'active' : '' }}">
                     <span class="material-symbols-outlined text-xl">local_shipping</span>
-                    Pengiriman
+                    Tugas Pengiriman
                 </a>
-
-                <a href="{{ route('admin.custom-requests.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.custom-requests.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">edit_note</span>
-                    Custom Request
-                </a>
-
-                <div class="pt-4 pb-2 px-4">
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-semibold">Manajemen Produk</p>
-                </div>
-                <a href="{{ route('admin.products.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">local_florist</span>
-                    Products
-                </a>
-
-                <a href="{{ route('admin.categories.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">category</span>
-                    Categories
-                </a>
-
-                <a href="{{ route('admin.reviews.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">rate_review</span>
-                    Ulasan Produk
-                </a>
-
-                <div class="pt-4 pb-2 px-4">
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-semibold">Manajemen Users</p>
-                </div>
-                <a href="{{ route('admin.users.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">group</span>
-                    Users
-                </a>
-
-                <div class="pt-4 pb-2 px-4">
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-semibold">Statistik</p>
-                </div>
-                <a href="{{ route('admin.reports.index') }}"
-                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined text-xl">analytics</span>
-                    Laporan
+                <a href="{{ route('kurir.pengiriman.history') }}"
+                   class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm {{ request()->routeIs('kurir.pengiriman.history') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined text-xl">history</span>
+                    Riwayat Pengiriman
                 </a>
             </nav>
 
@@ -192,7 +127,7 @@
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium truncate text-white">{{ auth()->user()->name }}</p>
-                        <p class="text-[10px] text-white/60 truncate">{{ auth()->user()->email }}</p>
+                        <p class="text-[10px] text-white/60 truncate">Kurir</p>
                     </div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -214,8 +149,8 @@
                             <span class="material-symbols-outlined text-2xl">menu</span>
                         </button>
                         <div>
-                            <h2 class="text-lg lg:text-xl font-semibold">@yield('title', 'Dashboard')</h2>
-                            <p class="text-[10px] lg:text-xs text-text-muted mt-0.5">@yield('subtitle', 'Selamat datang')</p>
+                            <h2 class="text-lg lg:text-xl font-semibold">@yield('title', 'Dashboard Kurir')</h2>
+                            <p class="text-[10px] lg:text-xs text-text-muted mt-0.5">@yield('subtitle', 'Panel Kurir Mbah Bibit')</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 lg:gap-4 shrink-0">
@@ -223,10 +158,6 @@
                             <p class="text-[10px] text-text-muted" id="live-date"></p>
                             <p class="text-xs lg:text-sm font-mono text-accent-emerald" id="live-clock"></p>
                         </div>
-                        <a href="{{ url('/') }}" class="flex items-center gap-2 px-3 lg:px-4 py-2 rounded-lg bg-white hover:bg-admin-bg border border-admin-border text-xs lg:text-sm text-text-secondary hover:text-text-primary transition-all shadow-sm">
-                            <span class="material-symbols-outlined text-lg">storefront</span>
-                            <span class="hidden md:inline">Lihat Toko</span>
-                        </a>
                     </div>
                 </div>
             </header>
@@ -237,13 +168,6 @@
                     <span class="material-symbols-outlined text-lg">check_circle</span>
                     {{ session('success') }}
                     <button onclick="document.getElementById('flash-success').remove()" class="ml-auto"><span class="material-symbols-outlined text-lg">close</span></button>
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="mx-8 mt-4 px-4 py-3 bg-red-900/30 border border-red-500/20 rounded-xl text-red-400 text-sm flex items-center gap-2" id="flash-error">
-                    <span class="material-symbols-outlined text-lg">error</span>
-                    {{ session('error') }}
-                    <button onclick="document.getElementById('flash-error').remove()" class="ml-auto"><span class="material-symbols-outlined text-lg">close</span></button>
                 </div>
             @endif
 
@@ -264,38 +188,58 @@
         updateClock();
         setInterval(updateClock, 1000);
 
-        // Auto-hide flash messages
         setTimeout(() => {
-            const flash = document.getElementById('flash-success') || document.getElementById('flash-error');
-            if (flash) flash.style.opacity = '0';
-            setTimeout(() => { if (flash) flash.remove(); }, 500);
+            const flash = document.getElementById('flash-success');
+            if (flash) { flash.style.opacity = '0'; setTimeout(() => flash.remove(), 500); }
         }, 4000);
 
-        // Sidebar Toggle
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
             const isOpen = !sidebar.classList.contains('-translate-x-full');
-
             if (isOpen) {
                 sidebar.classList.add('-translate-x-full');
                 overlay.classList.add('hidden');
-                overlay.classList.remove('opacity-100');
-                overlay.classList.add('opacity-0');
                 document.body.style.overflow = '';
             } else {
                 sidebar.classList.remove('-translate-x-full');
                 overlay.classList.remove('hidden');
-                setTimeout(() => {
-                    overlay.classList.remove('opacity-0');
-                    overlay.classList.add('opacity-100');
-                }, 10);
+                setTimeout(() => { overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100'); }, 10);
                 document.body.style.overflow = 'hidden';
             }
         }
-    </script>
 
-    @stack('modals')
+        // Live Location Tracking for Courier
+        if ("geolocation" in navigator) {
+            let lastUpdate = 0;
+            const updateInterval = 20000; // Update every 20 seconds
+
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    const now = Date.now();
+                    if (now - lastUpdate < updateInterval) return;
+                    
+                    lastUpdate = now;
+                    const { latitude, longitude } = position.coords;
+
+                    fetch("{{ route('kurir.location.update') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({ latitude, longitude })
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log('Location updated:', data))
+                    .catch(err => console.error('Location update failed:', err));
+                },
+                (error) => console.warn('Geolocation error:', error.message),
+                { enableHighAccuracy: true, maximumAge: 30000, timeout: 27000 }
+            );
+        }
+    </script>
     @stack('scripts')
 </body>
 </html>

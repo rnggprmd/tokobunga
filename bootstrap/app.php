@@ -15,11 +15,17 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
+
+            Route::middleware('web')
+                ->prefix('kurir')
+                ->name('kurir.')
+                ->group(base_path('routes/kurir.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'kurir' => \App\Http\Middleware\KurirMiddleware::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [
@@ -29,7 +35,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectTo(
             guests: '/login',
             users: function (Illuminate\Http\Request $request) {
-                return $request->user()->isAdmin() ? route('admin.dashboard') : '/';
+                if ($request->user()->isAdmin()) return route('admin.dashboard');
+                if ($request->user()->isKurir()) return route('kurir.dashboard');
+                return '/';
             }
         );
     })

@@ -13,7 +13,7 @@ class ProfileController extends Controller
         $categories = Category::all();
         
         $user = auth()->user()->load(['orders' => function($q) {
-            $q->latest()->with(['pembayaran', 'pengiriman', 'items.product']);
+            $q->latest()->with(['pembayaran', 'pengiriman.assignedKurir', 'items.product']);
         }]);
 
         return view('profile.index', compact('categories', 'user'));

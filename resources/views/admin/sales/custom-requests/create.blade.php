@@ -51,11 +51,7 @@
                             class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm focus:border-accent-emerald outline-none">
                     </div>
 
-                    <div>
-                        <label class="text-xs text-text-muted mb-1 block">Harga Estimasi (Rp)</label>
-                        <input type="number" name="harga_estimasi" value="0"
-                            class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm focus:border-accent-emerald outline-none font-mono">
-                    </div>
+
 
                     <div>
                         <label class="text-xs text-text-muted mb-1 block">Keterangan / Detail Request</label>
@@ -63,11 +59,7 @@
                             class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2.5 text-sm focus:border-accent-emerald outline-none"></textarea>
                     </div>
 
-                    <div>
-                        <label class="text-xs text-text-muted mb-1 block">Foto Referensi</label>
-                        <input type="file" name="foto_referensi"
-                            class="w-full text-xs text-text-muted file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-accent-emerald/10 file:text-accent-emerald hover:file:bg-accent-emerald/20">
-                    </div>
+
                 </div>
             </div>
 

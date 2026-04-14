@@ -109,8 +109,9 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        $order->load(['user', 'items.product', 'pembayaran', 'pengiriman']);
-        return view('admin.sales.orders.show', compact('order'));
+        $order->load(['user', 'items.product', 'pembayaran', 'pengiriman.assignedKurir']);
+        $kurirs = User::where('role', 'kurir')->get();
+        return view('admin.sales.orders.show', compact('order', 'kurirs'));
     }
 
     public function edit(Order $order)
@@ -175,13 +176,14 @@ class OrderController extends Controller
     {
         $request->validate([
             'kurir' => 'required|string',
+            'kurir_id' => 'nullable|exists:users,id',
             'no_resi' => 'nullable|string',
             'no_hp_kurir' => 'nullable|string|max:20',
             'status_pengiriman' => 'required|in:pending,dikirim,sampai,dibatalkan',
             'tanggal_kirim' => 'nullable|date',
         ]);
 
-        $data = $request->only(['kurir', 'no_resi', 'no_hp_kurir', 'status_pengiriman', 'tanggal_kirim']);
+        $data = $request->only(['kurir', 'kurir_id', 'no_resi', 'no_hp_kurir', 'status_pengiriman', 'tanggal_kirim']);
         $data['order_id'] = $order->id;
         $data['nama_penerima'] = $order->customer_name;
         $data['alamat_pengiriman'] = $order->alamat_pengiriman;

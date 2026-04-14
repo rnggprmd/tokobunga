@@ -79,7 +79,8 @@
 
                 @if($order->pengiriman)
                 <div class="space-y-2 text-sm">
-                    <div class="flex justify-between"><span class="text-text-muted">Kurir</span><span>{{ $order->pengiriman->kurir ?? '-' }}</span></div>
+                    <div class="flex justify-between"><span class="text-text-muted">Layanan</span><span>{{ $order->pengiriman->kurir ?? '-' }}</span></div>
+                    <div class="flex justify-between"><span class="text-text-muted">Petugas (Kurir)</span><span class="font-bold text-accent-emerald">{{ $order->pengiriman->assignedKurir->name ?? 'Belum Ditugaskan' }}</span></div>
                     <div class="flex justify-between"><span class="text-text-muted">Resi</span><span class="font-mono">{{ $order->pengiriman->no_resi ?? '-' }}</span></div>
                     <div class="flex justify-between"><span class="text-text-muted">Status</span><span>{{ ucfirst($order->pengiriman->status_pengiriman) }}</span></div>
                     @if($order->pengiriman->no_hp_kurir)
@@ -139,22 +140,33 @@
             
             <form method="POST" action="{{ route('admin.orders.shipping.store', $order) }}">
                 @csrf
-                <div class="space-y-4">
+                <div class="space-y-4 text-left">
                     <div>
-                        <label class="text-xs text-text-muted mb-1 block">Kurir / Ekspedisi</label>
-                        <input type="text" name="kurir" placeholder="Contoh: JNE, J&T, Kurir Toko" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2 text-sm" required>
+                        <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">Tugaskan Kurir (User Toko)</label>
+                        <select name="kurir_id" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none">
+                            <option value="">-- Pilih Akun Kurir --</option>
+                            @foreach($kurirs as $k)
+                                <option value="{{ $k->id }}">{{ $k->name }}</option>
+                            @endforeach
+                        </select>
+                        <p class="text-[9px] text-text-muted mt-1 italic">* Pilih jika ingin pesanan muncul di Kurir Panel</p>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">Layanan / Ekspedisi</label>
+                        <input type="text" name="kurir" value="Kurir Toko" placeholder="Contoh: JNE, J&T, Kurir Toko" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm font-medium focus:border-accent-emerald outline-none" required>
                     </div>
                     <div>
-                        <label class="text-xs text-text-muted mb-1 block">No Resi (Opsional)</label>
-                        <input type="text" name="no_resi" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2 text-sm font-mono">
+                        <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">No Resi (Opsional)</label>
+                        <input type="text" name="no_resi" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm font-mono focus:border-accent-emerald outline-none">
                     </div>
                     <div>
-                        <label class="text-xs text-text-muted mb-1 block">No. HP Kurir (Opsional)</label>
-                        <input type="text" name="no_hp_kurir" placeholder="Bisa nomor WA kurir" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2 text-sm">
+                        <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">No. HP Kurir (Opsional)</label>
+                        <input type="text" name="no_hp_kurir" placeholder="Bisa nomor WA kurir" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none font-medium">
                     </div>
                     <div>
-                        <label class="text-xs text-text-muted mb-1 block">Status Pengiriman</label>
-                        <select name="status_pengiriman" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-2 text-sm">
+                        <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">Status Pengiriman</label>
+                        <select name="status_pengiriman" class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none">
                             <option value="pending">Pending</option>
                             <option value="dikirim">Dikirim (In Transit)</option>
                             <option value="sampai">Sampai (Delivered)</option>

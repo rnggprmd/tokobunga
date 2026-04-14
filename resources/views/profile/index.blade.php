@@ -228,20 +228,25 @@
                                 </a>
                             @endif
 
-                            @if($shipStatus === 'dikirim')
-                                @if($order->pengiriman->no_hp_kurir)
-                                    <div class="mt-2 py-2 px-3 border border-secondary/10 bg-secondary/[0.02] flex items-center justify-between">
-                                        <span class="text-[8px] font-black uppercase text-secondary/30 tracking-widest">HP Kurir</span>
-                                        <span class="text-[10px] font-bold text-secondary">{{ $order->pengiriman->no_hp_kurir }}</span>
+                            @if($order->pengiriman)
+                                <div class="mt-2 py-3 px-3 border border-secondary/10 bg-secondary/[0.02] space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[8px] font-black uppercase text-secondary/30 tracking-widest">Kurir</span>
+                                        <span class="text-[10px] font-bold text-secondary">{{ $order->pengiriman->assignedKurir->name ?? ($order->pengiriman->kurir ?? '-') }}</span>
                                     </div>
-                                @endif
-                                <form action="{{ route('profile.confirm-receipt', $order->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="w-full bg-emerald-700 text-[#FAFAE3] py-3 text-[9px] font-black uppercase tracking-widest hover:bg-emerald-800 transition-colors mt-2" onclick="return confirm('Konfirmasi bahwa pesanan telah Anda terima dengan baik?')">
-                                        Pesanan Diterima
-                                    </button>
-                                </form>
+                                    @php
+                                        $kurirPhone = $order->pengiriman->assignedKurir->no_hp ?? ($order->pengiriman->no_hp_kurir ?? null);
+                                    @endphp
+                                    @if($kurirPhone)
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[8px] font-black uppercase text-secondary/30 tracking-widest">Kontak</span>
+                                        <span class="text-[10px] font-bold text-primary">{{ $kurirPhone }}</span>
+                                    </div>
+                                    @endif
+                                </div>
                             @endif
+
+                                {{-- Order Receipt Confirmation removed --}}
                         </div>
                     </div>
                     @endforeach

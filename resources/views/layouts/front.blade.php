@@ -143,58 +143,60 @@
         </div>
 
         {{-- Mobile Drawer --}}
-        <div x-show="mobileMenuOpen" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="-translate-x-full"
-             x-transition:enter-end="translate-x-0"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="translate-x-0"
-             x-transition:leave-end="-translate-x-full"
-             class="fixed inset-0 z-[100] md:hidden"
-             style="display: none;">
-            
-            <div @click="mobileMenuOpen = false" class="absolute inset-0 bg-secondary/20 backdrop-blur-sm"></div>
-            
-            <div class="absolute left-0 top-0 bottom-0 w-80 bg-background border-r border-primary/20 p-8 space-y-12">
-                <div class="flex justify-between items-center">
-                    <img src="{{ asset('images/logo.png') }}" alt="Toko Bunga Mbah Bibit" class="h-12 w-auto object-contain">
-                    <button @click="mobileMenuOpen = false" class="text-secondary">
-                        <span class="material-symbols-outlined">close</span>
-                    </button>
-                </div>
+        <template x-teleport="body">
+            <div x-show="mobileMenuOpen" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="-translate-x-full"
+                 x-transition:enter-end="translate-x-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="translate-x-0"
+                 x-transition:leave-end="-translate-x-full"
+                 class="fixed inset-0 z-[999] md:hidden"
+                 style="display: none;">
+                
+                <div @click="mobileMenuOpen = false" class="absolute inset-0 bg-on-background/10 backdrop-blur-sm transition-opacity duration-300"></div>
+                
+                <div class="absolute left-0 top-0 bottom-0 w-80 bg-[#FAFAE3] border-r border-primary/20 p-8 space-y-12 shadow-2xl z-10 overflow-y-auto">
+                    <div class="flex justify-between items-center">
+                        <img src="{{ asset('images/logo.png') }}" alt="Toko Bunga Mbah Bibit" class="h-12 w-auto object-contain">
+                        <button @click="mobileMenuOpen = false" class="text-secondary hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
 
-                <div class="space-y-6">
-                    <nav class="flex flex-col gap-6">
-                        <a href="{{ route('home') }}" class="text-2xl font-headline text-secondary {{ request()->routeIs('home') ? 'serif-italic text-primary' : '' }}">Beranda</a>
-                        
-                        <div class="space-y-4">
-                            <p class="text-[10px] font-black uppercase tracking-widest text-secondary/40">Koleksi Berdasarkan Kategori</p>
-                            <div class="grid grid-cols-1 gap-4">
-                                @foreach($categories as $navCat)
-                                <a href="{{ route('products.index', ['category' => $navCat->id]) }}" class="text-lg text-secondary/80 hover:text-primary">{{ $navCat->nama_kategori }}</a>
-                                @endforeach
+                    <div class="space-y-6">
+                        <nav class="flex flex-col gap-6">
+                            <a href="{{ route('home') }}" class="text-2xl font-headline text-secondary hover:text-primary transition-colors {{ request()->routeIs('home') ? 'serif-italic text-primary' : '' }}">Beranda</a>
+                            
+                            <div class="space-y-4">
+                                <p class="text-[10px] font-black uppercase tracking-widest text-secondary/40">Koleksi Berdasarkan Kategori</p>
+                                <div class="grid grid-cols-1 gap-4">
+                                    @foreach($categories as $navCat)
+                                    <a href="{{ route('products.index', ['category' => $navCat->id]) }}" class="text-lg text-secondary/80 hover:text-primary transition-colors">{{ $navCat->nama_kategori }}</a>
+                                    @endforeach
+                                </div>
                             </div>
+
+                            <a href="{{ route('products.index') }}" class="text-2xl font-headline text-secondary hover:text-primary transition-colors">Produk</a>
+                            <a href="{{ route('custom.create') }}" class="text-2xl font-headline text-secondary hover:text-primary transition-colors">Custom Order</a>
+                            <a href="{{ route('orders.track') }}" class="text-2xl font-headline text-secondary hover:text-primary transition-colors">Lacak Pesanan</a>
+                        </nav>
+
+                        <div class="pt-12 border-t border-primary/10">
+                            @auth
+                                <a href="{{ route('profile.index') }}" class="block w-full bg-surface border border-primary/20 text-secondary mb-4 py-4 rounded-full font-bold text-center uppercase tracking-widest text-xs hover:bg-white transition-colors">Profil Akun</a>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="w-full bg-secondary text-white py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-secondary/90 transition-colors">Logout</button>
+                                </form>
+                            @else
+                                <a href="{{ route('login') }}" class="block w-full bg-primary text-white py-4 rounded-full font-bold text-center uppercase tracking-widest text-xs hover:bg-primary/90 transition-colors">Masuk Akun</a>
+                            @endauth
                         </div>
-
-                        <a href="{{ route('products.index') }}" class="text-2xl font-headline text-secondary">Produk</a>
-                        <a href="{{ route('custom.create') }}" class="text-2xl font-headline text-secondary">Custom Order</a>
-                        <a href="{{ route('orders.track') }}" class="text-2xl font-headline text-secondary">Lacak Pesanan</a>
-                    </nav>
-
-                    <div class="pt-12 border-t border-primary/10">
-                        @auth
-                            <a href="{{ route('profile.index') }}" class="block w-full bg-surface border border-primary/20 text-secondary mb-4 py-4 rounded-full font-bold text-center uppercase tracking-widest text-xs">Profil Akun</a>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="w-full bg-secondary text-white py-4 rounded-full font-bold uppercase tracking-widest text-xs">Logout</button>
-                            </form>
-                        @else
-                            <a href="{{ route('login') }}" class="block w-full bg-primary text-white py-4 rounded-full font-bold text-center uppercase tracking-widest text-xs">Masuk Akun</a>
-                        @endauth
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </nav>
 
     <main>
@@ -206,7 +208,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-screen-2xl mx-auto">
             <div class="space-y-4">
                 <div class="text-lg font-serif font-semibold">Toko Bunga Mbah Bibit</div>
-                <p class="font-sans text-sm tracking-wide text-secondary/80">Preserving the ritual essence of nature since 1978. Every specimen tells a story of heritage and respect.</p>
+                <p class="font-sans text-sm tracking-wide text-secondary/80">Toko Bunga Mbah Bibit Menghadirkan bunga dan perlengkapan untuk pernikahan dan perpisahan, sebagai bentuk penghormatan dalam setiap perjalanan hidup.</p>
             </div>
             <div class="space-y-4">
                 <h4 class="font-label font-bold uppercase text-[10px] tracking-[0.2em]">Navigation</h4>
