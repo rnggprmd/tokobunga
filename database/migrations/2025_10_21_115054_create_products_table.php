@@ -19,6 +19,7 @@ return new class extends Migration
             $table->json('gallery')->nullable();
             $table->enum('tipe_produk', ['ready', 'custom'])->default('ready');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

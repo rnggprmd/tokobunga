@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\ProductVariant;
 use App\Models\User;
 use App\Models\Pembayaran;
 use App\Models\Pengiriman;
@@ -45,7 +44,7 @@ class OrderController extends Controller
 
     public function create()
     {
-        $products = Product::with('variants')->where('tipe_produk', 'ready')->get();
+        $products = Product::where('tipe_produk', 'ready')->get();
         $users = User::where('role', 'customer')->get();
         return view('admin.sales.orders.create', compact('products', 'users'));
     }

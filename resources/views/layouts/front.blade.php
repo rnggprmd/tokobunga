@@ -58,8 +58,8 @@
                 <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-secondary">
                     <span class="material-symbols-outlined" x-text="mobileMenuOpen ? 'close' : 'menu'">menu</span>
                 </button>
-                <a href="{{ route('home') }}" class="text-2xl font-serif font-bold text-secondary uppercase tracking-widest">
-                    Mbah Bibit
+                <a href="{{ route('home') }}" class="flex items-center">
+                    <img src="{{ asset('images/logo.png') }}" alt="Toko Bunga Mbah Bibit" class="h-14 w-auto object-contain">
                 </a>
             </div>
 
@@ -157,7 +157,7 @@
             
             <div class="absolute left-0 top-0 bottom-0 w-80 bg-background border-r border-primary/20 p-8 space-y-12">
                 <div class="flex justify-between items-center">
-                    <span class="text-xl font-serif font-bold text-secondary uppercase tracking-widest">Mbah Bibit</span>
+                    <img src="{{ asset('images/logo.png') }}" alt="Toko Bunga Mbah Bibit" class="h-12 w-auto object-contain">
                     <button @click="mobileMenuOpen = false" class="text-secondary">
                         <span class="material-symbols-outlined">close</span>
                     </button>

@@ -11,7 +11,7 @@ class OrderItem extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'order_id', 'product_id', 'custom_request_id', 'variant_id', 'jumlah',
+        'order_id', 'product_id', 'custom_request_id', 'jumlah',
         'harga_satuan', 'subtotal', 'harga'
     ];
 

@@ -19,7 +19,9 @@ return new class extends Migration
             $table->enum('status_pengiriman', ['pending', 'dikirim', 'sampai', 'dibatalkan'])->default('pending');
             $table->date('tanggal_kirim')->nullable();
             $table->date('tanggal_terima')->nullable();
+            $table->string('no_hp_kurir', 20)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

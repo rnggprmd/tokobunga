@@ -28,7 +28,6 @@
                         <th class="text-left px-6 py-4">ID</th>
                         <th class="text-left px-6 py-4">Order</th>
                         <th class="text-left px-6 py-4">Produk</th>
-                        <th class="text-left px-6 py-4">Varian</th>
                         <th class="text-left px-6 py-4">Jumlah</th>
                         <th class="text-left px-6 py-4">Harga Satuan</th>
                         <th class="text-left px-6 py-4">Subtotal</th>
@@ -41,7 +40,6 @@
                         <td class="px-6 py-4 font-mono text-text-muted">#{{ $item->id }}</td>
                         <td class="px-6 py-4"><a href="{{ route('admin.orders.show', $item->order_id) }}" class="text-accent-emerald hover:underline">Order #{{ $item->order_id }}</a></td>
                         <td class="px-6 py-4 font-medium">{{ $item->product->nama_produk ?? '-' }}</td>
-                        <td class="px-6 py-4 text-text-muted">{{ $item->variant->size ?? '-' }}</td>
                         <td class="px-6 py-4">{{ $item->jumlah }}</td>
                         <td class="px-6 py-4">Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</td>
                         <td class="px-6 py-4 font-medium text-accent-gold">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
@@ -54,7 +52,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="8" class="text-center py-12 text-text-muted">
+                    <tr><td colspan="7" class="text-center py-12 text-text-muted">
                         <span class="material-symbols-outlined text-4xl block mb-2">receipt_long</span>Belum ada order items
                     </td></tr>
                     @endforelse

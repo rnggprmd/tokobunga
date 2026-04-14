@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('status_pembayaran', ['pending', 'paid', 'failed', 'refund'])->default('pending');
             $table->datetime('tanggal_bayar')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

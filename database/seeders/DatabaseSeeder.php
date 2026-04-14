@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductVariant;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -50,7 +49,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // === BUNGA ===
-        $kantil = Product::updateOrCreate(
+        Product::updateOrCreate(
             ['nama_produk' => 'Bunga Kantil'],
             [
                 'category_id' => $bunga->id,
@@ -60,12 +59,8 @@ class DatabaseSeeder extends Seeder
                 'tipe_produk' => 'ready',
             ]
         );
-        ProductVariant::updateOrCreate(
-            ['product_id' => $kantil->id, 'size' => 'Per Biji'],
-            ['stock' => 500, 'price_adjustment' => 2000]
-        );
 
-        $tabur = Product::updateOrCreate(
+        Product::updateOrCreate(
             ['nama_produk' => 'Bunga Tabur Makam'],
             [
                 'category_id' => $bunga->id,
@@ -75,12 +70,8 @@ class DatabaseSeeder extends Seeder
                 'tipe_produk' => 'ready',
             ]
         );
-        ProductVariant::updateOrCreate(
-            ['product_id' => $tabur->id, 'size' => 'Per Bungkus'],
-            ['stock' => 200, 'price_adjustment' => 5000]
-        );
 
-        $kenanga = Product::updateOrCreate(
+        Product::updateOrCreate(
             ['nama_produk' => 'Bunga Kenanga'],
             [
                 'category_id' => $bunga->id,
@@ -90,13 +81,9 @@ class DatabaseSeeder extends Seeder
                 'tipe_produk' => 'ready',
             ]
         );
-        ProductVariant::updateOrCreate(
-            ['product_id' => $kenanga->id, 'size' => 'Per Kg'],
-            ['stock' => 50, 'price_adjustment' => 35000]
-        );
 
         // === ALAT PERNIKAHAN ===
-        $janur = Product::updateOrCreate(
+        Product::updateOrCreate(
             ['nama_produk' => 'Janur Kuning'],
             [
                 'category_id' => $pernikahan->id,
@@ -106,12 +93,8 @@ class DatabaseSeeder extends Seeder
                 'tipe_produk' => 'ready',
             ]
         );
-        ProductVariant::updateOrCreate(
-            ['product_id' => $janur->id, 'size' => 'Per Set'],
-            ['stock' => 30, 'price_adjustment' => 45000]
-        );
 
-        $sambung = Product::updateOrCreate(
+        Product::updateOrCreate(
             ['nama_produk' => 'Sambung Tuwuh'],
             [
                 'category_id' => $pernikahan->id,
@@ -121,13 +104,9 @@ class DatabaseSeeder extends Seeder
                 'tipe_produk' => 'ready',
             ]
         );
-        ProductVariant::updateOrCreate(
-            ['product_id' => $sambung->id, 'size' => 'Per Pasang'],
-            ['stock' => 10, 'price_adjustment' => 1700000]
-        );
 
         // === ALAT KEMATIAN ===
-        $paketKematian = Product::updateOrCreate(
+        Product::updateOrCreate(
             ['nama_produk' => 'Alat Kematian (Paket)'],
             [
                 'category_id' => $kematian->id,
@@ -137,12 +116,8 @@ class DatabaseSeeder extends Seeder
                 'tipe_produk' => 'ready',
             ]
         );
-        ProductVariant::updateOrCreate(
-            ['product_id' => $paketKematian->id, 'size' => 'Per Paket'],
-            ['stock' => 20, 'price_adjustment' => 400000]
-        );
 
-        $tikar = Product::updateOrCreate(
+        Product::updateOrCreate(
             ['nama_produk' => 'Tikar'],
             [
                 'category_id' => $kematian->id,
@@ -152,12 +127,8 @@ class DatabaseSeeder extends Seeder
                 'tipe_produk' => 'ready',
             ]
         );
-        ProductVariant::updateOrCreate(
-            ['product_id' => $tikar->id, 'size' => 'Per Lembar'],
-            ['stock' => 50, 'price_adjustment' => 60000]
-        );
 
-        $kafan = Product::updateOrCreate(
+        Product::updateOrCreate(
             ['nama_produk' => 'Kain Kafan'],
             [
                 'category_id' => $kematian->id,
@@ -166,10 +137,6 @@ class DatabaseSeeder extends Seeder
                 'stok' => 100,
                 'tipe_produk' => 'ready',
             ]
-        );
-        ProductVariant::updateOrCreate(
-            ['product_id' => $kafan->id, 'size' => 'Per Meter'],
-            ['stock' => 100, 'price_adjustment' => 25000]
         );
     }
 }

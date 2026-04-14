@@ -18,7 +18,10 @@ return new class extends Migration
             $table->string('customer_name')->nullable();
             $table->string('customer_email')->nullable();
             $table->string('customer_phone')->nullable();
+            $table->text('ucapan')->nullable();
+            $table->boolean('is_stock_reduced')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

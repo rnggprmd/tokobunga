@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('foto_request')->nullable();
             $table->text('keterangan')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected', 'in_progress', 'done'])->default('pending');
-            $table->decimal('harga_estimasi', 10, 2)->default(0);
             $table->string('customer_name')->nullable();
             $table->string('customer_email')->nullable();
             $table->string('customer_phone')->nullable();
             $table->text('alamat')->nullable();
             $table->string('product_category')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

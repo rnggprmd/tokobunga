@@ -58,11 +58,6 @@ class Order extends Model
                 if ($item->product_id) {
                     $item->product()->decrement('stok', $item->jumlah);
                 }
-                
-                // If there were variants, we would handle them here too
-                if ($item->variant_id) {
-                    \App\Models\ProductVariant::where('id', $item->variant_id)->decrement('stok', $item->jumlah);
-                }
             }
 
             $this->update(['is_stock_reduced' => true]);
