@@ -1,6 +1,6 @@
 @extends('layouts.front')
 
-@section('title', 'Pembayaran Archiv — Mbah Bibit')
+@section('title', 'Pembayaran Pesanan — Mbah Bibit')
 
 @section('content')
 
@@ -14,8 +14,8 @@
         {{-- Label col --}}
         <div class="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-secondary/20 px-8 py-6 flex items-center">
             <div>
-                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Secure Settlement</p>
-                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Atestasi Archiv</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Pembayaran Aman</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Verifikasi Pesanan</p>
             </div>
         </div>
         {{-- Headline col --}}
@@ -50,7 +50,7 @@
                                 <span class="text-[10px] font-black uppercase tracking-widest text-secondary">Secured by Midtrans</span>
                             </div>
                             <div class="p-6 flex justify-between items-center">
-                                <span class="text-[10px] text-secondary/40 uppercase tracking-widest">Curated At</span>
+                                <span class="text-[10px] text-secondary/40 uppercase tracking-widest">Tanggal Pesanan</span>
                                 <span class="text-[10px] font-black uppercase tracking-widest text-secondary">{{ $order->created_at->format('d M Y') }}</span>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
         <div class="col-span-12 lg:col-span-7 flex flex-col justify-center items-center p-12 md:p-24 space-y-12">
             
             <div class="text-center space-y-6">
-                <p class="text-[10px] font-black uppercase tracking-[0.5em] text-secondary/40">Total Tagihan Archiv</p>
+                <p class="text-[10px] font-black uppercase tracking-[0.5em] text-secondary/40">Total Tagihan</p>
                 <h2 class="font-headline text-[clamp(3.5rem,10vw,6rem)] text-primary leading-none">
                     Rp {{ number_format($order->total_harga, 0, ',', '.') }}
                 </h2>
@@ -94,7 +94,7 @@
             </div>
 
             <div class="absolute bottom-8 right-12 hidden lg:block">
-                 <p class="text-[9px] text-secondary/20 uppercase tracking-[0.4em] transform -rotate-90 origin-right">Mbah Bibit Studio · 1978</p>
+                 <p class="text-[9px] text-secondary/20 uppercase tracking-[0.4em] transform -rotate-90 origin-right">Toko Bunga Mbah Bibit · Est. 1978</p>
             </div>
         </div>
     </div>

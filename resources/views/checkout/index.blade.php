@@ -14,14 +14,14 @@
         {{-- Label col --}}
         <div class="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-secondary/20 px-8 py-6 flex items-center">
             <div>
-                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Checkout Secure</p>
-                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Konfirmasi Archiv</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Pembayaran Aman</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Konfirmasi Pesanan</p>
             </div>
         </div>
         {{-- Headline col --}}
         <div class="col-span-12 md:col-span-9 px-8 md:px-16 py-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <h1 class="font-headline text-[clamp(3rem,8vw,6rem)] text-secondary leading-none tracking-tight">
-                Final<br><span class="serif-italic text-primary">Selection</span>
+                Selesaikan<br><span class="serif-italic text-primary">Pesanan</span>
             </h1>
             
             <a href="{{ route('cart.index') }}" class="text-[10px] font-black uppercase tracking-[0.3em] text-primary border-b border-primary pb-px mb-2">
@@ -62,14 +62,14 @@
                               placeholder="Cantumkan nama jalan, nomor rumah, kelurahan, kecamatan, dan kode pos tujuan pengiriman..."></textarea>
                     <div class="mt-8 flex items-center gap-3 opacity-30">
                         <span class="material-symbols-outlined text-sm">info</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest leading-none">Pengiriman gratis untuk area Solo & Sekitarnya</p>
+                        <p class="text-[10px] font-bold uppercase tracking-widest leading-none">Pengiriman gratis untuk area Madiun & Sekitarnya</p>
                     </div>
                 </div>
 
                 {{-- Terms Info --}}
                 <div class="pt-12">
                     <p class="text-[10px] text-secondary/40 uppercase tracking-widest leading-relaxed max-w-sm italic">
-                        Dengan menekan tombol "Buat Pesanan", Anda menyetujui ketentuan kurasi dan pengiriman botanikal Mbah Bibit Studio.
+                        Dengan menekan tombol "Buat Pesanan", Anda menyetujui ketentuan pemesanan dan pengiriman Toko Bunga Mbah Bibit.
                     </p>
                 </div>
             </div>
@@ -79,12 +79,12 @@
         <div class="col-span-12 lg:col-span-4 flex flex-col">
             <div class="p-12 space-y-12 flex-1">
                 <div class="space-y-6">
-                    <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30">Ringkasan Archiv</p>
+                    <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30">Ringkasan Pesanan</p>
                     
                     <div class="space-y-4 pt-6 border-t border-secondary/15 text-sm">
                         <div class="flex justify-between items-baseline">
                             <span class="text-secondary/50 font-bold uppercase tracking-widest text-[10px]">Item Terpilih</span>
-                            <span class="text-secondary font-headline text-lg italic tracking-widest">{{ count($cart) }} Spesimen</span>
+                            <span class="text-secondary font-headline text-lg italic tracking-widest">{{ count($cart) }} Produk</span>
                         </div>
                         <div class="flex justify-between items-baseline">
                             <span class="text-secondary/50 font-bold uppercase tracking-widest text-[10px]">Subtotal</span>
@@ -92,7 +92,7 @@
                         </div>
                         <div class="flex justify-between items-baseline">
                             <span class="text-secondary/50 font-bold uppercase tracking-widest text-[10px]">Logistik</span>
-                            <span class="text-emerald-700 font-headline text-lg italic tracking-widest italic shrink-0 underline decoration-1 underline-offset-4">Included</span>
+                            <span class="text-emerald-700 font-headline text-lg italic tracking-widest shrink-0 underline decoration-1 underline-offset-4">Gratis</span>
                         </div>
                     </div>
                 </div>
@@ -115,14 +115,14 @@
                         </button>
                         <div class="flex items-center gap-2 justify-center opacity-20 group">
                             <span class="material-symbols-outlined text-xs">shield</span>
-                            <p class="text-[9px] font-bold uppercase tracking-[0.2em] italic">Mbah Bibit Secure Archiv System</p>
+                            <p class="text-[9px] font-bold uppercase tracking-[0.2em] italic">Sistem Pembayaran Aman Mbah Bibit</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="border-t border-secondary/20 px-12 py-6 bg-secondary/[0.01]">
-                <p class="text-[9px] text-secondary/40 uppercase tracking-[0.4em] text-center">Studio Order Archiv · 1978</p>
+                <p class="text-[9px] text-secondary/40 uppercase tracking-[0.4em] text-center">Toko Bunga Mbah Bibit · Est. 1978</p>
             </div>
         </div>
     </form>

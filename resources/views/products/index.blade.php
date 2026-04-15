@@ -15,13 +15,13 @@
         <div class="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-secondary/20 px-8 py-6 flex items-center">
             <div>
                 <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Mbah Bibit Studio</p>
-                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Koleksi Specimen</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Koleksi Produk</p>
             </div>
         </div>
         {{-- Headline col --}}
         <div class="col-span-12 md:col-span-9 px-8 md:px-16 py-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <h1 class="font-headline text-[clamp(3rem,8vw,6rem)] text-secondary leading-none tracking-tight">
-                Botanical<br><span class="serif-italic text-primary">Archiv</span>
+                Katalog<br><span class="serif-italic text-primary">Produk</span>
             </h1>
             
             {{-- Quick Search --}}
@@ -29,7 +29,7 @@
                 <div class="relative border-b border-secondary/20 focus-within:border-secondary transition-colors">
                     <input type="text" name="search" value="{{ request('search') }}" 
                            class="w-full bg-transparent border-none p-0 pb-2 text-sm text-secondary placeholder:text-secondary/20 focus:ring-0 focus:outline-none font-bold uppercase tracking-widest"
-                           placeholder="CARI SPESIMEN ···">
+                           placeholder="CARI PRODUK ···">
                     <button type="submit" class="absolute right-0 bottom-2 text-secondary/40 group-hover:text-primary transition-colors">
                         <span class="material-symbols-outlined text-sm">search</span>
                     </button>
@@ -72,7 +72,7 @@
                 <div class="pt-12 border-t border-secondary/10 space-y-4">
                     <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/20">Kurasi Saat Ini</p>
                     <p class="text-xs text-secondary/60 leading-relaxed italic">
-                        Setiap spesimen dipilih secara manual berdasarkan kualitas kelopak dan kesegaran stok harian.
+                        Setiap produk kami dikurasi dengan cermat untuk memastikan kualitas terbaik sampai di tangan Anda.
                     </p>
                 </div>
             </div>
@@ -137,7 +137,7 @@
                 </div>
                 @empty
                 <div class="col-span-full py-40 border-b border-secondary/20 text-center space-y-6">
-                    <p class="font-headline text-3xl text-secondary opacity-20 italic">No Specimen Found</p>
+                    <p class="font-headline text-3xl text-secondary opacity-20 italic">Produk Tidak Ditemukan</p>
                     <a href="{{ route('products.index') }}" class="inline-block text-[10px] font-black uppercase tracking-[0.3em] text-primary border-b border-primary pb-1">Reset Search</a>
                 </div>
                 @endforelse

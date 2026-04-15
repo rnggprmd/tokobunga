@@ -8,7 +8,7 @@
         <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:bg-white transition-all duration-300">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-bold text-text-muted uppercase tracking-widest mb-1">Total Tugas</p>
+                    <p class="text-xs font-bold text-text-muted uppercase tracking-widest mb-1 whitespace-nowrap truncate">Total Tugas</p>
                     <h3 class="text-3xl font-bold text-text-primary">{{ $totalTugas }}</h3>
                 </div>
                 <div class="w-12 h-12 bg-admin-surface/10 rounded-2xl flex items-center justify-center text-admin-surface">
@@ -20,7 +20,7 @@
         <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:bg-white transition-all duration-300">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-bold text-text-muted uppercase tracking-widest mb-1">Menunggu</p>
+                    <p class="text-xs font-bold text-text-muted uppercase tracking-widest mb-1 whitespace-nowrap truncate">Menunggu</p>
                     <h3 class="text-3xl font-bold text-text-primary">{{ $menunggu }}</h3>
                 </div>
                 <div class="w-12 h-12 bg-accent-gold/10 rounded-2xl flex items-center justify-center text-accent-gold">
@@ -32,7 +32,7 @@
         <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:bg-white transition-all duration-300">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-bold text-text-muted uppercase tracking-widest mb-1">Sedang Diantar</p>
+                    <p class="text-[11px] lg:text-xs font-bold text-text-muted uppercase tracking-widest mb-1 whitespace-nowrap truncate">Sedang Diantar</p>
                     <h3 class="text-3xl font-bold text-text-primary">{{ $sedangDiantar }}</h3>
                 </div>
                 <div class="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-500">
@@ -44,7 +44,7 @@
         <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:bg-white transition-all duration-300 text-accent-emerald">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-bold text-text-muted uppercase tracking-widest mb-1">Selesai</p>
+                    <p class="text-xs font-bold text-text-muted uppercase tracking-widest mb-1 whitespace-nowrap truncate">Selesai</p>
                     <h3 class="text-3xl font-bold">{{ $selesai }}</h3>
                 </div>
                 <div class="w-12 h-12 bg-accent-emerald/10 rounded-2xl flex items-center justify-center">

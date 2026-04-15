@@ -25,7 +25,7 @@
             <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700 bg-[#e4e4ce]">
                 <img class="w-full h-full object-cover" src="{{ asset('images/sambung tuwuh.jpeg') }}" alt="Dekorasi Tuwuhan Adat Jawa"/>
             </div>
-            <div class="absolute -bottom-8 -left-8 bg-[#e4e4ce] p-6 rounded-2xl shadow-xl max-w-[220px] -rotate-3">
+            <div class="absolute -bottom-6 md:-bottom-8 -left-2 md:-left-8 bg-[#e4e4ce] p-6 rounded-2xl shadow-xl max-w-[200px] md:max-w-[220px] -rotate-3 z-20">
                 <p class="serif-italic text-secondary text-xl">Pernikahan Adat: Tuwuhan</p>
                 <p class="text-xs text-secondary mt-2">Simbol kesejahteraan dan harapan. Menjaga tradisi dalam setiap prosesi.</p>
             </div>
@@ -79,7 +79,7 @@
     </section>
 
     <!-- Botanical Tools -->
-    <section class="bg-[#f5f5de] rounded-[3rem] p-12 lg:p-24 relative overflow-hidden">
+    <section class="bg-[#f5f5de] rounded-[3rem] p-8 md:p-16 lg:p-24 relative overflow-hidden shadow-inner uppercase tracking-wider">
         <div class="absolute top-0 right-0 opacity-10 pointer-events-none">
             <span class="material-symbols-outlined text-[30rem]">local_florist</span>
         </div>
@@ -111,10 +111,10 @@
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div class="aspect-square rounded-2xl overflow-hidden shadow-lg transform translate-y-8">
-                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaDNt4GnlqCySYK2HT8h8A-Jhx3ACuOHCyuNaAp7NiPP7tYEvCK5JpAkNKWvbPL3LWAVXCE8yOUGP2h8pipZjZrwxKOsqee3TXP3MVMlIfCbPObU90eiyT76v9NtOqRcgZsVMhUhoyuZxVHthkBrdU4g71Xu5NDj9xooM0h3PilXToTl7HIuCPQmtvjqNyusXAn4m6CwhesC4_7m0wHl9803OTeFpokJmATFvKSkLn1qg7HH4bgVKalLJuuSdqxziRCsvg8M9_3MA"/>
+                    <img class="w-full h-full object-cover" src="{{ asset('images/bunga1.jpeg') }}" alt="Koleksi Bunga 1"/>
                 </div>
                 <div class="aspect-square rounded-2xl overflow-hidden shadow-lg">
-                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATGQcgDLoMK9appAT0Ej9fz6nXnlWpV0BmN1E74rVQipdxhkHJz6G_Y-Q2Kc0E-jJjcfQkomwLrd0HceUWqSwWJ5AZ2KboTnMM9OIvay-IEdS1xAyLnNO40pqMZDf15Q7iU1vtql3YmurMyBClvfyeFVdc3tSl68hQ0tdrWeMctvIJ_64KFSQx8YdiQPoRX2NPc-ZQAjBaMogy0DpJtUff0EGzCdPy18RpU95oSguMS4YBnF4_022WXbn_uqP8gCn6oXipp9caAxc"/>
+                    <img class="w-full h-full object-cover" src="{{ asset('images/bunga2.jpeg') }}" alt="Koleksi Bunga 2"/>
                 </div>
             </div>
         </div>
@@ -143,7 +143,7 @@
                     <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                          src="{{ $category->foto ? asset('storage/'.$category->foto) : $defaultImg }}" 
                          alt="{{ $category->nama_kategori }}">
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex flex-col justify-end p-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent flex flex-col justify-end p-8 text-white md:opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         <h3 class="font-headline text-3xl">{{ $category->nama_kategori }}</h3>
                         <p class="font-label text-sm opacity-80 mt-2 line-clamp-2">{{ $category->deskripsi }}</p>
                         <a href="{{ route('products.index', ['category' => $category->id]) }}" class="mt-4 w-fit bg-white text-primary px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest">

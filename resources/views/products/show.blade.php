@@ -59,24 +59,24 @@
             <div class="grid grid-cols-2 border-b border-secondary/20">
                 {{-- Status --}}
                 <div class="p-8 border-r border-secondary/20">
-                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-secondary/30 mb-2">Availability</p>
+                    <p class="text-[9px] font-black uppercase tracking-[0.2em] text-secondary/30 mb-2">Ketersediaan</p>
                     @if($product->stok > 0)
                         <p class="text-sm font-bold text-secondary flex items-center gap-2">
                             <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
-                            {{ $product->stok }} In Archiva
+                            {{ $product->stok }} Tersedia
                         </p>
                     @else
                         <p class="text-sm font-bold text-red-400 flex items-center gap-2">
                             <span class="w-1.5 h-1.5 bg-red-400 rounded-full"></span>
-                            Currently Depleted
+                            Stok Habis
                         </p>
                     @endif
                 </div>
                 {{-- Shared --}}
                 <div class="p-8 flex items-center justify-between">
                     <div>
-                        <p class="text-[9px] font-black uppercase tracking-[0.2em] text-secondary/30 mb-2">Acquisition</p>
-                        <p class="text-sm font-bold text-secondary">0+ Curated</p>
+                        <p class="text-[9px] font-black uppercase tracking-[0.2em] text-secondary/30 mb-2">Kondisi</p>
+                        <p class="text-sm font-bold text-secondary">Baru · Original</p>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                         {{-- Add to Cart --}}
                         <button type="submit" @disabled($product->stok <= 0) 
                                 class="flex-1 bg-secondary text-[#FAFAE3] py-4 uppercase tracking-[0.2em] text-[11px] font-black hover:bg-primary transition-all disabled:opacity-20 disabled:grayscale">
-                            Add to Archive
+                            Tambah ke Keranjang
                         </button>
                     </div>
                 </form>
@@ -105,8 +105,7 @@
                     @csrf
                     @php $isWishlisted = \App\Models\Wishlist::where('user_id', Auth::id())->where('product_id', $product->id)->exists(); @endphp
                     <button type="submit" class="w-full border border-secondary/15 py-4 uppercase tracking-[0.2em] text-[10px] font-black text-secondary/60 hover:text-primary hover:border-primary transition-all flex items-center justify-center gap-3">
-                        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' {{ $isWishlisted ? '1' : '0' }}">favorite</span>
-                        {{ $isWishlisted ? 'Remove from Favorites' : 'Add to Favorites' }}
+                        {{ $isWishlisted ? 'Hapus dari Favorit' : 'Tambah ke Favorit' }}
                     </button>
                 </form>
                 @endauth
@@ -115,7 +114,7 @@
             {{-- Description --}}
             <div class="px-8 md:px-12 py-12 flex-1 space-y-8">
                 <div class="space-y-4">
-                    <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30">Specimen Description</p>
+                    <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30">Deskripsi Produk</p>
                     <div class="text-secondary/70 leading-[2] text-[14px] font-sans prose prose-sm">
                         {{ $product->deskripsi }}
                     </div>
@@ -125,23 +124,23 @@
                     <div class="space-y-2">
                         <div class="flex items-center gap-2 text-secondary">
                             <span class="material-symbols-outlined text-sm">local_shipping</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest leading-none">Swift Delivery</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest leading-none">Pengiriman Instan</span>
                         </div>
-                        <p class="text-[11px] text-secondary/50 leading-relaxed">Solo & Surrounding areas within 1-2 hours acquisition.</p>
+                        <p class="text-[11px] text-secondary/50 leading-relaxed">Pengiriman cepat untuk wilayah Madiun dan sekitarnya.</p>
                     </div>
                     <div class="space-y-2">
                         <div class="flex items-center gap-2 text-secondary">
                             <span class="material-symbols-outlined text-sm">verified</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest leading-none">Freshness Assured</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest leading-none">Kualitas Terjamin</span>
                         </div>
-                        <p class="text-[11px] text-secondary/50 leading-relaxed">Hand-selected botanical specimens by Mbah Bibit.</p>
+                        <p class="text-[11px] text-secondary/50 leading-relaxed">Produk dipilih dan disiapkan secara saksama oleh tim kami.</p>
                     </div>
                 </div>
             </div>
 
             {{-- Studio Signature --}}
             <div class="border-t border-secondary/20 px-8 md:px-12 py-6">
-                <p class="text-[9px] text-secondary/40 uppercase tracking-[0.4em] text-center">Mbah Bibit Botanical Archiv · Est. 1978</p>
+                <p class="text-[9px] text-secondary/40 uppercase tracking-[0.4em] text-center">Toko Bunga Mbah Bibit · Est. 1978</p>
             </div>
         </div>
     </div>
@@ -149,8 +148,8 @@
     {{-- === COMMUNITY REVIEWS === --}}
     <section class="border-b border-secondary/20">
         <div class="px-8 md:px-12 py-6 border-b border-secondary/20 flex items-center justify-between bg-secondary/[0.02]">
-            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Community Archiv Items</p>
-            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">{{ $product->reviews->count() }} Testimonials</p>
+            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Ulasan Pelanggan</p>
+            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">{{ $product->reviews->count() }} Ulasan</p>
         </div>
 
         @if($product->reviews->count() > 0)
@@ -187,7 +186,7 @@
         </div>
         @else
         <div class="py-24 text-center">
-            <p class="font-headline text-2xl text-secondary/20 italic">Belum ada testimoni untuk spesimen ini.</p>
+            <p class="font-headline text-2xl text-secondary/20 italic">Belum ada ulasan untuk produk ini.</p>
         </div>
         @endif
     </section>
@@ -196,8 +195,8 @@
     @if($relatedProducts->count() > 0)
     <section class="border-b border-secondary/20">
         <div class="px-8 md:px-12 py-6 border-b border-secondary/20 flex items-center justify-between">
-            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Related Items</p>
-            <a href="{{ route('products.index') }}" class="text-[9px] font-black uppercase tracking-widest text-primary border-b border-primary pb-px">View Collection —</a>
+            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Produk Serupa</p>
+            <a href="{{ route('products.index') }}" class="text-[9px] font-black uppercase tracking-widest text-primary border-b border-primary pb-px">Lihat Katalog —</a>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             @foreach($relatedProducts as $related)

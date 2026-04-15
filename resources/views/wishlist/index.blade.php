@@ -14,14 +14,14 @@
         {{-- Label col --}}
         <div class="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-secondary/20 px-8 py-6 flex items-center">
             <div>
-                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">User Archiv</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Akun Pengguna</p>
                 <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Favorit Saya</p>
             </div>
         </div>
         {{-- Headline col --}}
         <div class="col-span-12 md:col-span-9 px-8 md:px-16 py-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <h1 class="font-headline text-[clamp(3rem,8vw,6rem)] text-secondary leading-none tracking-tight">
-                Koleksi<br><span class="serif-italic text-primary">Incurata</span>
+                Produk<br><span class="serif-italic text-primary">Favorit</span>
             </h1>
             
             <a href="{{ route('products.index') }}" class="text-[10px] font-black uppercase tracking-[0.3em] text-primary border-b border-primary pb-px mb-2">
@@ -36,7 +36,7 @@
         <aside class="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-secondary/20 px-8 py-12">
             <div class="sticky top-24 space-y-8">
                 <p class="text-secondary/60 leading-relaxed text-sm italic">
-                    Daftar kurasi pribadi Anda. Simpan spesimen yang memikat hati untuk diproses kemudian.
+                    Daftar favorit pribadi Anda. Simpan produk pilihan yang memikat hati untuk dibeli di lain waktu.
                 </p>
                 <div class="pt-8 border-t border-secondary/10">
                     <p class="text-[9px] font-black uppercase tracking-widest text-secondary/30 mb-2">Jumlah Item</p>
@@ -93,7 +93,7 @@
             </div>
             @else
             <div class="py-40 text-center border-b border-secondary/20">
-                <p class="font-headline text-3xl text-secondary/20 italic mb-8">Belum Ada Koleksi Terpilih</p>
+                <p class="font-headline text-3xl text-secondary/20 italic mb-8">Belum Ada Produk Favorit</p>
                 <a href="{{ route('products.index') }}" class="inline-block bg-secondary text-[#FAFAE3] px-10 py-5 uppercase tracking-widest text-[11px] font-black hover:bg-primary transition-colors">
                     Kembali ke Katalog
                 </a>

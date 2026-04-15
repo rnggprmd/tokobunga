@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="id">
+<html class="light overflow-x-hidden" lang="id">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -49,7 +49,7 @@
     </style>
     @stack('styles')
 </head>
-<body class="bg-background text-on-background selection:bg-primary/20">
+<body class="bg-background text-on-background selection:bg-primary/20 overflow-x-hidden">
     <!-- TopNavBar -->
     <nav x-data="{ mobileMenuOpen: false }" class="sticky top-0 z-50 w-full bg-[#fbfbe4]/80 backdrop-blur-md border-b border-primary/10">
         <div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">

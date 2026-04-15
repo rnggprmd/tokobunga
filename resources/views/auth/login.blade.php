@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Masuk — Mbah Bibit</title>
+    <title>Masuk — Toko Bunga Mbah Bibit</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
         }
     </style>
 </head>
-<body class="bg-background text-on-background min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+<body class="bg-background text-on-background min-h-[100dvh] flex items-start md:items-center justify-center p-6 py-12 md:py-20 relative overflow-x-hidden">
     {{-- Background Decoration --}}
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
     <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
@@ -51,16 +51,16 @@
             <div class="absolute inset-0 bg-gradient-to-t from-secondary/60 to-transparent"></div>
             <div class="absolute bottom-12 left-12 right-12 text-white">
                 <p class="font-headline text-4xl leading-tight">Membawa <span class="serif-italic">Jiwa Alam</span> ke Dalam Rumah Anda.</p>
-                <p class="text-sm font-light mt-4 opacity-80 tracking-widest uppercase">Mbah Bibit Botanical Archiv</p>
+                <p class="text-sm font-light mt-4 opacity-80 tracking-widest uppercase">Toko Bunga Mbah Bibit Botanical Archiv</p>
             </div>
         </div>
 
         {{-- Right: Form --}}
         <div class="p-8 md:p-16 flex flex-col justify-center">
-            <div class="mb-12">
-                <a href="{{ route('home') }}" class="text-2xl font-headline text-secondary uppercase tracking-[0.2em] mb-2 block">Mbah Bibit</a>
+            <div class="mb-8">
+                <a href="{{ route('home') }}" class="text-2xl font-headline text-secondary uppercase tracking-[0.2em] mb-2 block">Toko Bunga Mbah Bibit</a>
                 <h1 class="font-headline text-4xl text-on-background">Selamat Datang <span class="serif-italic">Kembali</span></h1>
-                <p class="text-secondary/60 text-sm mt-3">Silakan masuk ke akun Anda untuk melanjutkan koleksi spesimen botani.</p>
+                <p class="text-secondary/60 text-sm mt-3">Silakan masuk ke akun Anda untuk mengakses layanan Toko Bunga Mbah Bibit.</p>
             </div>
 
             <form method="POST" action="{{ route('login') }}" class="space-y-6">
@@ -102,9 +102,9 @@
                 </div>
             </form>
 
-            <div class="mt-12 pt-8 border-t border-secondary/10 text-center">
+            <div class="mt-8 pt-6 border-t border-secondary/10 text-center">
                 <p class="text-xs text-secondary/60">Belum memiliki akun? <a href="#" class="text-primary font-bold hover:underline">Daftar Koleksi</a></p>
-                <a href="{{ route('admin.login') }}" class="mt-8 inline-block text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30 hover:text-secondary transition-colors italic">Portal Staf Admin</a>
+
             </div>
         </div>
     </div>

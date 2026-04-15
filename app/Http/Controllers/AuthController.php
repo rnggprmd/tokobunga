@@ -16,14 +16,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Show the admin login form.
-     */
-    public function adminLogin()
-    {
-        return view('admin.auth.login');
-    }
-
-    /**
      * Handle an authentication attempt.
      */
     public function store(Request $request)

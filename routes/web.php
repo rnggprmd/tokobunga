@@ -50,7 +50,6 @@ Route::post('/api/midtrans/callback', [App\Http\Controllers\CheckoutController::
 // Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'create'])->name('login');
-    Route::get('admin/login', [AuthController::class, 'adminLogin'])->name('admin.login');
     Route::post('login', [AuthController::class, 'store']);
 });
 

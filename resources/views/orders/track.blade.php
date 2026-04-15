@@ -60,7 +60,7 @@
             </div>
 
             <div class="border-t border-secondary/20 px-8 py-5">
-                <p class="text-[10px] text-secondary/40 uppercase tracking-widest">Solo & Sekitarnya · Est. 1978</p>
+                <p class="text-[10px] text-secondary/40 uppercase tracking-widest">Madiun & Sekitarnya</p>
             </div>
         </div>
 
@@ -208,9 +208,9 @@
                         const mapElement = document.getElementById('map');
                         if (!mapElement) return;
 
-                        // Solo coordinates as fallback
-                        let courierLat = -7.5666;
-                        let courierLng = 110.8167;
+                        // Madiun coordinates as fallback
+                        let courierLat = -7.6298;
+                        let courierLng = 111.5239;
                         
                         // Initialize Map
                         const map = L.map('map', {

@@ -105,7 +105,7 @@
                         </div>
                         <div class="flex justify-between items-baseline">
                             <span class="text-secondary/50 font-bold uppercase tracking-widest text-[10px]">Pengiriman</span>
-                            <span class="text-emerald-700 font-headline text-lg italic tracking-widest italic shrink-0">Complimentary</span>
+                            <span class="text-emerald-700 font-headline text-lg italic tracking-widest shrink-0">Gratis</span>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
 
                     <div class="space-y-4">
                         <a href="{{ route('checkout.index') }}" class="group block w-full bg-secondary text-[#FAFAE3] py-6 uppercase tracking-[0.3em] text-[11px] font-black hover:bg-primary transition-all text-center flex items-center justify-center gap-4">
-                            Proceed to Checkout
+                            Lanjut Pembayaran
                             <span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
                         </a>
                         <p class="text-center text-[9px] text-secondary/30 uppercase tracking-[0.2em] italic leading-relaxed">
@@ -133,7 +133,7 @@
             </div>
 
             <div class="border-t border-secondary/20 px-12 py-6">
-                <p class="text-[9px] text-secondary/40 uppercase tracking-[0.4em] text-center">Studio Selection Archiv · 1978</p>
+                <p class="text-[9px] text-secondary/40 uppercase tracking-[0.4em] text-center">Toko Bunga Mbah Bibit · Est. 1978</p>
             </div>
         </div>
     </div>

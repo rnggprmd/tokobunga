@@ -14,14 +14,13 @@
         {{-- Label col --}}
         <div class="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-secondary/20 px-8 py-6 flex items-center">
             <div>
-                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Studio Member</p>
-                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Identitas Kolektor</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40">Akun Pelanggan</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/40 mt-0.5">Profil Saya</p>
             </div>
         </div>
         {{-- Headline col --}}
         <div class="col-span-12 md:col-span-9 px-8 md:px-16 py-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <h1 class="font-headline text-[clamp(3rem,8vw,6rem)] text-secondary leading-none tracking-tight">
-                {{ explode(' ', $user->name)[0] }}<br><span class="serif-italic text-primary">Archiva</span>
+                {{ explode(' ', $user->name)[0] }}<br><span class="serif-italic text-primary">Profil</span>
             </h1>
             
             <form action="{{ route('logout') }}" method="POST" class="mb-2">
@@ -61,7 +60,7 @@
                     </div>
 
                     <div>
-                        <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30 mb-4">Domisili Kurasi</p>
+                        <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30 mb-4">Alamat Pengiriman Default</p>
                         <p class="text-sm text-secondary/70 leading-relaxed italic">
                             {{ $user->address ?? $user->alamat ?? 'Belum ada alamat pengiriman terdaftar.' }}
                         </p>
@@ -69,7 +68,7 @@
                     
                     <div class="pt-8 border-t border-secondary/10">
                          <p class="text-[9px] text-secondary/30 italic uppercase tracking-widest leading-relaxed">
-                            Terdaftar di Archiv Mbah Bibit sejak<br>
+                             Terdaftar di Toko Bunga Mbah Bibit sejak<br>
                             {{ $user->created_at->translatedFormat('F Y') }}
                          </p>
                     </div>
@@ -78,7 +77,7 @@
             
             {{-- Edit Profile Form --}}
             <div class="px-8 md:p-12 border border-secondary/20 bg-secondary/[0.01]">
-                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30 mb-8">Pengaturan Archiv</p>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30 mb-8">Pengaturan Akun</p>
                 
                 @if(session('success'))
                 <div class="mb-6 py-3 border-b border-emerald-200 text-emerald-700 text-[10px] font-black uppercase tracking-widest">
@@ -115,7 +114,7 @@
         {{-- RIGHT: Order Archive --}}
         <div class="col-span-12 lg:col-span-8 flex flex-col">
             <div class="px-8 md:px-12 py-8 bg-secondary/[0.02] border-b border-secondary/20">
-                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/40">Riwayat Perolehan</p>
+                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/40">Riwayat Pesanan</p>
             </div>
 
             <div class="flex-1">
@@ -131,7 +130,7 @@
 
                         {{-- Order Content --}}
                         <div class="col-span-12 md:col-span-5 p-8 border-t md:border-t-0 border-secondary/15">
-                            <p class="text-[9px] font-black uppercase tracking-widest text-secondary/30 mb-4">Daftar Spesimen</p>
+                            <p class="text-[9px] font-black uppercase tracking-widest text-secondary/30 mb-4">Daftar Produk</p>
                             <div class="space-y-3">
                                 @foreach($order->items as $item)
                                 <div class="space-y-4">
@@ -167,7 +166,7 @@
                                             <input type="hidden" name="product_id" value="{{ $item->product_id }}">
                                             
                                             <div class="flex flex-col gap-3">
-                                                <p class="text-[9px] font-black uppercase tracking-widest text-secondary/30">Rating Spesimen</p>
+                                                <p class="text-[9px] font-black uppercase tracking-widest text-secondary/30">Rating Produk</p>
                                                 <div class="flex gap-4">
                                                     @foreach([1,2,3,4,5] as $star)
                                                     <label class="cursor-pointer group">
@@ -188,7 +187,7 @@
                                             </div>
 
                                             <button type="submit" class="bg-secondary text-[#FAFAE3] px-6 py-2 uppercase tracking-widest text-[9px] font-black hover:bg-primary transition-colors">
-                                                Kirim Ulasan Archiv
+                                                Kirim Ulasan
                                             </button>
                                         </form>
                                     </div>
@@ -252,9 +251,9 @@
                     @endforeach
                 @else
                     <div class="py-40 text-center">
-                        <p class="font-headline text-3xl text-secondary/20 italic mb-8">Belum Ada Riwayat Perolehan</p>
+                        <p class="font-headline text-3xl text-secondary/20 italic mb-8">Belum Ada Riwayat Pesanan</p>
                         <a href="{{ route('products.index') }}" class="inline-block bg-secondary text-[#FAFAE3] px-10 py-5 uppercase tracking-widest text-[11px] font-black hover:bg-primary transition-colors">
-                            Mulai Koleksi —
+                            Mulai Belanja —
                         </a>
                     </div>
                 @endif

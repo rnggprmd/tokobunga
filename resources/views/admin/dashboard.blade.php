@@ -24,7 +24,7 @@
                 </div>
                 <span class="text-[10px] text-accent-gold bg-accent-gold/10 px-2 py-0.5 rounded-full font-bold uppercase">Revenue</span>
             </div>
-            <p class="text-2xl font-bold">Rp {{ number_format($totalRevenue/1000000, 1) }}M</p>
+            <p class="text-2xl font-bold">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
             <p class="text-[10px] text-text-muted mt-1 uppercase tracking-wider">Total Pendapatan</p>
         </div>
 
