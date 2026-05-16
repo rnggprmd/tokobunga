@@ -41,6 +41,7 @@ class CheckoutController extends Controller
         $request->validate([
             'customer_name' => 'required|string|max:255',
             'customer_phone' => 'required|string|max:15',
+            'customer_email' => 'required|email|max:255',
             'alamat_pengiriman' => 'required|string',
         ]);
 
@@ -64,7 +65,7 @@ class CheckoutController extends Controller
                 'metode_pembayaran' => 'midtrans',
                 'alamat_pengiriman' => $request->alamat_pengiriman,
                 'customer_name' => $request->customer_name,
-                'customer_email' => Auth::user()->email,
+                'customer_email' => $request->customer_email,
                 'customer_phone' => $request->customer_phone,
             ]);
 
@@ -102,7 +103,7 @@ class CheckoutController extends Controller
 
     public function payment(Order $order)
     {
-        if ($order->user_id !== Auth::id()) {
+        if ($order->user_id && $order->user_id !== Auth::id()) {
             abort(403);
         }
 

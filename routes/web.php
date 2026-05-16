@@ -24,11 +24,12 @@ Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.a
 Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
 
 // Checkout
+Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('/checkout/{order}/payment', [App\Http\Controllers\CheckoutController::class, 'payment'])->name('checkout.payment');
+Route::post('/checkout/sync', [App\Http\Controllers\CheckoutController::class, 'sync'])->name('checkout.sync');
+
 Route::middleware('auth')->group(function () {
-    Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
-    Route::get('/checkout/{order}/payment', [App\Http\Controllers\CheckoutController::class, 'payment'])->name('checkout.payment');
-    Route::post('/checkout/sync', [App\Http\Controllers\CheckoutController::class, 'sync'])->name('checkout.sync');
     
     // Profile
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');

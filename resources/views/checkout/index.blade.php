@@ -49,9 +49,17 @@
                 {{-- Field 2: WhatsApp --}}
                 <div class="py-8 border-b border-secondary/15 group focus-within:border-secondary/50 transition-colors">
                     <label class="block text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30 mb-3 group-focus-within:text-secondary/60 transition-colors">Nomor WhatsApp Aktif</label>
-                    <input type="text" name="customer_phone" required value="{{ auth()->user()->phone ?? '' }}" autocomplete="off"
+                    <input type="text" name="customer_phone" required value="{{ auth()->user()->no_hp ?? '' }}" autocomplete="off"
                            class="w-full bg-transparent border-none p-0 text-2xl md:text-3xl font-headline text-secondary placeholder:text-secondary/15 focus:ring-0 focus:outline-none"
                            placeholder="0812 ···">
+                </div>
+
+                {{-- Field 2.5: Email --}}
+                <div class="py-8 border-b border-secondary/15 group focus-within:border-secondary/50 transition-colors">
+                    <label class="block text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30 mb-3 group-focus-within:text-secondary/60 transition-colors">Alamat Email</label>
+                    <input type="email" name="customer_email" required value="{{ auth()->user()->email ?? '' }}" autocomplete="off"
+                           class="w-full bg-transparent border-none p-0 text-2xl md:text-3xl font-headline text-secondary placeholder:text-secondary/15 focus:ring-0 focus:outline-none"
+                           placeholder="email@contoh.com">
                 </div>
 
                 {{-- Field 3: Alamat --}}
@@ -59,7 +67,7 @@
                     <label class="block text-[9px] font-black uppercase tracking-[0.3em] text-secondary/30 mb-5 group-focus-within:text-secondary/60 transition-colors">Alamat Lengkap Pengiriman</label>
                     <textarea name="alamat_pengiriman" required rows="5"
                               class="w-full bg-transparent border-none p-0 text-base text-secondary/80 placeholder:text-secondary/15 focus:ring-0 focus:outline-none resize-none leading-relaxed"
-                              placeholder="Cantumkan nama jalan, nomor rumah, kelurahan, kecamatan, dan kode pos tujuan pengiriman..."></textarea>
+                              placeholder="Cantumkan nama jalan, nomor rumah, kelurahan, kecamatan, dan kode pos tujuan pengiriman...">{{ auth()->user()->alamat ?? '' }}</textarea>
                     <div class="mt-8 flex items-center gap-3 opacity-30">
                         <span class="material-symbols-outlined text-sm">info</span>
                         <p class="text-[10px] font-bold uppercase tracking-widest leading-none">Pengiriman gratis untuk area Madiun & Sekitarnya</p>
