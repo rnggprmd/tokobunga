@@ -117,7 +117,11 @@
             },
             body: JSON.stringify({ transaction_id: result.transaction_id })
         }).then(() => {
-            window.location.href = "{{ route('profile.index') }}"; 
+            @auth
+                window.location.href = "{{ route('profile.index') }}"; 
+            @else
+                window.location.href = "{{ route('orders.track') }}?order_id={{ $order->id }}&email={{ $order->customer_email }}";
+            @endauth
         });
     }
 
