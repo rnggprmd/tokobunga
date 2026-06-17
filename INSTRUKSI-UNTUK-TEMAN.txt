@@ -1,0 +1,86 @@
+====================================================================
+🚨 INSTRUKSI FIX ERROR MIDTRANS - UNTUK TEMAN
+====================================================================
+
+Halo! Kalau kamu dapat error:
+"Call to undefined function Midtrans\curl_init()"
+
+Ikuti langkah ini:
+
+--------------------------------------------------------------------
+LANGKAH 1: Pull Update Terbaru
+--------------------------------------------------------------------
+
+git pull
+
+--------------------------------------------------------------------
+LANGKAH 2: Install/Update Dependencies
+--------------------------------------------------------------------
+
+composer install
+
+❗ PENTING: Setelah "composer install" selesai, akan muncul:
+   🔧 Memperbaiki bug namespace curl...
+   ✅ Perbaikan selesai!
+   
+   Ini artinya patch berhasil!
+
+--------------------------------------------------------------------
+LANGKAH 3: Clear Cache Laravel
+--------------------------------------------------------------------
+
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+
+--------------------------------------------------------------------
+LANGKAH 4: Test
+--------------------------------------------------------------------
+
+1. Restart Laragon (Stop All → Start All)
+2. Buka browser: http://tokobunga.test:8080
+3. Coba checkout lagi
+
+--------------------------------------------------------------------
+JIKA MASIH ERROR:
+--------------------------------------------------------------------
+
+Jalankan patch manual:
+
+php patch-midtrans.php
+
+Kemudian ulangi Langkah 3 dan 4.
+
+--------------------------------------------------------------------
+JIKA MASIH TETAP ERROR:
+--------------------------------------------------------------------
+
+1. Cek cURL aktif atau tidak:
+   
+   php -m | findstr curl
+   
+   Harus muncul: "curl"
+   
+   Kalau tidak muncul:
+   - Klik kanan icon Laragon
+   - PHP → Extensions
+   - Centang "curl"
+   - Restart Laragon
+
+2. Setelah cURL aktif, jalankan lagi:
+   
+   php patch-midtrans.php
+   php artisan config:clear
+
+3. Test lagi di browser
+
+--------------------------------------------------------------------
+DOKUMENTASI LENGKAP:
+--------------------------------------------------------------------
+
+📄 README-SETUP.md           → Panduan setup lengkap
+📄 PERBAIKAN_MIDTRANS.md     → Detail teknis bug dan solusi
+
+====================================================================
+Kalau masih error juga, kabari ya! 👍
+====================================================================
