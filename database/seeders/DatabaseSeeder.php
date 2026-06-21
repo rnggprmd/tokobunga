@@ -32,6 +32,16 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Kurir User
+        User::updateOrCreate(
+            ['email' => 'kurir@tokobunga.com'],
+            [
+                'name' => 'Kurir',
+                'password' => Hash::make('password'),
+                'role' => 'kurir',
+            ]
+        );
+
         // Categories
         $bunga = Category::updateOrCreate(
             ['nama_kategori' => 'Bunga'],
