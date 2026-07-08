@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Pembayaran;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Midtrans\Config;
@@ -147,6 +148,14 @@ class CheckoutController extends Controller
                         'tanggal_bayar' => now()
                     ]);
                     $order->reduceStock();
+                    
+                    // Create Invoice if not exists
+                    if (!$order->invoice) {
+                        Invoice::create([
+                            'order_id' => $order->id,
+                            'invoice_number' => Invoice::generateInvoiceNumber(),
+                        ]);
+                    }
                 } else if ($transaction_status == 'cancel' || $transaction_status == 'deny' || $transaction_status == 'expire'){
                     $order->update(['status' => 'failed']);
                     Pembayaran::where('order_id', $order->id)->update([
@@ -180,6 +189,14 @@ class CheckoutController extends Controller
                         'tanggal_bayar' => now()
                     ]);
                     $order->reduceStock();
+                    
+                    // Create Invoice if not exists
+                    if (!$order->invoice) {
+                        Invoice::create([
+                            'order_id' => $order->id,
+                            'invoice_number' => Invoice::generateInvoiceNumber(),
+                        ]);
+                    }
                 } else if ($transaction_status == 'cancel' || $transaction_status == 'deny' || $transaction_status == 'expire'){
                     $order->update(['status' => 'failed']);
                     Pembayaran::where('order_id', $order->id)->update([
@@ -191,5 +208,15 @@ class CheckoutController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
+    }
+
+    public function success(Order $order)
+    {
+        if ($order->user_id && $order->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $categories = \App\Models\Category::all();
+        return view('checkout.success', compact('order', 'categories'));
     }
 }

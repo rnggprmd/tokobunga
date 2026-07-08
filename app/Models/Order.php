@@ -43,6 +43,11 @@ class Order extends Model
         return $this->hasOne(Pengiriman::class);
     }
 
+    public function invoice(): HasOne
+    {
+        return $this->hasOne(Invoice::class);
+    }
+
     /**
      * Reduce stock for all items in this order.
      * Prevents duplicate reduction using is_stock_reduced flag.

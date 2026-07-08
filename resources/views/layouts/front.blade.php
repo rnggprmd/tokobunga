@@ -17,12 +17,12 @@
                 extend: {
                     "colors": {
                         "background": "#FAFAE3",
-                        "primary": "#D9B2A9",
-                        "secondary": "#A5A68F",
+                        "primary": "#C48F82",
+                        "secondary": "#595A4C",
                         "on-background": "#1b1d0f",
                         "surface": "#fbfbe4",
                         "outline": "#78776e",
-                        "accent-rose": "#D9B2A9",
+                        "accent-rose": "#C48F82",
                         "admin-border": "#e4e4ce",
                     },
                     "fontFamily": {
@@ -50,7 +50,7 @@
     </style>
     @stack('styles')
 </head>
-<body class="bg-background text-on-background selection:bg-primary/20 overflow-x-hidden">
+<body class="bg-background text-on-background selection:bg-primary/20 overflow-x-hidden font-semibold text-xl">
     <!-- TopNavBar -->
     <nav x-data="{ mobileMenuOpen: false }" class="sticky top-0 z-50 w-full bg-[#fbfbe4]/80 backdrop-blur-md border-b border-primary/10">
         <div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
