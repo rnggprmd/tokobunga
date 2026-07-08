@@ -43,12 +43,12 @@ Route::middleware('auth')->group(function () {
 
     // Reviews
     Route::post('/reviews', [App\Http\Controllers\ProductReviewController::class, 'store'])->name('reviews.store');
-
-    // Invoice routes
-    Route::get('/checkout/{order}/success', [App\Http\Controllers\CheckoutController::class, 'success'])->name('checkout.success');
-    Route::get('/invoice/{order}', [App\Http\Controllers\InvoiceController::class, 'show'])->name('invoice.show');
-    Route::get('/invoice/{order}/download', [App\Http\Controllers\InvoiceController::class, 'download'])->name('invoice.download');
 });
+
+// Invoice routes (Public)
+Route::get('/checkout/{order}/success', [App\Http\Controllers\CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/invoice/{order}', [App\Http\Controllers\InvoiceController::class, 'show'])->name('invoice.show');
+Route::get('/invoice/{order}/download', [App\Http\Controllers\InvoiceController::class, 'download'])->name('invoice.download');
 
 // Midtrans Webhook
 Route::post('/api/midtrans/callback', [App\Http\Controllers\CheckoutController::class, 'callback']);

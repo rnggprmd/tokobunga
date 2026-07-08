@@ -212,10 +212,6 @@ class CheckoutController extends Controller
 
     public function success(Order $order)
     {
-        if ($order->user_id && $order->user_id !== Auth::id()) {
-            abort(403);
-        }
-
         $categories = \App\Models\Category::all();
         return view('checkout.success', compact('order', 'categories'));
     }
