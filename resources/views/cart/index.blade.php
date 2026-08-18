@@ -67,9 +67,15 @@
                     {{-- Qty --}}
                     <div class="col-span-6 md:col-span-3 flex justify-center">
                         <div class="flex items-center border border-secondary/20 px-4 py-2 gap-6 bg-background">
-                            <button class="text-secondary/30 hover:text-primary transition-colors">—</button>
+                            <form action="{{ route('cart.decrement', $id) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-secondary/30 hover:text-primary transition-colors cursor-pointer text-sm font-bold">—</button>
+                            </form>
                             <span class="text-xs font-black text-secondary">{{ $item['quantity'] }}</span>
-                            <button class="text-secondary/30 hover:text-primary transition-colors">+</button>
+                            <form action="{{ route('cart.add', $id) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-secondary/30 hover:text-primary transition-colors cursor-pointer text-sm font-bold">+</button>
+                            </form>
                         </div>
                     </div>
 

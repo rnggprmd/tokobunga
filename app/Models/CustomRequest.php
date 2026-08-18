@@ -13,7 +13,8 @@ class CustomRequest extends Model
     protected $fillable = [
         'user_id', 'produk_id', 'foto_referensi', 'foto_request',
         'keterangan', 'status', 'customer_name',
-        'customer_email', 'customer_phone', 'alamat', 'product_category'
+        'customer_email', 'customer_phone', 'alamat', 'product_category',
+        'harga_estimasi',
     ];
 
     protected $casts = [

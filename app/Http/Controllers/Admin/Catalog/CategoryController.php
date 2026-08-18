@@ -38,6 +38,10 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if ($category->products()->count() > 0) {
+            return back()->with('error', 'Kategori tidak dapat dihapus karena masih memiliki produk terkait.');
+        }
+
         $category->delete();
         return back()->with('success', 'Kategori berhasil dihapus.');
     }

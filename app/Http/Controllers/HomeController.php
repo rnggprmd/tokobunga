@@ -53,7 +53,7 @@ class HomeController extends Controller
         ]);
 
         \App\Models\CustomRequest::create([
-            'user_id' => auth()->id() ?? 1, // Fallback to admin/system user if guest
+            'user_id' => auth()->id(), // null untuk guest user
             'customer_name' => $request->customer_name,
             'customer_phone' => $request->whatsapp_number,
             'keterangan' => $request->request_details,

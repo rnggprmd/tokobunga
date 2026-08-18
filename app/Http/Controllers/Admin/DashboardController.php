@@ -48,10 +48,17 @@ class DashboardController extends Controller
         $recentUsers = User::where('role', 'customer')->latest()->take(5)->get();
         $urgentOrdersCount = Order::where('status', 'paid')->count();
 
-        // Monthly revenue for chart (last 6 months)
+        // Monthly revenue for chart (last 6 months) - supports MySQL, MariaDB, SQLite, PostgreSQL
+        $driver = config('database.default');
+        $dateFormatSql = match ($driver) {
+            'sqlite' => "strftime('%Y-%m', tanggal_bayar)",
+            'pgsql'  => "TO_CHAR(tanggal_bayar, 'YYYY-MM')",
+            default  => "DATE_FORMAT(tanggal_bayar, '%Y-%m')", // MySQL, MariaDB
+        };
+
         $monthlyRevenue = Pembayaran::where('status_pembayaran', 'paid')
             ->where('tanggal_bayar', '>=', now()->subMonths(6))
-            ->selectRaw("DATE_FORMAT(tanggal_bayar, '%Y-%m') as month, SUM(jumlah_bayar) as total")
+            ->selectRaw("{$dateFormatSql} as month, SUM(jumlah_bayar) as total")
             ->groupBy('month')
             ->orderBy('month')
             ->get();

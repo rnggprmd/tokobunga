@@ -250,10 +250,10 @@
     new Chart(revenueCtx, {
         type: 'line',
         data: {
-            labels: {!! json_encode($monthlyRevenue->pluck('month')) !!},
+            labels: {{ Js::from($monthlyRevenue->pluck('month')) }},
             datasets: [{
                 label: 'Net Revenue',
-                data: {!! json_encode($monthlyRevenue->pluck('total')) !!},
+                data: {{ Js::from($monthlyRevenue->pluck('total')) }},
                 borderColor: '#8F9E83',
                 backgroundColor: gradient,
                 borderWidth: 2,
@@ -294,9 +294,9 @@
     new Chart(categoryCtx, {
         type: 'doughnut',
         data: {
-            labels: {!! json_encode($topCategories->pluck('nama_kategori')) !!},
+            labels: {{ Js::from($topCategories->pluck('nama_kategori')) }},
             datasets: [{
-                data: {!! json_encode($topCategories->pluck('total_qty')) !!},
+                data: {{ Js::from($topCategories->pluck('total_qty')) }},
                 backgroundColor: ['#8F9E83', '#D9C5A9', '#D9B2A9', '#A5A68F', '#EBD6D1'],
                 borderWidth: 4,
                 borderColor: '#FFFFFF',

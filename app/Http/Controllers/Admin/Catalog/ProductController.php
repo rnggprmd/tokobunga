@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -76,8 +77,8 @@ class ProductController extends Controller
 
         if ($request->hasFile('foto')) {
             // Delete old photo
-            if ($product->foto && \Storage::disk('public')->exists($product->foto)) {
-                \Storage::disk('public')->delete($product->foto);
+            if ($product->foto && Storage::disk('public')->exists($product->foto)) {
+                Storage::disk('public')->delete($product->foto);
             }
             $data['foto'] = $request->file('foto')->store('products', 'public');
         }
@@ -89,8 +90,8 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        if ($product->foto && \Storage::disk('public')->exists($product->foto)) {
-            \Storage::disk('public')->delete($product->foto);
+        if ($product->foto && Storage::disk('public')->exists($product->foto)) {
+            Storage::disk('public')->delete($product->foto);
         }
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus.');

@@ -23,17 +23,24 @@ class ReportController extends Controller
         $data = $this->getReportData();
         $data['reportDate'] = now()->translatedFormat('d F Y');
         
-        $pdf = app('dompdf.wrapper')->loadView('admin.analytics.reports.pdf', $data);
+        $pdf = Pdf::loadView('admin.analytics.reports.pdf', $data);
         
         return $pdf->download('Laporan-Mbah-Bibit-' . now()->format('Y-m-d') . '.pdf');
     }
 
     private function getReportData()
     {
-        // Monthly revenue (last 12 months)
+        // Monthly revenue (last 12 months) - supports MySQL, MariaDB, SQLite, PostgreSQL
+        $driver = config('database.default');
+        $dateFormatSql = match ($driver) {
+            'sqlite' => "strftime('%Y-%m', tanggal_bayar)",
+            'pgsql'  => "TO_CHAR(tanggal_bayar, 'YYYY-MM')",
+            default  => "DATE_FORMAT(tanggal_bayar, '%Y-%m')", // MySQL, MariaDB
+        };
+
         $monthlyRevenue = Pembayaran::where('status_pembayaran', 'paid')
             ->where('tanggal_bayar', '>=', now()->subMonths(12))
-            ->selectRaw("DATE_FORMAT(tanggal_bayar, '%Y-%m') as month, SUM(jumlah_bayar) as total")
+            ->selectRaw("{$dateFormatSql} as month, SUM(jumlah_bayar) as total")
             ->groupBy('month')
             ->orderBy('month')
             ->get();

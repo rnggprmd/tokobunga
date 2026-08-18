@@ -36,7 +36,7 @@
                     <button onclick="document.getElementById('cat-modal-{{ $cat->id }}').classList.toggle('hidden')" class="p-1.5 hover:bg-admin-bg rounded-lg transition-colors">
                         <span class="material-symbols-outlined text-lg text-text-muted hover:text-accent-gold">edit</span>
                     </button>
-                    <form method="POST" action="{{ route('admin.categories.destroy', $cat) }}" onsubmit="return confirm('Hapus kategori ini? Semua produk di dalamnya juga akan terhapus.')">
+                    <form method="POST" action="{{ route('admin.categories.destroy', $cat) }}" onsubmit="return confirm('Hapus kategori ini? Pastikan tidak ada produk terkait.')">
                         @csrf @method('DELETE')
                         <button class="p-1.5 hover:bg-admin-bg rounded-lg transition-colors">
                             <span class="material-symbols-outlined text-lg text-text-muted hover:text-red-400">delete</span>

@@ -13,5 +13,7 @@ Route::middleware(['auth', 'kurir'])->group(function () {
     Route::get('/riwayat', [KurirShippingController::class, 'history'])->name('pengiriman.history');
     Route::patch('/pengiriman/{pengiriman}/selesai', [KurirShippingController::class, 'selesai'])->name('pengiriman.selesai');
     Route::patch('/pengiriman/{pengiriman}/proses', [KurirShippingController::class, 'proses'])->name('pengiriman.proses');
-    Route::post('/location/update', [KurirShippingController::class, 'updateLocation'])->name('location.update');
+    Route::post('/location/update', [KurirShippingController::class, 'updateLocation'])
+        ->name('location.update')
+        ->middleware('throttle:60,1');
 });

@@ -23,7 +23,16 @@ class CartController extends Controller
 
     public function add(Product $product)
     {
+        if ($product->stok <= 0) {
+            return redirect()->back()->with('error', 'Maaf, stok produk ini sedang habis.');
+        }
+
         $cart = session()->get('cart', []);
+
+        $currentQty = isset($cart[$product->id]) ? $cart[$product->id]['quantity'] : 0;
+        if ($currentQty + 1 > $product->stok) {
+            return redirect()->back()->with('error', "Jumlah di keranjang melebihi stok yang tersedia (tersedia: {$product->stok}).");
+        }
 
         if(isset($cart[$product->id])) {
             $cart[$product->id]['quantity']++;
@@ -38,6 +47,25 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang!');
+    }
+
+    public function decrement($id)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            if ($cart[$id]['quantity'] > 1) {
+                $cart[$id]['quantity']--;
+                session()->put('cart', $cart);
+                return redirect()->back()->with('success', 'Jumlah produk berhasil dikurangi.');
+            } else {
+                unset($cart[$id]);
+                session()->put('cart', $cart);
+                return redirect()->back()->with('success', 'Produk berhasil dihapus dari keranjang!');
+            }
+        }
+
+        return redirect()->back();
     }
 
     public function remove($id)

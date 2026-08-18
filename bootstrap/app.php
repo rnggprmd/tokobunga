@@ -24,8 +24,13 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'admin' => \App\Http\Middleware\AdminMiddleware::class,
-            'kurir' => \App\Http\Middleware\KurirMiddleware::class,
+            'admin'    => \App\Http\Middleware\AdminMiddleware::class,
+            'kurir'    => \App\Http\Middleware\KurirMiddleware::class,
+        ]);
+
+        // Apply security headers to all web responses
+        $middleware->web(append: [
+            \App\Http\Middleware\SecurityHeaders::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [
@@ -35,8 +40,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectTo(
             guests: '/login',
             users: function (Illuminate\Http\Request $request) {
-                if ($request->user()->isAdmin()) return route('admin.dashboard');
-                if ($request->user()->isKurir()) return route('kurir.dashboard');
+                $user = $request->user();
+                if ($user && $user->isAdmin()) return route('admin.dashboard');
+                if ($user && $user->isKurir()) return route('kurir.dashboard');
                 return '/';
             }
         );

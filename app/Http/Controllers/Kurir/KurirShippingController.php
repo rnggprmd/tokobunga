@@ -76,8 +76,8 @@ class KurirShippingController extends Controller
     public function updateLocation(Request $request)
     {
         $request->validate([
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
         ]);
 
         auth()->user()->update([

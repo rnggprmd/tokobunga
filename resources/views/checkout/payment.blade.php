@@ -103,8 +103,9 @@
 <div class="w-full border-t border-secondary/20 mt-8"></div>
 
 @push('scripts')
+{{-- URL is dynamically selected based on MIDTRANS_IS_PRODUCTION env --}}
 <script type="text/javascript"
-        src="https://app.sandbox.midtrans.com/snap/snap.js"
+        src="{{ config('midtrans.is_production') ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js' }}"
         data-client-key="{{ config('midtrans.client_key') }}"></script>
         
 <script type="text/javascript">

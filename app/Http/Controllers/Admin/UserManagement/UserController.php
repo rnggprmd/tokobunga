@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\UserManagement;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -41,7 +42,7 @@ class UserController extends Controller
             'email' => $request->email,
             'no_hp' => $request->no_hp,
             'role' => $request->role,
-            'password' => \Hash::make($request->password),
+            'password' => Hash::make($request->password),
         ]);
 
         return back()->with('success', 'User berhasil ditambahkan.');
@@ -50,13 +51,20 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'no_hp' => 'nullable|string|max:20',
-            'role' => 'required|in:admin,customer,kurir',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'no_hp'    => 'nullable|string|max:20',
+            'role'     => 'required|in:admin,customer,kurir',
+            'password' => 'nullable|string|min:8',
         ]);
 
-        $user->update($request->only(['name', 'email', 'no_hp', 'role']));
+        $data = $request->only(['name', 'email', 'no_hp', 'role']);
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
 
         return back()->with('success', 'Data user berhasil diperbarui.');
     }
@@ -66,6 +74,12 @@ class UserController extends Controller
         if ($user->id === auth()->id()) {
             return back()->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
+
+        // Prevent deleting users with active orders
+        if ($user->orders()->whereIn('status', ['pending', 'paid', 'shipped'])->count() > 0) {
+            return back()->with('error', 'Tidak dapat menghapus user yang masih memiliki pesanan aktif.');
+        }
+
         $user->delete();
         return back()->with('success', 'User berhasil dihapus.');
     }

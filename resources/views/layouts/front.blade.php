@@ -76,7 +76,8 @@
                         <span class="material-symbols-outlined text-sm">expand_more</span>
                     </button>
                     <div class="absolute left-0 mt-2 w-48 bg-background border border-admin-border rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[60]">
-                        @foreach($categories as $navCat)
+                        @php $navCategories = $categories ?? \App\Models\Category::all(); @endphp
+                        @foreach($navCategories as $navCat)
                         <a href="{{ route('products.index', ['category' => $navCat->id]) }}" class="block px-4 py-2 text-xs font-bold text-secondary hover:bg-primary/10 hover:text-primary transition-colors">
                             {{ $navCat->nama_kategori }}
                         </a>
@@ -172,7 +173,7 @@
                             <div class="space-y-4">
                                 <p class="text-[10px] font-black uppercase tracking-widest text-secondary/40">Koleksi Berdasarkan Kategori</p>
                                 <div class="grid grid-cols-1 gap-4">
-                                    @foreach($categories as $navCat)
+                                    @foreach($navCategories as $navCat)
                                     <a href="{{ route('products.index', ['category' => $navCat->id]) }}" class="text-lg text-secondary/80 hover:text-primary transition-colors">{{ $navCat->nama_kategori }}</a>
                                     @endforeach
                                 </div>

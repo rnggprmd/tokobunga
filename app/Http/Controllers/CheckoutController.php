@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Pembayaran;
 use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Midtrans\Config;
 use Midtrans\Snap;
+use Midtrans\Transaction;
 
 class CheckoutController extends Controller
 {
@@ -49,6 +51,22 @@ class CheckoutController extends Controller
         $cart = session()->get('cart', []);
         if(empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'Keranjang Anda kosong.');
+        }
+
+        // SEK-04: Validate stock availability before creating order
+        $productIds = array_keys($cart);
+        $products   = Product::whereIn('id', $productIds)->get()->keyBy('id');
+
+        foreach ($cart as $productId => $item) {
+            $product = $products->get($productId);
+
+            if (!$product) {
+                return back()->with('error', "Produk '{$item['nama']}' sudah tidak tersedia. Silakan hapus dari keranjang.");
+            }
+
+            if ($product->stok < $item['quantity']) {
+                return back()->with('error', "Stok '{$product->nama_produk}' tidak mencukupi. Stok tersedia: {$product->stok}.");
+            }
         }
 
         $total = 0;
@@ -125,7 +143,13 @@ class CheckoutController extends Controller
             ),
         );
 
-        $snapToken = Snap::getSnapToken($params);
+        try {
+            $snapToken = Snap::getSnapToken($params);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Midtrans Snap Token Error: ' . $e->getMessage());
+            return redirect()->route('cart.index')->with('error', 'Gagal menghubungkan ke gateway pembayaran Midtrans. Silakan coba beberapa saat lagi.');
+        }
+
         $categories = \App\Models\Category::all();
 
         return view('checkout.payment', compact('order', 'snapToken', 'categories'));
@@ -140,30 +164,7 @@ class CheckoutController extends Controller
             $real_order_id = explode('-', $request->order_id)[0];
             $order = Order::find($real_order_id);
             if($order){
-                $transaction_status = $request->transaction_status;
-                if ($transaction_status == 'capture' || $transaction_status == 'settlement'){
-                    $order->update(['status' => 'paid']);
-                    Pembayaran::where('order_id', $order->id)->update([
-                        'status_pembayaran' => 'paid',
-                        'tanggal_bayar' => now()
-                    ]);
-                    $order->reduceStock();
-                    
-                    // Create Invoice if not exists
-                    if (!$order->invoice) {
-                        Invoice::create([
-                            'order_id' => $order->id,
-                            'invoice_number' => Invoice::generateInvoiceNumber(),
-                        ]);
-                    }
-                } else if ($transaction_status == 'cancel' || $transaction_status == 'deny' || $transaction_status == 'expire'){
-                    $order->update(['status' => 'failed']);
-                    Pembayaran::where('order_id', $order->id)->update([
-                        'status_pembayaran' => 'failed'
-                    ]);
-                } else if ($transaction_status == 'pending'){
-                    $order->update(['status' => 'pending']);
-                }
+                $this->processPaymentStatus($order, $request->transaction_status);
             }
         }
         return response()->json(['message' => 'ok']);
@@ -175,34 +176,13 @@ class CheckoutController extends Controller
         // We query Midtrans API Server directly to prevent manipulation
         try {
             $transaction_id = $request->transaction_id;
-            $status_response = \Midtrans\Transaction::status($transaction_id);
+            $status_response = Transaction::status($transaction_id);
             
             $real_order_id = explode('-', $status_response->order_id)[0];
             $order = Order::find($real_order_id);
             
             if($order){
-                $transaction_status = $status_response->transaction_status;
-                if ($transaction_status == 'capture' || $transaction_status == 'settlement'){
-                    $order->update(['status' => 'paid']);
-                    Pembayaran::where('order_id', $order->id)->update([
-                        'status_pembayaran' => 'paid',
-                        'tanggal_bayar' => now()
-                    ]);
-                    $order->reduceStock();
-                    
-                    // Create Invoice if not exists
-                    if (!$order->invoice) {
-                        Invoice::create([
-                            'order_id' => $order->id,
-                            'invoice_number' => Invoice::generateInvoiceNumber(),
-                        ]);
-                    }
-                } else if ($transaction_status == 'cancel' || $transaction_status == 'deny' || $transaction_status == 'expire'){
-                    $order->update(['status' => 'failed']);
-                    Pembayaran::where('order_id', $order->id)->update([
-                        'status_pembayaran' => 'failed'
-                    ]);
-                }
+                $this->processPaymentStatus($order, $status_response->transaction_status);
             }
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
@@ -214,5 +194,36 @@ class CheckoutController extends Controller
     {
         $categories = \App\Models\Category::all();
         return view('checkout.success', compact('order', 'categories'));
+    }
+
+    /**
+     * Process payment status update from Midtrans.
+     * Extracted to avoid code duplication between callback() and sync().
+     */
+    private function processPaymentStatus(Order $order, string $transaction_status): void
+    {
+        if ($transaction_status === 'capture' || $transaction_status === 'settlement') {
+            $order->update(['status' => 'paid']);
+            Pembayaran::where('order_id', $order->id)->update([
+                'status_pembayaran' => 'paid',
+                'tanggal_bayar'     => now(),
+            ]);
+            $order->reduceStock();
+
+            // Create Invoice if not exists
+            if (!$order->invoice) {
+                Invoice::create([
+                    'order_id'       => $order->id,
+                    'invoice_number' => Invoice::generateInvoiceNumber(),
+                ]);
+            }
+        } elseif (in_array($transaction_status, ['cancel', 'deny', 'expire'])) {
+            $order->update(['status' => 'failed']);
+            Pembayaran::where('order_id', $order->id)->update([
+                'status_pembayaran' => 'failed',
+            ]);
+        } elseif ($transaction_status === 'pending') {
+            $order->update(['status' => 'pending']);
+        }
     }
 }

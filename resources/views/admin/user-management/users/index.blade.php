@@ -161,6 +161,12 @@
                         </div>
                     </div>
 
+                    <div>
+                        <label class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 block">Ganti Password (Kosongkan jika tidak diubah)</label>
+                        <input type="password" name="password" placeholder="Minimal 8 karakter" minlength="8"
+                            class="w-full bg-admin-bg border border-admin-border rounded-xl px-4 py-3 text-sm focus:border-accent-emerald outline-none transition-all font-medium">
+                    </div>
+
                     <div class="p-4 bg-admin-bg/50 rounded-2xl border border-admin-border/30">
                         <div class="flex items-center gap-2 text-text-muted mb-1">
                             <span class="material-symbols-outlined text-sm">calendar_today</span>

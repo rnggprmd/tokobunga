@@ -138,10 +138,10 @@
     new Chart(rlCtx, {
         type: 'line',
         data: {
-            labels: {!! json_encode($monthlyRevenue->pluck('month')) !!},
+            labels: {{ Js::from($monthlyRevenue->pluck('month')) }},
             datasets: [{
                 label: 'Revenue',
-                data: {!! json_encode($monthlyRevenue->pluck('total')) !!},
+                data: {{ Js::from($monthlyRevenue->pluck('total')) }},
                 borderColor: '#34d399',
                 backgroundColor: rlGradient,
                 borderWidth: 2.5,
@@ -175,9 +175,9 @@
     new Chart(opCtx, {
         type: 'doughnut',
         data: {
-            labels: {!! json_encode($orderByStatus->pluck('status')->map(fn($s) => ucfirst($s))) !!},
+            labels: {{ Js::from($orderByStatus->pluck('status')->map(fn($s) => ucfirst($s))) }},
             datasets: [{
-                data: {!! json_encode($orderByStatus->pluck('count')) !!},
+                data: {{ Js::from($orderByStatus->pluck('count')) }},
                 backgroundColor: ['#eab308', '#3b82f6', '#34d399', '#ef4444', '#a855f7', '#f97316', '#6366f1', '#ec4899', '#14b8a6'],
                 borderColor: '#141820',
                 borderWidth: 4,

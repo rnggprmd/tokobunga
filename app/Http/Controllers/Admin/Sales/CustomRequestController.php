@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CustomRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CustomRequestController extends Controller
 {
@@ -54,7 +55,10 @@ class CustomRequestController extends Controller
             'foto_referensi' => 'nullable|image|max:2048',
         ]);
 
-        $data = $request->except('foto_referensi');
+        $data = $request->only([
+            'user_id', 'customer_name', 'customer_email', 'customer_phone',
+            'product_category', 'keterangan', 'harga_estimasi'
+        ]);
         
         if ($request->hasFile('foto_referensi')) {
             $data['foto_referensi'] = $request->file('foto_referensi')->store('custom_requests', 'public');
@@ -79,12 +83,18 @@ class CustomRequestController extends Controller
             'keterangan' => 'required|string',
         ]);
 
-        $customRequest->update($request->all());
+        $customRequest->update($request->only([
+            'customer_name', 'customer_phone', 'product_category', 'keterangan',
+        ]));
         return redirect()->route('admin.custom-requests.index')->with('success', 'Custom Request berhasil diperbarui.');
     }
 
     public function destroy(CustomRequest $customRequest)
     {
+        if ($customRequest->foto_referensi && Storage::disk('public')->exists($customRequest->foto_referensi)) {
+            Storage::disk('public')->delete($customRequest->foto_referensi);
+        }
+
         $customRequest->delete();
         return redirect()->route('admin.custom-requests.index')->with('success', 'Custom Request berhasil dihapus.');
     }

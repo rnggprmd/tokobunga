@@ -5,6 +5,10 @@
 
     RewriteEngine On
 
+    # Redirect all HTTP to HTTPS (uncomment when SSL certificate is active)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -22,4 +26,25 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+# =============================================
+# Security Headers (Apache)
+# =============================================
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # XSS filter for older browsers
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Referrer policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Remove fingerprinting headers
+    Header always unset X-Powered-By
+    Header always unset Server
 </IfModule>

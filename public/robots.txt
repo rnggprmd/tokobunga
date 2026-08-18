@@ -1,2 +1,18 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /admin
+Disallow: /checkout/
+Disallow: /checkout
+Disallow: /invoice/
+Disallow: /invoice
+Disallow: /cart
+Disallow: /cart/
+Disallow: /profile
+Disallow: /profile/
+Disallow: /kurir/
+Disallow: /kurir
+Disallow: /login
+Disallow: /logout
+Allow: /
+
+Sitemap: https://tokobunga.com/sitemap.xml

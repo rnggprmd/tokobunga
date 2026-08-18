@@ -16,11 +16,14 @@ Route::get('/product/{product}', [ProductController::class, 'show'])->name('prod
 Route::get('/custom-service', [HomeController::class, 'customOrder'])->name('custom.create');
 Route::post('/custom-service', [HomeController::class, 'storeCustomOrder'])->name('custom.store');
 Route::get('/track-order', [HomeController::class, 'trackOrder'])->name('orders.track');
-Route::get('/track-order/{order_id}/location', [HomeController::class, 'getCourierLocation'])->name('orders.kurir-location');
+Route::get('/track-order/{order_id}/location', [HomeController::class, 'getCourierLocation'])
+    ->name('orders.kurir-location')
+    ->middleware('throttle:60,1');
 
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/decrement/{id}', [CartController::class, 'decrement'])->name('cart.decrement');
 Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
 
 // Checkout
@@ -50,13 +53,15 @@ Route::get('/checkout/{order}/success', [App\Http\Controllers\CheckoutController
 Route::get('/invoice/{order}', [App\Http\Controllers\InvoiceController::class, 'show'])->name('invoice.show');
 Route::get('/invoice/{order}/download', [App\Http\Controllers\InvoiceController::class, 'download'])->name('invoice.download');
 
-// Midtrans Webhook
-Route::post('/api/midtrans/callback', [App\Http\Controllers\CheckoutController::class, 'callback']);
+// Midtrans Webhook — throttle to prevent spam
+Route::post('/api/midtrans/callback', [App\Http\Controllers\CheckoutController::class, 'callback'])
+    ->middleware('throttle:60,1');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'create'])->name('login');
-    Route::post('login', [AuthController::class, 'store']);
+    // Throttle: max 5 login attempts per minute per IP to prevent brute-force
+    Route::post('login', [AuthController::class, 'store'])->middleware('throttle:5,1');
 });
 
 Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');

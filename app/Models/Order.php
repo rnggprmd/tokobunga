@@ -15,7 +15,8 @@ class Order extends Model
     protected $fillable = [
         'user_id', 'total_harga', 'status', 'metode_pembayaran',
         'alamat_pengiriman', 'customer_name', 'customer_email', 'customer_phone',
-        'is_stock_reduced'
+        // Note: 'is_stock_reduced' is intentionally EXCLUDED from fillable.
+        // It must only be set by the reduceStock() method, never via mass assignment.
     ];
 
     protected $casts = [

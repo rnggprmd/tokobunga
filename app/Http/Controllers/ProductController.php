@@ -13,11 +13,12 @@ class ProductController extends Controller
         $categories = Category::all();
         $query = Product::query()->with('category');
 
-        if ($request->has('category')) {
-            $query->where('category_id', $request->category);
+        // filled() checks key exists AND value is not empty (vs has() which only checks key exists)
+        if ($request->filled('category')) {
+            $query->where('category_id', (int) $request->category);
         }
 
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $query->where('nama_produk', 'like', '%' . $request->search . '%');
         }
 

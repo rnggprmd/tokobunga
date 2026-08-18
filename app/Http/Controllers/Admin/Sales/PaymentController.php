@@ -39,7 +39,7 @@ class PaymentController extends Controller
 
     public function updateStatus(Request $request, Pembayaran $pembayaran)
     {
-        $request->validate(['status_pembayaran' => 'required|in:pending,paid']);
+        $request->validate(['status_pembayaran' => 'required|in:pending,paid,failed,refund']);
         $pembayaran->update(['status_pembayaran' => $request->status_pembayaran]);
 
         if ($request->status_pembayaran === 'paid' && !$pembayaran->tanggal_bayar) {

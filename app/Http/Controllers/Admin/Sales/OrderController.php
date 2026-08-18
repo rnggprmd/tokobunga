@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Pembayaran;
 use App\Models\Pengiriman;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -69,10 +70,12 @@ class OrderController extends Controller
 
             foreach ($request->items as $item) {
                 $product = Product::findOrFail($item['product_id']);
-                $harga_satuan = $product->harga;
                 
+                if ($product->stok < $item['jumlah']) {
+                    throw new \Exception("Stok produk '{$product->nama_produk}' tidak mencukupi (tersedia: {$product->stok}).");
+                }
 
-
+                $harga_satuan = $product->harga;
                 $subtotal = $harga_satuan * $item['jumlah'];
                 $total_harga += $subtotal;
 
@@ -123,7 +126,20 @@ class OrderController extends Controller
 
     public function update(Request $request, Order $order)
     {
-        $order->update($request->all());
+        $request->validate([
+            'customer_name'       => 'nullable|string|max:255',
+            'customer_email'      => 'nullable|email|max:255',
+            'customer_phone'      => 'nullable|string|max:20',
+            'alamat_pengiriman'   => 'nullable|string',
+            'metode_pembayaran'   => 'nullable|string',
+            'status'              => 'nullable|in:pending,paid,success,failed,expired,cancelled,challenge,shipped,completed',
+        ]);
+
+        $order->update($request->only([
+            'customer_name', 'customer_email', 'customer_phone',
+            'alamat_pengiriman', 'metode_pembayaran', 'status',
+        ]));
+
         return redirect()->route('admin.orders.show', $order)->with('success', 'Order berhasil diperbarui.');
     }
 
@@ -140,6 +156,13 @@ class OrderController extends Controller
         
         if ($request->status === 'paid') {
             $order->reduceStock();
+
+            if (!$order->invoice) {
+                Invoice::create([
+                    'order_id'       => $order->id,
+                    'invoice_number' => Invoice::generateInvoiceNumber(),
+                ]);
+            }
         }
 
         return back()->with('success', 'Status order berhasil diperbarui.');
@@ -161,6 +184,13 @@ class OrderController extends Controller
             $data['tanggal_bayar'] = now();
             $order->update(['status' => 'paid']);
             $order->reduceStock();
+
+            if (!$order->invoice) {
+                Invoice::create([
+                    'order_id'       => $order->id,
+                    'invoice_number' => Invoice::generateInvoiceNumber(),
+                ]);
+            }
         }
 
         if ($request->hasFile('bukti_bayar')) {
